@@ -1,7 +1,7 @@
 #include "videogame.h"
 
-Videogame::Videogame(string name, string descr, string genre, string country, int year, float cost, int stars, float min, string company, string plat, bool multiplayer)
-    : DigitalProduct(name, descr, genre, country, year, cost, stars, min, company), platform(plat), isMultiplayer(multiplayer){}
+Videogame::Videogame(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string plat, bool multiplayer)
+    : DigitalProduct(name, descr, genre, country, year, cost, stars, company), platform(plat), isMultiplayer(multiplayer){}
 
 Videogame::~Videogame(){}
 

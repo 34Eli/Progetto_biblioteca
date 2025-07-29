@@ -1,7 +1,7 @@
 #include "film.h"
 
-Film::Film(string name, string descr, string genre, string country, int year, float cost, int stars, float min, string company, string dir, string actor)
-    : DigitalProduct(name, descr, genre, country, year, cost, stars, min, company), director(dir), mainActor(actor){}
+Film::Film(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string dir, string actor, int min)
+    : DigitalProduct(name, descr, genre, country, year, cost, stars, company), director(dir), mainActor(actor), minutes(min){}
 
 Film::~Film(){}
 
@@ -19,4 +19,12 @@ string Film::getActor() const{
 
 void Film::setActor(const string& newactor){
     mainActor = newactor;
+}
+
+int Film::getMinutes() const {
+    return minutes;
+}
+
+void Film::setMinutes(int& newminutes){
+    minutes = newminutes;
 }

@@ -9,7 +9,7 @@ class Videogame : public DigitalProduct {
         bool isMultiplayer;
 
     public:
-        Videogame(string name, string descr, string genre, string country, int year, float cost, int stars, float min, string company, string plat, bool multiplayer);
+        Videogame(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string plat, bool multiplayer);
         ~Videogame();
         string getPlatform() const;
         void setPlatform(const string& newplatform);

@@ -6,12 +6,18 @@ class Music : public DigitalProduct {
 
     private:
         string singer;
+        string album;
+        int minutes;
 
     public:
-        Music(string name, string descr, string genre, string country, int year, float cost, int stars, float min, string company, string sing);
+        Music(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string sing, int min);
         ~Music();
         string getSinger() const;
         void setSinger(const string& newsinger);
+        string getAlbum() const;
+        void setAlbum(const string& newalbum);
+        int getMinutes() const;
+        void setMinutes(int& newminutes);
 };
 
 #endif // MUSIC_H

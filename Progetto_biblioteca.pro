@@ -24,6 +24,7 @@ HEADERS += \
     book.h \
     digitalproduct.h \
     film.h \
+    library.h \
     mainwindow.h \
     music.h \
     photograph.h \
@@ -35,3 +36,6 @@ HEADERS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    library.json
