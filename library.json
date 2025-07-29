@@ -120,7 +120,6 @@
         "year_of_publication" : "2023",
         "cost" : "15",
         "stars" : "4",
-        "minutes" : "",
         "company" : "Valve Corporation",
         "platform" : "Steam",
         "isMultiplayer" : true
@@ -134,7 +133,6 @@
         "year_of_publication" : "2011",
         "cost" : "30",
         "stars" : "4",
-        "minutes" : "",
         "company" : "Mojang Studios",
         "platform" : "PC",
         "isMultiplayer" : true
@@ -148,7 +146,6 @@
         "year_of_publication" : "2025",
         "cost" : "50",
         "stars" : "5",
-        "minutes" : "",
         "company" : "Sandfall Interactive",
         "platform" : "Steam",
         "isMultiplayer" : false
@@ -162,7 +159,6 @@
         "year_of_publication" : "2018",
         "cost" : "60",
         "stars" : "4",
-        "minutes" : "",
         "company" : "Santa Monica Studio",
         "platform" : "Steam",
         "isMultiplayer" : false
