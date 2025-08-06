@@ -113,7 +113,7 @@
         "company" : "Mercury",
         "singer" : "Bon Jovi",
         "album" : "New Jersey"
-        },
+        }
     ]
     "Videogame": [
         {
@@ -167,7 +167,7 @@
         "company" : "Santa Monica Studio",
         "platform" : "Steam",
         "isMultiplayer" : false
-        },
+        }
     ]
     "Book": [
         {
@@ -221,7 +221,7 @@
         "author" : "Italo Calvino",
         "pages" : "312",
         "publisher" : "Einaudi"
-        },
+        }
     ]
     "Photograph": [
         {
