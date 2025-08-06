@@ -114,7 +114,7 @@
         "singer" : "Bon Jovi",
         "album" : "New Jersey"
         }
-    ]
+    ],
     "Videogame": [
         {
         "type" : "Videogame",
@@ -168,7 +168,7 @@
         "platform" : "Steam",
         "isMultiplayer" : false
         }
-    ]
+    ],
     "Book": [
         {
         "type" : "Book",
@@ -222,7 +222,7 @@
         "pages" : "312",
         "publisher" : "Einaudi"
         }
-    ]
+    ],
     "Photograph": [
         {
         "type" : "Photograph",
