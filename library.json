@@ -1,5 +1,6 @@
-[
-    {
+{
+    "Film" :[
+        {
         "type" : "Film",
         "name" : "Dune",
         "description" : "Paul Atreides is a young nobleman, whose family takes control of the desert planet Arrakis — the only source of a powerful substance called spice. After betrayal and war, Paul rises as a leader among the planet's native people, the Fremen, and seeks to fulfill his destiny.",
@@ -12,8 +13,8 @@
         "company" : "Warner Bros",
         "director" : "Denis Villeneuve",
         "mainActor" : "Timotheè Chalamet"
-    },
-    {
+        },
+        {
         "type" : "Film",
         "name" : "The Hateful Eight",
         "description" : "Set in post civil war Wyoming, eight strangers take shelter in a remote cabin during a blizzard. As tensions rise, secrets unravel, leading to betrayal, violence, and deadly confrontations.",
@@ -26,8 +27,8 @@
         "company" : "01 Distribution",
         "director" : "Quentin Tarantino",
         "mainActor" : "Samuel L.Jackson"
-    },
-    {
+        },
+        {
         "type" : "Film",
         "name" : "Pirates of the Caribbean",
         "description" : "Pirates of the Caribbean follows the pirate Captain Jack Sparrow as he teams up with a blacksmith, Will Turner, to rescue Elizabeth Swann and stop a crew of cursed pirates led by Captain Barbossa.",
@@ -40,8 +41,8 @@
         "company" : "Disney",
         "director" : "Gore Verbinski",
         "mainActor" : "Johnny Depp"
-    },
-    {
+        },
+        {
         "type" : "Film",
         "name" : "The Lord of the Rings",
         "description" : "A young hobbit, Frodo Baggins, must destroy a powerful ring to stop the dark lord Sauron from conquering Middle-earth (his home). Alongside friends, he embarks on a perilous journey to Mount Doom.",
@@ -54,8 +55,10 @@
         "company" : "New Line Cinema",
         "director" : "Peter Jackson",
         "mainActor" : "Elijah Wood"
-    },
-    {
+        }
+    ],
+    "Music": [
+        {
         "type" : "Music",
         "name" : "Jungle",
         "description" : "Jungle is a song that explores themes of struggle, survival, and inner conflict. It uses the metaphor of a jungle to represent a chaotic and challenging environment where the artist navigates personal battles and societal pressures.",
@@ -68,8 +71,8 @@
         "company" : "Fred Again",
         "singer" : "Fred Again",
         "album" : "Jungle"
-    },
-    {
+        },
+        {
         "type" : "Music",
         "name" : "Ocean man",
         "description" : "Ocean Man is a playful and whimsical song that describes a journey across the sea. It celebrates the beauty and mystery of the ocean, inviting listeners to explore and connect with nature’s vastness.",
@@ -82,8 +85,8 @@
         "company" : "Elektra",
         "singer" : "Ween",
         "album" : "The Mollusk"
-    },
-    {
+        },
+        {
         "type" : "Music",
         "name" : "Enter Sandman",
         "description" : "Enter Sandman is a heavy metal song about fear and nightmares. It portrays the Sandman as a figure who brings bad dreams, exploring themes of childhood fears and the dark side of sleep.",
@@ -96,8 +99,8 @@
         "company" : "Vertigo",
         "singer" : "Metallica",
         "album" : "The Black Album"
-    },
-    {
+        },
+        {
         "type" : "Music",
         "name" : "Bad Medicine",
         "description" : "Bad Medicine is a rock song about love being addictive and sometimes painful—like a “bad medicine” that you can’t resist even though it hurts. It captures the highs and lows of passionate relationships.",
@@ -110,8 +113,10 @@
         "company" : "Mercury",
         "singer" : "Bon Jovi",
         "album" : "New Jersey"
-    },
-    {
+        },
+    ]
+    "Videogame": [
+        {
         "type" : "Videogame",
         "name" : "Counter-Strike 2",
         "description" : "Counter-Strike 2 is a first-person shooter game where two teams—terrorists and counter-terrorists—compete to complete objectives like bomb planting or hostage rescue. It’s known for its fast-paced, team-based gameplay and strategic depth.",
@@ -123,8 +128,8 @@
         "company" : "Valve Corporation",
         "platform" : "Steam",
         "isMultiplayer" : true
-    },
-    {
+        },
+        {
         "type" : "Videogame",
         "name" : "Minecraft",
         "description" : "Minecraft is a sandbox game where players explore, build, and survive in a blocky, procedurally generated world. It encourages creativity, exploration, and resource management.",
@@ -136,8 +141,8 @@
         "company" : "Mojang Studios",
         "platform" : "PC",
         "isMultiplayer" : true
-    },
-    {
+        },
+        {
         "type" : "Videogame",
         "name" : "Clair Obscur: Expedition 33",
         "description" : "Clair Obscur: Expedition 33 is a mystery adventure game where players join an expedition team investigating strange phenomena on a remote island. They must uncover hidden secrets, face supernatural threats, and survive the unknown.",
@@ -149,8 +154,8 @@
         "company" : "Sandfall Interactive",
         "platform" : "Steam",
         "isMultiplayer" : false
-    },
-    {
+        },
+        {
         "type" : "Videogame",
         "name" : "God of War",
         "description" : "God of War follows Kratos, a former Greek god, and his son Atreus as they journey through Norse mythology. Together, they face gods, monsters, and their own troubled past while striving to fulfill a personal quest.",
@@ -162,8 +167,10 @@
         "company" : "Santa Monica Studio",
         "platform" : "Steam",
         "isMultiplayer" : false
-    },
-    {
+        },
+    ]
+    "Book": [
+        {
         "type" : "Book",
         "name" : "Master i Margarita",
         "description" : "The Master and Margarita tells the story of the Devil visiting Soviet Moscow, intertwining with a love story between the Master, a persecuted writer, and Margarita, his devoted lover. The novel explores themes of good and evil, courage, and redemption.",
@@ -175,8 +182,8 @@
         "author" : "Bulgakov",
         "pages" : "560",
         "publisher" : "EKSMO"
-    },
-    {
+        },
+        {
         "type" : "Book",
         "name" : "L'oeuvre au noir",
         "description" : "L'oeuvre au noir follows the life of Zeno, a brilliant Renaissance physician and alchemist living in 16th-century Europe. The novel explores his quest for knowledge, struggles with religious and political oppression, and reflections on science, philosophy, and mortality.",
@@ -188,8 +195,8 @@
         "author" : "Marguerite Yourcenar",
         "pages" : "301",
         "publisher" : "Gallimard"
-    },
-    {
+        },
+        {
         "type" : "Book",
         "name" : "Eragon",
         "description" : "Eragon is a fantasy novel about a young farm boy who discovers a mysterious dragon egg. When the dragon hatches, he becomes a Dragon Rider and embarks on a journey to fight against an evil king and bring freedom to his land.",
@@ -201,8 +208,8 @@
         "author" : "Christopher Paolini",
         "pages" : "600",
         "publisher" : "Knopf Books for Young Readers"
-    },
-    {
+        },
+        {
         "type" : "Book",
         "name" : "Il barone rampante",
         "description" : "Il barone rampante tells the story of Cosimo Piovasco di Rondò, a young nobleman who decides to live his life entirely in the trees after a childhood disagreement with his family. From his treetop home, he observes and interacts with the world below, exploring themes of freedom, individuality, and rebellion.",
@@ -214,8 +221,10 @@
         "author" : "Italo Calvino",
         "pages" : "312",
         "publisher" : "Einaudi"
-    },
-    {
+        },
+    ]
+    "Photograph": [
+        {
         "type" : "Photograph",
         "name" : "Afghan Girl",
         "description" : "Afghan Girl is a famous photograph that shows Sharbat Gula, a young Afghan refugee with striking green eyes, captured in a refugee camp in Pakistan. The photo became an iconic symbol of the Afghan conflict and the plight of refugees.",
@@ -228,8 +237,8 @@
         "isColourful" : true,
         "length" : "21",
         "width" : "30"
-    },
-    {
+        },
+        {
         "type" : "Photograph",
         "name" : "The Falling Soldier",
         "description" : "The Falling Soldier is a famous photograph taken during the Spanish Civil War. It shows a soldier at the moment he is shot and falling to the ground. The image is iconic for its raw depiction of the realities of war.",
@@ -242,8 +251,8 @@
         "isColourful" : false,
         "length" : "30",
         "width" : "40"
-    },
-    {
+        },
+        {
         "type" : "Photograph",
         "name" : "Gold: Serra Pelada",
         "description" : "Gold: Serra Pelada is a powerful photograph showing thousands of miners working in a massive open-pit gold mine in Brazil during the 1980s. The image captures the extreme physical labor, human struggle, and sheer scale of the mining operation.",
@@ -256,8 +265,8 @@
         "isColourful" : false,
         "length" : "20",
         "width" : "30"
-    },
-    {
+        },
+        {
         "type" : "Photograph",
         "name" : "Migrant Mother",
         "description" : "Migrant Mother is a famous photograph taken during the Great Depression. It shows Florence Owens Thompson, a mother struggling with poverty, caring for her children. The image became a symbol of resilience and hardship faced by many American families during that time.",
@@ -270,5 +279,6 @@
         "isColourful" : false,
         "length" : "10",
         "width" : "20"
-    }
-]
+        }
+    ]
+}
