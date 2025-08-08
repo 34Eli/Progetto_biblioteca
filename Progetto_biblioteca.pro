@@ -9,28 +9,29 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    book.cpp \
-    digitalproduct.cpp \
-    film.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    music.cpp \
-    photograph.cpp \
-    physicalproduct.cpp \
-    product.cpp \
-    videogame.cpp
+    Sources/Model/book.cpp \
+    Sources/Model/digitalproduct.cpp \
+    Sources/Model/film.cpp \
+    Sources/Model/library.cpp \
+    Sources/Model/main.cpp \
+    Sources/Model/mainwindow.cpp \
+    Sources/Model/music.cpp \
+    Sources/Model/photograph.cpp \
+    Sources/Model/physicalproduct.cpp \
+    Sources/Model/product.cpp \
+    Sources/Model/videogame.cpp \
 
 HEADERS += \
-    book.h \
-    digitalproduct.h \
-    film.h \
-    library.h \
-    mainwindow.h \
-    music.h \
-    photograph.h \
-    physicalproduct.h \
-    product.h \
-    videogame.h
+    Sources/Headers/book.h \
+    Sources/Headers/digitalproduct.h \
+    Sources/Headers/film.h \
+    Sources/Headers/library.h \
+    Sources/Headers/mainwindow.h \
+    Sources/Headers/music.h \
+    Sources/Headers/photograph.h \
+    Sources/Headers/physicalproduct.h \
+    Sources/Headers/product.h \
+    Sources/Headers/videogame.h \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -38,4 +39,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    library.json
+    library.json \
+    library.xml

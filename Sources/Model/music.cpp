@@ -1,4 +1,4 @@
-#include "music.h"
+#include "Sources/Headers/music.h "
 
 Music::Music(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string sin, int min)
     : DigitalProduct(name, descr, genre, country, year, cost, stars, company), singer(sin), minutes(min){}

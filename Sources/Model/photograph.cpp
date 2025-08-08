@@ -1,4 +1,4 @@
-#include "photograph.h"
+#include "Sources/Headers/photograph.h"
 
 Photograph::Photograph(string name, string descr, string genre, string country, int year, float cost, int stars, string author, bool colour, int length, int width)
     : PhysicalProduct(name, descr, genre, country, year, cost, stars, author), isColourful(colour), length(length), width(width){}

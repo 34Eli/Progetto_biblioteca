@@ -4,7 +4,10 @@
 #include <list>
 
 class Library {
-    std::list<Product> library;
+    private:
+        std::list<Product> library;
+    public:
+        Library();
 };
 
 #endif // LIBRARY_H

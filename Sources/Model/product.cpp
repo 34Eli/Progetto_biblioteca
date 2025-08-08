@@ -1,4 +1,4 @@
-#include "product.h"
+#include "Sources/Headers/product.h "
 
 Product::Product(string name, string descr, string genre, string country, int year, float cost, int stars)
     : name(name), description(descr), genre(genre), country(country), year_of_publication(year), cost(cost), stars(stars){}
