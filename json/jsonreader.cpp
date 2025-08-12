@@ -1,4 +1,5 @@
 #include "jsonreader.h"
+#include <QFileInfo> //per test
 
 
 JsonReader::JsonReader() {}
@@ -79,6 +80,11 @@ QList<Product*> JsonReader::readAll(const string& filename){   //restituisce una
 
     QList<Product*> library;
     QFile file(QString::fromStdString(filename));
+
+    //per test
+    QString filePath = QString::fromStdString(filename);
+    qDebug() << "[DEBUG] Path file richiesto:" << QFileInfo(filePath).absoluteFilePath();
+    //per test
 
     if (!file.open(QIODevice::ReadOnly)){
         qWarning() << "Apertura non ha successo";
