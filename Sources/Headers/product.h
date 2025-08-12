@@ -11,11 +11,11 @@ class Product {
         string genre;
         string country;
         int year_of_publication;
-        float cost;
+        int cost;
         int stars;
 
     public:
-        Product(string name, string descr, string genre, string country, int year, float cost, int stars);
+        Product(string name, string descr, string genre, string country, int year, int cost, int stars);
         ~Product();
         string getName() const;
         void setName(const string& newname);
@@ -26,11 +26,11 @@ class Product {
         string getCountry() const;
         void setCountry(const string& newcountry);
         int getYear() const;
-        void setYear(int& newyear);
-        float getCost() const;
-        void setCost(float& newcost);
-        float getStars() const;
-        void setStars(float& newstars);
+        void setYear(int newyear);
+        int getCost() const;
+        void setCost(int newcost);
+        int getStars() const;
+        void setStars(int newstars);
 };
 
 #endif // PRODUCT_H

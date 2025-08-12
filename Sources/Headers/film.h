@@ -10,14 +10,14 @@ class Film : public DigitalProduct {
         int minutes;
 
     public:
-        Film(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string dir, string actor, int min);
+        Film(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string dir, string actor, int min);
         ~Film();
         string getDirector() const;
         void setDirector(const string& newdirector);
         string getActor() const;
         void setActor(const string& newactor);
         int getMinutes() const;
-        void setMinutes(int& newminutes);
+        void setMinutes(int newminutes);
 };
 
 #endif // FILM_H

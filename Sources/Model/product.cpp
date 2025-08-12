@@ -1,6 +1,6 @@
 #include "Sources/Headers/product.h "
 
-Product::Product(string name, string descr, string genre, string country, int year, float cost, int stars)
+Product::Product(string name, string descr, string genre, string country, int year, int cost, int stars)
     : name(name), description(descr), genre(genre), country(country), year_of_publication(year), cost(cost), stars(stars){}
 
 Product::~Product(){}
@@ -42,22 +42,22 @@ int Product::getYear() const {
     return year_of_publication;
 }
 
-void Product::setYear(int& newyear){
+void Product::setYear(int newyear){
     year_of_publication = newyear;
 }
 
-float Product::getCost() const {
+int Product::getCost() const {
     return cost;
 }
 
-void Product::setCost(float& newcost){
+void Product::setCost(int newcost){
     cost = newcost;
 }
 
-float Product::getStars() const {
+int Product::getStars() const {
     return stars;
 }
 
-void Product::setStars(float& newstars) {
+void Product::setStars(int newstars) {
     stars = newstars;
 }

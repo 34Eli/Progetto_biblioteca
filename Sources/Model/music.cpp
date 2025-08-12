@@ -1,7 +1,7 @@
 #include "Sources/Headers/music.h "
 
-Music::Music(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string sin, int min)
-    : DigitalProduct(name, descr, genre, country, year, cost, stars, company), singer(sin), minutes(min){}
+Music::Music(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string sin, string alb, int min)
+    : DigitalProduct(name, descr, genre, country, year, cost, stars, company), singer(sin), album(alb), minutes(min){}
 
 Music::~Music(){}
 
@@ -25,6 +25,6 @@ int Music::getMinutes() const {
     return minutes;
 }
 
-void Music::setMinutes(int& newminutes){
+void Music::setMinutes(int newminutes){
     minutes = newminutes;
 }

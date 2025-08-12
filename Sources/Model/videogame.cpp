@@ -1,6 +1,6 @@
 #include "Sources/Headers/videogame.h"
 
-Videogame::Videogame(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string plat, bool multiplayer)
+Videogame::Videogame(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string plat, bool multiplayer)
     : DigitalProduct(name, descr, genre, country, year, cost, stars, company), platform(plat), isMultiplayer(multiplayer){}
 
 Videogame::~Videogame(){}
@@ -17,6 +17,6 @@ bool Videogame::getIsMultiplayer() const{
     return isMultiplayer;
 }
 
-void Videogame::setIsMultiplayer(bool& newmultiplayer){
+void Videogame::setIsMultiplayer(bool newmultiplayer){
     isMultiplayer = newmultiplayer;
 }

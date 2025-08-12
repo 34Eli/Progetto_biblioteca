@@ -10,14 +10,14 @@ class Book : public PhysicalProduct {
         int ISBN;
 
     public:
-        Book(string name, string descr, string genre, string country, int year, float cost, int stars, string author, int pages, string publ, int ISBN);
+        Book(string name, string descr, string genre, string country, int year, int cost, int stars, string author, int pages, string publ, int ISBN);
         ~Book();
         int getPages() const;
-        void setPages(int& newpages);
+        void setPages(int newpages);
         string getPublisher() const;
         void setPublisher(const string& newpublisher);
         int getISBN() const;
-        void setISBN(int& newISBN);
+        void setISBN(int newISBN);
 };
 
 #endif // BOOK_H

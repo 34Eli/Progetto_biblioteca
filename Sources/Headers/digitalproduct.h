@@ -8,7 +8,7 @@ private:
         string company;
 
     public:
-        DigitalProduct(string name, string descr, string genre, string country, int year, float cost, int stars, string company);
+        DigitalProduct(string name, string descr, string genre, string country, int year, int cost, int stars, string company);
         ~DigitalProduct();
         string getCompany() const;
         void setCompany(const string& newcompany);

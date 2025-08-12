@@ -1,6 +1,6 @@
 #include "Sources/Headers/film.h"
 
-Film::Film(string name, string descr, string genre, string country, int year, float cost, int stars, string company, string dir, string actor, int min)
+Film::Film(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string dir, string actor, int min)
     : DigitalProduct(name, descr, genre, country, year, cost, stars, company), director(dir), mainActor(actor), minutes(min){}
 
 Film::~Film(){}
@@ -25,6 +25,6 @@ int Film::getMinutes() const {
     return minutes;
 }
 
-void Film::setMinutes(int& newminutes){
+void Film::setMinutes(int newminutes){
     minutes = newminutes;
 }
