@@ -20,6 +20,7 @@ SOURCES += \
     Sources/Model/physicalproduct.cpp \
     Sources/Model/product.cpp \
     Sources/Model/videogame.cpp \
+    Xml/xmlreader.cpp \
     json/jsonreader.cpp \
 
 HEADERS += \
@@ -33,6 +34,7 @@ HEADERS += \
     Sources/Headers/physicalproduct.h \
     Sources/Headers/product.h \
     Sources/Headers/videogame.h \
+    Xml/xmlreader.h \
     json/jsonreader.h \
 
 # Default rules for deployment.

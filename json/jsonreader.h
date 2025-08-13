@@ -48,7 +48,7 @@ private:
     Book* readBook(const QJsonObject& obj);
     Photograph* readPhotograph(const QJsonObject& obj);
 
-public:
+public:   
     JsonReader();
     QList<Product*> readAll(const string& filename); //restituisce una lista di tutti gli oggetti presenti nel json
 
