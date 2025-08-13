@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
 }
 
 
-/*test
-#include <QCoreApplication>
+
+/*#include <QCoreApplication>
 #include <QDebug>
 #include "json\jsonreader.h"
 
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     JsonReader reader;
 
     // Percorso del file JSON (assicurati che il file esista)
-    std::string filename = "pathassoluto";
+    std::string filename = "C:\\Users\\39346\\OneDrive\\Desktop\\Progetto_biblioteca\\Progetto_biblioteca\\library.json";
 
     // Legge tutti i prodotti
     QList<Product*> library = reader.readAll(filename);
@@ -36,5 +36,5 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-}
-test*/
+}*/
+

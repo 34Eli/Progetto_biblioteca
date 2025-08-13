@@ -36,6 +36,7 @@ Film* JsonReader::readFilm(const QJsonObject& obj){
     QString mainActor = obj["mainActor"].toString();
     int minutes = obj["minutes"].toInt();
     return new Film(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, dig.company.toStdString(), director.toStdString(), mainActor.toStdString(), minutes);
+    //ricorda di deferenziare puntatore/sistemare la memoria per sta roba del new Film()
 }
 
 Music* JsonReader::readMusic(const QJsonObject& obj){

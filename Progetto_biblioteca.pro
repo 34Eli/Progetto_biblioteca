@@ -21,6 +21,7 @@ SOURCES += \
     Sources/Model/product.cpp \
     Sources/Model/videogame.cpp \
     json/jsonreader.cpp \
+    visitor.cpp
 
 HEADERS += \
     Sources/Headers/book.h \
@@ -34,6 +35,7 @@ HEADERS += \
     Sources/Headers/product.h \
     Sources/Headers/videogame.h \
     json/jsonreader.h \
+    visitor.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
