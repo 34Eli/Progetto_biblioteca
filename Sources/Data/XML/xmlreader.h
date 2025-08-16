@@ -14,7 +14,6 @@
 class XmlReader {
 
 private:
-
     //gli struct servono per memorizzare gli attributi comuni delle classi concrete
     struct ProductData {
         QString name;
@@ -34,12 +33,12 @@ private:
         QString author;
     };
 
-    // Metodi per leggere campi dati comuni dai nodi XML
+    //restituiscono campi dati con gli attributi comuni delle classi concrete
     ProductData readProduct(QXmlStreamReader &xml);
     DigitalData readDigital(QXmlStreamReader &xml);
     PhysicalData readPhysical(QXmlStreamReader &xml);
 
-    // Metodi per creare oggetti concreti
+    //per creare gli oggetti delle varie classi concrete
     Film* readFilm(QXmlStreamReader &xml);
     Music* readMusic(QXmlStreamReader &xml);
     Videogame* readVideogame(QXmlStreamReader &xml);
@@ -47,10 +46,8 @@ private:
     Photograph* readPhotograph(QXmlStreamReader &xml);
 
 public:
-
     XmlReader();
-
-    // Metodo pubblico che legge tutti gli oggetti dal file XML
+    //restituisce una lista di tutti gli oggetti presenti nel xml
     QList<Product*> readAll(const QString &filename);
 };
 

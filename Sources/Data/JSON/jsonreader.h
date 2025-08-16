@@ -16,7 +16,6 @@
 class JsonReader{
 
 private:
-
     //gli struct servono per memorizzare gli attributi comuni delle classi concrete
     struct ProductData{
         QString name;

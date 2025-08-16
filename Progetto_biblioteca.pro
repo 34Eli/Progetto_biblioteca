@@ -20,8 +20,8 @@ SOURCES += \
     Sources/Model/physicalproduct.cpp \
     Sources/Model/product.cpp \
     Sources/Model/videogame.cpp \
-    Xml/xmlreader.cpp \
-    json/jsonreader.cpp \
+    Sources/Data/XML/xmlreader.cpp \
+    Sources/Data/JSON/jsonreader.cpp \
     visitor.cpp
 
 HEADERS += \
@@ -35,15 +35,11 @@ HEADERS += \
     Sources/Headers/physicalproduct.h \
     Sources/Headers/product.h \
     Sources/Headers/videogame.h \
-    Xml/xmlreader.h \
-    json/jsonreader.h \
+    Sources/Data/XML/xmlreader.h \
+    Sources/Data/JSON/jsonreader.h \
     visitor.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    library.json \
-    library.xml
