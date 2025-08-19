@@ -1,4 +1,5 @@
 #include "Sources/Headers/videogame.h"
+#include "Sources/Model/visitor.h"
 
 Videogame::Videogame(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string plat, bool multiplayer)
     : DigitalProduct(name, descr, genre, country, year, cost, stars, company), platform(plat), isMultiplayer(multiplayer){}
@@ -19,4 +20,8 @@ bool Videogame::getIsMultiplayer() const{
 
 void Videogame::setIsMultiplayer(bool newmultiplayer){
     isMultiplayer = newmultiplayer;
+}
+
+void Videogame::accept(Visitor& visitor){
+    visitor.visitVideogame(*this);
 }

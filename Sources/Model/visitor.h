@@ -1,10 +1,12 @@
 #ifndef VISITOR_H
 #define VISITOR_H
-#include "Sources/Headers/book.h"
-#include "Sources/Headers/photograph.h"
-#include "Sources/Headers/film.h"
-#include "Sources/Headers/music.h"
-#include "Sources/Headers/videogame.h"
+#include "Sources/Headers/product.h"
+
+class Film;
+class Book;
+class Music;
+class Photograph;
+class Videogame;
 
 class Visitor{
 

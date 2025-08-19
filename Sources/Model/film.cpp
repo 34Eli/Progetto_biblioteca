@@ -1,4 +1,5 @@
 #include "Sources/Headers/film.h"
+#include "Sources/Model/visitor.h"
 
 Film::Film(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string dir, string actor, int min)
     : DigitalProduct(name, descr, genre, country, year, cost, stars, company), director(dir), mainActor(actor), minutes(min){}
@@ -27,4 +28,8 @@ int Film::getMinutes() const {
 
 void Film::setMinutes(int newminutes){
     minutes = newminutes;
+}
+
+void Film::accept(Visitor& visitor){
+    visitor.visitFilm(*this);
 }

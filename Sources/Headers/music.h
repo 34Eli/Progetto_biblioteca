@@ -18,6 +18,7 @@ class Music : public DigitalProduct {
         void setAlbum(const string& newalbum);
         int getMinutes() const;
         void setMinutes(int newminutes);
+        void accept(Visitor& visitor) override = 0;
 };
 
 #endif // MUSIC_H

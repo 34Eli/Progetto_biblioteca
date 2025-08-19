@@ -15,6 +15,7 @@ class Videogame : public DigitalProduct {
         void setPlatform(const string& newplatform);
         bool getIsMultiplayer() const;
         void setIsMultiplayer(bool newmultiplayer);
+        void accept(Visitor& visitor) override = 0;
 };
 
 #endif // VIDEOGAME_H

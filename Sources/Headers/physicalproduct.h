@@ -12,6 +12,7 @@ class PhysicalProduct : public Product {
         ~PhysicalProduct();
         string getAuthor() const;
         void setAuthor(const string& newauthor);
+        void accept(Visitor& visitor) override = 0;
 };
 
 #endif // PHYSICALPRODUCT_H

@@ -18,6 +18,7 @@ class Photograph : public PhysicalProduct {
         void setLength(int newlength);
         int getWidth() const;
         void setWidth(int newwidth);
+        void accept(Visitor& visitor) override = 0;
 };
 
 #endif // PHOTOGRAPH_H

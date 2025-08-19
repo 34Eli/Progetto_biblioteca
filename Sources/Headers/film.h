@@ -18,6 +18,7 @@ class Film : public DigitalProduct {
         void setActor(const string& newactor);
         int getMinutes() const;
         void setMinutes(int newminutes);
+        void accept(Visitor& visitor) override = 0;
 };
 
 #endif // FILM_H

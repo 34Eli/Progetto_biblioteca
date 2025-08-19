@@ -1,11 +1,17 @@
 #include "Sources/Headers/mainwindow.h"
 
 #include <QApplication>
+#include <QPushButton>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+    w.setFixedSize(100, 50);
+
+    QPushButton *button = new QPushButton("Hello World", &w);
+    button->setGeometry(10, 10, 80, 30);
+
     w.show();
     return a.exec();
 }

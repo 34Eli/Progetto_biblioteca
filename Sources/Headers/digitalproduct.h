@@ -12,6 +12,7 @@ private:
         ~DigitalProduct();
         string getCompany() const;
         void setCompany(const string& newcompany);
+        void accept(Visitor& visitor) override = 0;
 };
 
 #endif // DIGITALPRODUCT_H

@@ -3,6 +3,8 @@
 #include <string>
 using std::string;
 
+class Visitor;
+
 class Product {
 
     private:
@@ -31,6 +33,7 @@ class Product {
         void setCost(int newcost);
         int getStars() const;
         void setStars(int newstars);
+        virtual void accept(Visitor& visitor) = 0;
 };
 
 #endif // PRODUCT_H
