@@ -5,7 +5,7 @@
 
 class Library {
     private:
-        std::list<Product> library;
+        std::list<Product*> library;
     public:
         Library();
 };

@@ -2,6 +2,8 @@
 #define BOOK_H
 #include "PhysicalProduct.h"
 
+class Visitor;
+
 class Book : public PhysicalProduct {
 
     private:
@@ -18,7 +20,7 @@ class Book : public PhysicalProduct {
         void setPublisher(const string& newpublisher);
         int getISBN() const;
         void setISBN(int newISBN);
-        void accept(Visitor& visitor) override = 0;
+        void accept(Visitor& visitor) override;
 };
 
 #endif // BOOK_H

@@ -2,6 +2,9 @@
 #define VIDEOGAME_H
 #include "DigitalProduct.h"
 
+class Visitor;
+
+
 class Videogame : public DigitalProduct {
 
     private:
@@ -15,7 +18,7 @@ class Videogame : public DigitalProduct {
         void setPlatform(const string& newplatform);
         bool getIsMultiplayer() const;
         void setIsMultiplayer(bool newmultiplayer);
-        void accept(Visitor& visitor) override = 0;
+        void accept(Visitor& visitor) override;
 };
 
 #endif // VIDEOGAME_H

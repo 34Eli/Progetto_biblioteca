@@ -2,6 +2,9 @@
 #define PHOTOGRAPH_H
 #include "PhysicalProduct.h"
 
+class Visitor;
+
+
 class Photograph : public PhysicalProduct {
 
     private:
@@ -18,7 +21,7 @@ class Photograph : public PhysicalProduct {
         void setLength(int newlength);
         int getWidth() const;
         void setWidth(int newwidth);
-        void accept(Visitor& visitor) override = 0;
+        void accept(Visitor& visitor) override;
 };
 
 #endif // PHOTOGRAPH_H

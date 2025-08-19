@@ -1,4 +1,4 @@
-#include "Sources/Headers/mainwindow.h"
+#include "Sources/GUI/mainwindow.h"
 
 #include <QApplication>
 #include <QPushButton>

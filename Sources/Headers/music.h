@@ -2,6 +2,9 @@
 #define MUSIC_H
 #include "DigitalProduct.h"
 
+class Visitor;
+
+
 class Music : public DigitalProduct {
 
     private:
@@ -18,7 +21,7 @@ class Music : public DigitalProduct {
         void setAlbum(const string& newalbum);
         int getMinutes() const;
         void setMinutes(int newminutes);
-        void accept(Visitor& visitor) override = 0;
+        void accept(Visitor& visitor) override;
 };
 
 #endif // MUSIC_H

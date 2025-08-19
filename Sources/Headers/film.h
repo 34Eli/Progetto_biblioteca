@@ -2,6 +2,9 @@
 #define FILM_H
 #include "DigitalProduct.h"
 
+class Visitor;
+
+
 class Film : public DigitalProduct {
 
     private:
@@ -18,7 +21,7 @@ class Film : public DigitalProduct {
         void setActor(const string& newactor);
         int getMinutes() const;
         void setMinutes(int newminutes);
-        void accept(Visitor& visitor) override = 0;
+        void accept(Visitor& visitor) override;
 };
 
 #endif // FILM_H
