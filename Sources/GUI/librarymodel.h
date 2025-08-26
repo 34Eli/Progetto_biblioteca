@@ -1,24 +1,24 @@
-#ifndef PRODUCTMODEL_H
-#define PRODUCTMODEL_H
+#ifndef LIBRARYMODEL_H
+#define LIBRARYMODEL_H
 #include <QAbstractTableModel>
 #include "Sources/Headers/product.h"
 
 
-class ProductModel : public QAbstractTableModel {
+class LibraryModel : public QAbstractTableModel {
     Q_OBJECT
 
     private:
         QList<Product*> products;
 
     public:
-        explicit ProductModel(QObject* parent = nullptr);
+        explicit LibraryModel(QObject* parent = nullptr);
         int rowCount(const QModelIndex& parent = QModelIndex()) const override;
         int columnCount(const QModelIndex& parent = QModelIndex()) const override;
         QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
         QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-        void setProducts(const QList<Product*>& products);
+        void setProducts(const QList<Product*>& product);
         Product* getProducts(int row) const;
 };
 
-#endif // PRODUCTMODEL_H
+#endif // LIBRARYMODEL_H
