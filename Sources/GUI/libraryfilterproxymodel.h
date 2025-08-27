@@ -2,7 +2,7 @@
 #define LIBRARYFILTERPROXYMODEL_H
 #include <QSortFilterProxyModel>
 
-class LibraryFilterProxyModel : QSortFilterProxyModel {
+class LibraryFilterProxyModel : public QSortFilterProxyModel {
     Q_OBJECT
 
 private:
