@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryModel(this)), proxymodel(new LibraryFilterProxyModel(this)){
+    setWindowTitle("Digital Library");
     setupUI();
     loadProducts();
     proxymodel->setSourceModel(model);
@@ -40,7 +41,7 @@ void MainWindow::setupUI(){
     this->setCentralWidget(centralWidget);
     tableView = new QTableView(this);
 
-    btnAll = new QPushButton("Tutti", this);
+    btnAll = new QPushButton("All", this);
     btnBook = new QPushButton("Book", this);
     btnFilm = new QPushButton("Film", this);
     btnMusic = new QPushButton("Music", this);
