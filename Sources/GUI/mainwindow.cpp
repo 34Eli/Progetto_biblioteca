@@ -72,7 +72,7 @@ void MainWindow::setupUI(){
 
 void MainWindow::loadProducts(){
     JsonReader reader;
-    QList<Product*> productList = reader.readAll("C://Users//39346//OneDrive//Desktop//Progetto_biblioteca//Progetto_biblioteca//Sources//Data//JSON//library.json");
+    QList<Product*> productList = reader.readAll("pathassoluto");
     model->setProducts(productList);
 }
 
