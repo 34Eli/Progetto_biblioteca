@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include "Sources/GUI/librarymodel.h"
 #include "Sources/GUI/libraryfilterproxymodel.h"
+#include <QStackedWidget>
 
 class MainWindow : public QMainWindow
 {
@@ -15,6 +16,9 @@ private:
     LibraryModel* model;
     LibraryFilterProxyModel* proxymodel;
     QListView* listView;
+    QStackedWidget* stackedWidget;
+    QWidget* mainPage;
+    QWidget* infoPage;
 
     QPushButton* btnAll;
     QPushButton* btnBook;

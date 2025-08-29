@@ -71,7 +71,16 @@ void MainWindow::setupUI(){
     mainLayout->addWidget(buttonWidget);
     mainLayout->addWidget(listView);
 
-    centralWidget->setLayout(mainLayout);
+    mainPage = new QWidget;
+    mainPage->setLayout(mainLayout);
+    infoPage = new QWidget;
+    stackedWidget = new QStackedWidget(this);
+    stackedWidget->addWidget(mainPage); //pagina 0
+    stackedWidget->addWidget(infoPage); //pagina 1
+
+    QVBoxLayout* centralLayout = new QVBoxLayout;
+    centralLayout->addWidget(stackedWidget);
+    centralWidget->setLayout(centralLayout);
 
     connect(btnAll, &QPushButton::clicked, this, &MainWindow::filterAll);    //singolare
     connect(btnBook, &QPushButton::clicked, this, &MainWindow::filterBooks);
