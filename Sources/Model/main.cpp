@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setStyle("Fusion");
+    a.setStyle(QStyleFactory::create("Fusion"));
 
     //Creo una palette di colori per l'applicazione
     QPalette darkPalette;
