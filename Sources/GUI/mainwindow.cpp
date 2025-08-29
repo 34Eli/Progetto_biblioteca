@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryM
     setupUI();
     loadProducts();
     proxymodel->setSourceModel(model);
-    tableView->setModel(proxymodel);
+    listView->setModel(proxymodel);
 }
 
 MainWindow::~MainWindow() {}
@@ -39,7 +39,14 @@ void MainWindow::filterPhotograph(){
 void MainWindow::setupUI(){
     QWidget* centralWidget = new QWidget(this);
     this->setCentralWidget(centralWidget);
-    tableView = new QTableView(this);
+
+    listView = new QListView(this);
+    listView->setViewMode(QListView::IconMode);  // vista a griglia
+    listView->setIconSize(QSize(100, 100));      // dimensione immagine
+    listView->setGridSize(QSize(120, 140));      // dimensione cella
+    listView->setSpacing(10);                    // spazio tra elementi
+    listView->setResizeMode(QListView::Adjust);
+    listView->setMovement(QListView::Static);
 
     btnAll = new QPushButton("All", this);
     btnBook = new QPushButton("Book", this);
@@ -62,7 +69,7 @@ void MainWindow::setupUI(){
 
     QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->addWidget(buttonWidget);
-    mainLayout->addWidget(tableView);
+    mainLayout->addWidget(listView);
 
     centralWidget->setLayout(mainLayout);
 
@@ -76,7 +83,7 @@ void MainWindow::setupUI(){
 
 void MainWindow::loadProducts(){
     JsonReader reader;
-    QList<Product*> productList = reader.readAll("pathassoluto");
+    QList<Product*> productList = reader.readAll("C://Users//39346//OneDrive//Desktop//Progetto_biblioteca//Progetto_biblioteca//Sources//Data//JSON//library.json");
     model->setProducts(productList);
 }
 

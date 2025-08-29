@@ -15,9 +15,10 @@ class Product {
         int year_of_publication;
         int cost;
         int stars;
+        string imagePath;
 
     public:
-        Product(string name, string descr, string genre, string country, int year, int cost, int stars);
+        Product(string name, string descr, string genre, string country, int year, int cost, int stars, string image);
         ~Product();
         string getName() const;
         void setName(const string& newname);
@@ -33,6 +34,8 @@ class Product {
         void setCost(int newcost);
         int getStars() const;
         void setStars(int newstars);
+        string getImage() const;
+        void setImage(const string& newimage);
         virtual void accept(Visitor& visitor) = 0;
 };
 

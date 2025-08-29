@@ -12,7 +12,7 @@ class Book : public PhysicalProduct {
         int ISBN;
 
     public:
-        Book(string name, string descr, string genre, string country, int year, int cost, int stars, string author, int pages, string publ, int ISBN);
+        Book(string name, string descr, string genre, string country, int year, int cost, int stars, string image, string author, int pages, string publ, int ISBN);
         ~Book();
         int getPages() const;
         void setPages(int newpages);

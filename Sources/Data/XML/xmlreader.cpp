@@ -56,6 +56,7 @@ XmlReader::ProductData XmlReader::readProduct(QXmlStreamReader &xml) {
             else if (xml.name() == "year_of_publication") prod.year_of_publication = xml.readElementText().toInt();
             else if (xml.name() == "cost") prod.cost = xml.readElementText().toInt();
             else if (xml.name() == "stars") prod.stars = xml.readElementText().toInt();
+            else if (xml.name() == "imagePath") prod.imagePath = xml.readElementText();
         }
     }
 
@@ -106,7 +107,7 @@ Film* XmlReader::readFilm(QXmlStreamReader &xml) {
 
     return new Film(prod.name.toStdString(), prod.description.toStdString(),
                     prod.genre.toStdString(), prod.country.toStdString(),
-                    prod.year_of_publication, prod.cost, prod.stars,
+                    prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(),
                     dig.company.toStdString(), director.toStdString(),
                     mainActor.toStdString(), minutes);
 }
@@ -129,7 +130,7 @@ Music* XmlReader::readMusic(QXmlStreamReader &xml) {
 
     return new Music(prod.name.toStdString(), prod.description.toStdString(),
                      prod.genre.toStdString(), prod.country.toStdString(),
-                     prod.year_of_publication, prod.cost, prod.stars,
+                     prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(),
                      dig.company.toStdString(), singer.toStdString(),
                      album.toStdString(), minutes);
 }
@@ -151,7 +152,7 @@ Videogame* XmlReader::readVideogame(QXmlStreamReader &xml) {
 
     return new Videogame(prod.name.toStdString(), prod.description.toStdString(),
                          prod.genre.toStdString(), prod.country.toStdString(),
-                         prod.year_of_publication, prod.cost, prod.stars,
+                         prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(),
                          dig.company.toStdString(), platform.toStdString(),
                          isMultiplayer);
 }
@@ -175,7 +176,7 @@ Book* XmlReader::readBook(QXmlStreamReader &xml) {
 
     return new Book(prod.name.toStdString(), prod.description.toStdString(),
                     prod.genre.toStdString(), prod.country.toStdString(),
-                    prod.year_of_publication, prod.cost, prod.stars,
+                    prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(),
                     phy.author.toStdString(), pages,
                     publisher.toStdString(), ISBN);
 }
@@ -198,6 +199,6 @@ Photograph* XmlReader::readPhotograph(QXmlStreamReader &xml) {
 
     return new Photograph(prod.name.toStdString(), prod.description.toStdString(),
                           prod.genre.toStdString(), prod.country.toStdString(),
-                          prod.year_of_publication, prod.cost, prod.stars,
+                          prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(),
                           phy.author.toStdString(), isColourful, length, width);
 }

@@ -13,6 +13,7 @@ JsonReader::ProductData JsonReader::readProduct(const QJsonObject& obj){
     prod.year_of_publication = obj["year_of_publication"].toInt();
     prod.cost = obj["cost"].toInt();
     prod.stars = obj["stars"].toInt();
+    prod.imagePath = obj["imagePath"].toString();
     return prod;
 }
 
@@ -35,7 +36,7 @@ Film* JsonReader::readFilm(const QJsonObject& obj){
     QString director = obj["director"].toString();
     QString mainActor = obj["mainActor"].toString();
     int minutes = obj["minutes"].toInt();
-    return new Film(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, dig.company.toStdString(), director.toStdString(), mainActor.toStdString(), minutes);
+    return new Film(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), director.toStdString(), mainActor.toStdString(), minutes);
     //ricorda di deferenziare puntatore/sistemare la memoria per sta roba del new Film()
 }
 
@@ -45,7 +46,7 @@ Music* JsonReader::readMusic(const QJsonObject& obj){
     QString singer = obj["singer"].toString();
     QString album = obj["album"].toString();
     int minutes = obj["minutes"].toInt();
-    return new Music(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, dig.company.toStdString(), singer.toStdString(), album.toStdString(), minutes);
+    return new Music(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), singer.toStdString(), album.toStdString(), minutes);
 
 }
 
@@ -54,7 +55,7 @@ Videogame* JsonReader::readVideogame(const QJsonObject& obj){
     DigitalData dig = readDigital(obj);
     QString platform = obj["platform"].toString();
     bool isMultiplayer = obj["isMultiplayer"].toBool();
-    return new Videogame(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, dig.company.toStdString(), platform.toStdString(), isMultiplayer);
+    return new Videogame(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), platform.toStdString(), isMultiplayer);
 }
 
 Book* JsonReader::readBook(const QJsonObject& obj){
@@ -63,7 +64,7 @@ Book* JsonReader::readBook(const QJsonObject& obj){
     int pages = obj["pages"].toInt();
     QString publisher = obj["publisher"].toString();
     int ISBN = obj["ISBN"].toInt();
-    return new Book(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, dig.company.toStdString(), pages, publisher.toStdString(), ISBN);
+    return new Book(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), pages, publisher.toStdString(), ISBN);
 }
 
 Photograph* JsonReader::readPhotograph(const QJsonObject& obj){
@@ -72,7 +73,7 @@ Photograph* JsonReader::readPhotograph(const QJsonObject& obj){
     bool isColourful = obj["isColourful"].toBool();
     int length = obj["length"].toInt();
     int width = obj["width"].toInt();
-    return new Photograph(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, dig.company.toStdString(), isColourful, length, width);
+    return new Photograph(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), isColourful, length, width);
 }
 
 
