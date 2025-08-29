@@ -48,16 +48,20 @@ void MainWindow::setupUI(){
     btnVideogame = new QPushButton("Videogame", this);
     btnPhotograph = new QPushButton("Photograph", this);
 
-    QHBoxLayout* buttonLayout = new QHBoxLayout;
+    QVBoxLayout* buttonLayout = new QVBoxLayout;
     buttonLayout->addWidget(btnAll);
     buttonLayout->addWidget(btnBook);
     buttonLayout->addWidget(btnFilm);
     buttonLayout->addWidget(btnMusic);
     buttonLayout->addWidget(btnVideogame);
     buttonLayout->addWidget(btnPhotograph);
+    buttonLayout->addStretch();
 
-    QVBoxLayout* mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(buttonLayout);
+    QWidget* buttonWidget = new QWidget(this);
+    buttonWidget->setLayout(buttonLayout);
+
+    QHBoxLayout* mainLayout = new QHBoxLayout;
+    mainLayout->addWidget(buttonWidget);
     mainLayout->addWidget(tableView);
 
     centralWidget->setLayout(mainLayout);
