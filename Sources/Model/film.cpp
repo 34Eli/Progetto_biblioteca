@@ -1,8 +1,8 @@
 #include "Sources/Headers/film.h"
 #include "Sources/Model/visitor.h"
 
-Film::Film(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string dir, string actor, int min)
-    : DigitalProduct(name, descr, genre, country, year, cost, stars, company), director(dir), mainActor(actor), minutes(min){}
+Film::Film(string name, string descr, string genre, string country, int year, int cost, int stars, string image, string company, string dir, string actor, int min)
+    : DigitalProduct(name, descr, genre, country, year, cost, stars, image, company), director(dir), mainActor(actor), minutes(min){}
 
 Film::~Film(){}
 

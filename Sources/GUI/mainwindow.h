@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableView>
+#include <QListView>
 #include <QPushButton>
 #include "Sources/GUI/librarymodel.h"
 #include "Sources/GUI/libraryfilterproxymodel.h"
@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
 private:
     LibraryModel* model;
     LibraryFilterProxyModel* proxymodel;
-    QTableView* tableView;
+    QListView* listView;
 
     QPushButton* btnAll;
     QPushButton* btnBook;

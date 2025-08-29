@@ -1,7 +1,7 @@
 #include "Sources/Headers/product.h "
 
-Product::Product(string name, string descr, string genre, string country, int year, int cost, int stars)
-    : name(name), description(descr), genre(genre), country(country), year_of_publication(year), cost(cost), stars(stars){}
+Product::Product(string name, string descr, string genre, string country, int year, int cost, int stars, string image)
+    : name(name), description(descr), genre(genre), country(country), year_of_publication(year), cost(cost), stars(stars), imagePath(image){}
 
 Product::~Product(){}
 
@@ -60,4 +60,12 @@ int Product::getStars() const {
 
 void Product::setStars(int newstars) {
     stars = newstars;
+}
+
+string Product::getImage() const{
+    return imagePath;
+}
+
+void Product::setImage(const string& newimage){
+    imagePath = newimage;
 }

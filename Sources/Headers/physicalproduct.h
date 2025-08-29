@@ -8,7 +8,7 @@ class PhysicalProduct : public Product {
         string author;
 
     public:
-        PhysicalProduct(string name, string descr, string genre, string country, int year, int cost, int stars, string author);
+        PhysicalProduct(string name, string descr, string genre, string country, int year, int cost, int stars, string image, string author);
         ~PhysicalProduct();
         string getAuthor() const;
         void setAuthor(const string& newauthor);

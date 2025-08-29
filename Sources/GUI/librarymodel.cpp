@@ -1,5 +1,6 @@
 #include "librarymodel.h"
 #include <QString>
+#include <QPixmap>
 
 LibraryModel::LibraryModel(QObject* parent) : QAbstractTableModel(parent) {}
 
@@ -16,9 +17,19 @@ QVariant LibraryModel::data(const QModelIndex& index, int role) const {
         return QVariant();
 
     Product* p = products.at(index.row());
-    if (role == Qt::DisplayRole && index.column() == 0) {
+
+    if (role == Qt::DisplayRole) {
         return QString::fromStdString(p->getName());
     }
+
+    if (role == Qt::DecorationRole) {
+        QPixmap pix(QString::fromStdString(p->getImage()));
+        if (pix.isNull()) {
+            qDebug() << "Failed to load image from path:" << QString::fromStdString(p->getImage());
+        }
+        return pix.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+
     if (role == Qt::UserRole) {
         return QVariant::fromValue(static_cast<void*>(p));
     }

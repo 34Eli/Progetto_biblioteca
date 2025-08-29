@@ -23,6 +23,7 @@ private:
         int year_of_publication;
         int cost;
         int stars;
+        QString imagePath;
     };
 
     struct DigitalData {

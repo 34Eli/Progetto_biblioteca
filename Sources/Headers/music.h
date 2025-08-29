@@ -13,7 +13,7 @@ class Music : public DigitalProduct {
         int minutes;
 
     public:
-        Music(string name, string descr, string genre, string country, int year, int cost, int stars, string company, string sing, string alb, int min);
+        Music(string name, string descr, string genre, string country, int year, int cost, int stars, string image, string company, string sing, string alb, int min);
         ~Music();
         string getSinger() const;
         void setSinger(const string& newsinger);
