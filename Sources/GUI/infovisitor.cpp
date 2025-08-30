@@ -16,12 +16,13 @@
 #include <QString>
 #include <QCheckBox>
 
-//
+//Metodo visit per Film
 QWidget* InfoVisitor::visit(Film& f) {
+    //Creazione della pagina e layout
     QWidget* page = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(page);
 
-    // --- Campi inizialmente bloccati ---
+    //Creazione dei campi di visualizzazione dei dati
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(f.getName()));
     titleEdit->setReadOnly(true);
 
@@ -63,7 +64,7 @@ QWidget* InfoVisitor::visit(Film& f) {
     QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(f.getDescription()));
     descrEdit->setReadOnly(true);
 
-    // --- Layout ---
+    //Aggiunta dei widget al layout
     layout->addWidget(new QLabel("🎬 Film"));
     layout->addWidget(new QLabel("Titolo:"));
     layout->addWidget(titleEdit);
@@ -88,17 +89,18 @@ QWidget* InfoVisitor::visit(Film& f) {
     layout->addWidget(new QLabel("Descrizione:"));
     layout->addWidget(descrEdit);
 
-    // --- Pulsante Modify/Save ---
+    //Pulsante Modify
     QPushButton* modifyButton = new QPushButton("Modify");
     layout->addWidget(modifyButton);
 
-    // Puntatore a Film invece della capture mista
     Film* filmPtr = &f;
-    bool* clicked = new bool(false); // variabile persistente nella lambda
+    bool* clicked = new bool(false);
 
     QObject::connect(modifyButton, &QPushButton::clicked, page, [=]() mutable {
+
+        //Controllo stato e modifica dei campi
         if (!*clicked) {
-            // Abilita tutti i campi
+            // abilita tutti i campi per la modifica
             titleEdit->setReadOnly(false);
             directorEdit->setReadOnly(false);
             actorEdit->setReadOnly(false);
@@ -114,7 +116,8 @@ QWidget* InfoVisitor::visit(Film& f) {
             modifyButton->setText("Save");
             *clicked = true;
         } else {
-            // Salva valori nell'oggetto Film
+            // salva i valori modificati nell'oggetto Film
+            // blocca nuovamente tutti i campi
             filmPtr->setName(titleEdit->text().toStdString());
             filmPtr->setDirector(directorEdit->text().toStdString());
             filmPtr->setActor(actorEdit->text().toStdString());
@@ -127,7 +130,6 @@ QWidget* InfoVisitor::visit(Film& f) {
             filmPtr->setCompany(companyEdit->text().toStdString());
             filmPtr->setDescription(descrEdit->toPlainText().toStdString());
 
-            // Blocca di nuovo i campi
             titleEdit->setReadOnly(true);
             directorEdit->setReadOnly(true);
             actorEdit->setReadOnly(true);
@@ -145,16 +147,16 @@ QWidget* InfoVisitor::visit(Film& f) {
         }
     });
 
+    //Impostazione finale della pagina
     page->setLayout(layout);
     return page;
 }
 
-//
+//Metodo visit per Videogame
 QWidget* InfoVisitor::visit(Videogame& v) {
     QWidget* page = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(page);
 
-    // --- Campi inizialmente bloccati ---
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(v.getName()));
     titleEdit->setReadOnly(true);
 
@@ -192,7 +194,6 @@ QWidget* InfoVisitor::visit(Videogame& v) {
     QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(v.getDescription()));
     descrEdit->setReadOnly(true);
 
-    // --- Layout ---
     layout->addWidget(new QLabel("🎮 Videogame"));
     layout->addWidget(new QLabel("Titolo:"));
     layout->addWidget(titleEdit);
@@ -214,18 +215,16 @@ QWidget* InfoVisitor::visit(Videogame& v) {
     layout->addWidget(new QLabel("Descrizione:"));
     layout->addWidget(descrEdit);
 
-    // --- Pulsante Modify/Save ---
+    //Pulsante Modify
     QPushButton* modifyButton = new QPushButton("Modify");
     layout->addWidget(modifyButton);
 
-    // --- Stato cliccato su heap per sicurezza ---
     Videogame* gamePtr = &v;
-    bool* clicked = new bool(false);  // allocato sul heap
+    bool* clicked = new bool(false);
 
     QObject::connect(modifyButton, &QPushButton::clicked, page, [=]() mutable {
 
         if (!*clicked) {
-            // Abilita campi
             titleEdit->setReadOnly(false);
             companyEdit->setReadOnly(false);
             platformEdit->setReadOnly(false);
@@ -239,7 +238,6 @@ QWidget* InfoVisitor::visit(Videogame& v) {
 
             *clicked = true;
         } else {
-            // Salva dati nell'oggetto Videogame
             gamePtr->setName(titleEdit->text().toStdString());
             gamePtr->setCompany(companyEdit->text().toStdString());
             gamePtr->setPlatform(platformEdit->text().toStdString());
@@ -251,7 +249,6 @@ QWidget* InfoVisitor::visit(Videogame& v) {
             gamePtr->setStars(starsEdit->value());
             gamePtr->setDescription(descrEdit->toPlainText().toStdString());
 
-            // Blocca campi
             titleEdit->setReadOnly(true);
             companyEdit->setReadOnly(true);
             platformEdit->setReadOnly(true);
@@ -272,12 +269,11 @@ QWidget* InfoVisitor::visit(Videogame& v) {
     return page;
 }
 
-//
+//Metodo visit per Music
 QWidget* InfoVisitor::visit(Music& m) {
     QWidget* page = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(page);
 
-    // --- Campi inizialmente bloccati ---
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(m.getName()));
     titleEdit->setReadOnly(true);
 
@@ -319,7 +315,6 @@ QWidget* InfoVisitor::visit(Music& m) {
     QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(m.getDescription()));
     descrEdit->setReadOnly(true);
 
-    // --- Layout ---
     layout->addWidget(new QLabel("🎵 Music"));
     layout->addWidget(new QLabel("Titolo:"));
     layout->addWidget(titleEdit);
@@ -344,18 +339,15 @@ QWidget* InfoVisitor::visit(Music& m) {
     layout->addWidget(new QLabel("Descrizione:"));
     layout->addWidget(descrEdit);
 
-    // --- Pulsante Modify/Save ---
     QPushButton* modifyButton = new QPushButton("Modify");
     layout->addWidget(modifyButton);
 
-    // --- Stato cliccato su heap per sicurezza ---
     Music* musicPtr = &m;
-    bool* clicked = new bool(false);  // allocato sul heap
+    bool* clicked = new bool(false);
 
     QObject::connect(modifyButton, &QPushButton::clicked, page, [=]() mutable {
 
         if (!*clicked) {
-            // Abilita campi
             titleEdit->setReadOnly(false);
             companyEdit->setReadOnly(false);
             singerEdit->setReadOnly(false);
@@ -370,7 +362,6 @@ QWidget* InfoVisitor::visit(Music& m) {
 
             *clicked = true;
         } else {
-            // Salva dati nell'oggetto Music
             musicPtr->setName(titleEdit->text().toStdString());
             musicPtr->setCompany(companyEdit->text().toStdString());
             musicPtr->setSinger(singerEdit->text().toStdString());
@@ -383,7 +374,6 @@ QWidget* InfoVisitor::visit(Music& m) {
             musicPtr->setStars(starsEdit->value());
             musicPtr->setDescription(descrEdit->toPlainText().toStdString());
 
-            // Blocca campi
             titleEdit->setReadOnly(true);
             companyEdit->setReadOnly(true);
             singerEdit->setReadOnly(true);
@@ -405,12 +395,11 @@ QWidget* InfoVisitor::visit(Music& m) {
     return page;
 }
 
-//
+//Metodo visit per Book
 QWidget* InfoVisitor::visit(Book& b) {
     QWidget* page = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(page);
 
-    // --- Campi inizialmente bloccati ---
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(b.getName()));
     titleEdit->setReadOnly(true);
 
@@ -454,7 +443,6 @@ QWidget* InfoVisitor::visit(Book& b) {
     QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(b.getDescription()));
     descrEdit->setReadOnly(true);
 
-    // --- Layout ---
     layout->addWidget(new QLabel("📚 Book"));
     layout->addWidget(new QLabel("Titolo:"));
     layout->addWidget(titleEdit);
@@ -479,19 +467,15 @@ QWidget* InfoVisitor::visit(Book& b) {
     layout->addWidget(new QLabel("Descrizione:"));
     layout->addWidget(descrEdit);
 
-    // --- Pulsante Modify/Save ---
     QPushButton* modifyButton = new QPushButton("Modify");
     layout->addWidget(modifyButton);
 
-    // --- Stato cliccato su heap per sicurezza ---
     Book* bookPtr = &b;
-    bool* clicked = new bool(false);  // allocato sul heap
+    bool* clicked = new bool(false);
 
-    QObject::connect(modifyButton, &QPushButton::clicked, page, [bookPtr, titleEdit, authorEdit, pagesEdit,
-                                                                 publisherEdit, isbnEdit, genreEdit, countryEdit, yearEdit, costEdit, starsEdit, descrEdit, clicked]() mutable {
+    QObject::connect(modifyButton, &QPushButton::clicked, page, [=]() mutable {
 
         if (!*clicked) {
-            // Abilita campi
             titleEdit->setReadOnly(false);
             authorEdit->setReadOnly(false);
             pagesEdit->setEnabled(true);
@@ -506,7 +490,6 @@ QWidget* InfoVisitor::visit(Book& b) {
 
             *clicked = true;
         } else {
-            // Salva dati nell'oggetto Book
             bookPtr->setName(titleEdit->text().toStdString());
             bookPtr->setAuthor(authorEdit->text().toStdString());
             bookPtr->setPages(pagesEdit->value());
@@ -519,7 +502,6 @@ QWidget* InfoVisitor::visit(Book& b) {
             bookPtr->setStars(starsEdit->value());
             bookPtr->setDescription(descrEdit->toPlainText().toStdString());
 
-            // Blocca campi
             titleEdit->setReadOnly(true);
             authorEdit->setReadOnly(true);
             pagesEdit->setEnabled(false);
@@ -541,12 +523,11 @@ QWidget* InfoVisitor::visit(Book& b) {
     return page;
 }
 
-//
+//Metodo visit per Photograph
 QWidget* InfoVisitor::visit(Photograph& p) {
     QWidget* page = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(page);
 
-    // --- Campi inizialmente bloccati ---
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(p.getName()));
     titleEdit->setReadOnly(true);
 
@@ -591,7 +572,6 @@ QWidget* InfoVisitor::visit(Photograph& p) {
     QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(p.getDescription()));
     descrEdit->setReadOnly(true);
 
-    // --- Layout ---
     layout->addWidget(new QLabel("📸 Photograph"));
     layout->addWidget(new QLabel("Titolo:"));
     layout->addWidget(titleEdit);
@@ -615,17 +595,14 @@ QWidget* InfoVisitor::visit(Photograph& p) {
     layout->addWidget(new QLabel("Descrizione:"));
     layout->addWidget(descrEdit);
 
-    // --- Pulsante Modify/Save ---
     QPushButton* modifyButton = new QPushButton("Modify");
     layout->addWidget(modifyButton);
 
-    // --- Stato cliccato su heap ---
     Photograph* photoPtr = &p;
     bool* clicked = new bool(false);
 
     QObject::connect(modifyButton, &QPushButton::clicked, page, [=]() mutable {
         if (!*clicked) {
-            // Abilita campi
             titleEdit->setReadOnly(false);
             authorEdit->setReadOnly(false);
             colourBox->setEnabled(true);
@@ -639,7 +616,6 @@ QWidget* InfoVisitor::visit(Photograph& p) {
             descrEdit->setReadOnly(false);
             *clicked = true;
         } else {
-            // Salva dati nell'oggetto Photograph
             photoPtr->setName(titleEdit->text().toStdString());
             photoPtr->setAuthor(authorEdit->text().toStdString());
             photoPtr->setIsColourful(colourBox->isChecked());
@@ -652,7 +628,6 @@ QWidget* InfoVisitor::visit(Photograph& p) {
             photoPtr->setStars(starsEdit->value());
             photoPtr->setDescription(descrEdit->toPlainText().toStdString());
 
-            // Blocca campi
             titleEdit->setReadOnly(true);
             authorEdit->setReadOnly(true);
             colourBox->setEnabled(false);
