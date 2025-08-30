@@ -1,6 +1,7 @@
 #include "Sources/GUI/mainwindow.h"
 #include "Sources/Data/JSON/jsonreader.h"
 #include <QHBoxLayout>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryModel(this)), proxymodel(new LibraryFilterProxyModel(this)){
     setWindowTitle("Digital Library");
@@ -67,9 +68,18 @@ void MainWindow::setupUI(){
     QWidget* buttonWidget = new QWidget(this);
     buttonWidget->setLayout(buttonLayout);
 
+    searchBar = new QLineEdit(this);
+    searchBar->setPlaceholderText("Search by name...");
+
+    QVBoxLayout* listLayout = new QVBoxLayout;
+    listLayout->addWidget(searchBar);
+    listLayout->addWidget(listView);
+    QWidget* listWidget = new QWidget(this);
+    listWidget->setLayout(listLayout);
+
     QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->addWidget(buttonWidget);
-    mainLayout->addWidget(listView);
+    mainLayout->addWidget(listWidget);
 
     mainPage = new QWidget;
     mainPage->setLayout(mainLayout);
@@ -88,6 +98,9 @@ void MainWindow::setupUI(){
     connect(btnMusic, &QPushButton::clicked, this, &MainWindow::filterMusic);
     connect(btnVideogame, &QPushButton::clicked, this, &MainWindow::filterVideogames);
     connect(btnPhotograph, &QPushButton::clicked, this, &MainWindow::filterPhotograph);
+
+
+    connect(searchBar, &QLineEdit::textChanged, proxymodel, &LibraryFilterProxyModel::setSearchFilter);
 }
 
 void MainWindow::loadProducts(){

@@ -5,21 +5,41 @@
 LibraryFilterProxyModel::LibraryFilterProxyModel(QObject* parent) : QSortFilterProxyModel(parent) {}
 
 bool LibraryFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const {
-    if (filterType == "All" || filterType.isEmpty()){
-        return true;
-    }
+
     QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
     QVariant var = sourceModel()->data(idx, Qt::UserRole);
     Product* p = reinterpret_cast<Product*>(var.value<void*>());
     if (!p) {
         return false;
     }
-    TypeVisitor visitor;
-    p->accept(visitor);
-    return visitor.getType() == filterType;
+
+    //Filtro per classe
+    if (filterType != "All" && !filterType.isEmpty()) {
+        TypeVisitor visitor;
+        p->accept(visitor);
+        if (visitor.getType() != filterType) {
+            return false;
+        }
+    }
+
+    //Filtro per nome (searchbar)
+    if (!searchFilter.isEmpty()) {
+        QString name = QString::fromStdString(p->getName());
+        if (!name.contains(searchFilter, Qt::CaseInsensitive)) {
+            return false;
+        }
+    }
+
+    return true;
 }
+
 
 void LibraryFilterProxyModel::setFilter(const QString& type){
     filterType = type;
+    invalidateFilter();
+}
+
+void LibraryFilterProxyModel::setSearchFilter(const QString& text){
+    searchFilter = text;
     invalidateFilter();
 }

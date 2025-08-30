@@ -19,6 +19,7 @@ private:
     QStackedWidget* stackedWidget;
     QWidget* mainPage;
     QWidget* infoPage;
+    QLineEdit* searchBar;
 
     QPushButton* btnAll;
     QPushButton* btnBook;

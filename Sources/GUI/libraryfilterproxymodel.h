@@ -7,6 +7,7 @@ class LibraryFilterProxyModel : public QSortFilterProxyModel {
 
 private:
     QString filterType = "All";
+    QString searchFilter;
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
@@ -14,6 +15,7 @@ protected:
 public:
     explicit LibraryFilterProxyModel(QObject* parent = nullptr);
     void setFilter(const QString& type);
+    void setSearchFilter(const QString& text);
 };
 
 #endif // LIBRARYFILTERPROXYMODEL_H
