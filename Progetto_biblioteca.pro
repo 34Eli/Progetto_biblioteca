@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Sources/GUI/infovisitor.cpp \
     Sources/GUI/libraryfilterproxymodel.cpp \
     Sources/GUI/librarymodel.cpp \
     Sources/GUI/mainwindow.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
     Sources/Model/visitor.cpp \
 
 HEADERS += \
+    Sources/GUI/infovisitor.h \
     Sources/GUI/libraryfilterproxymodel.h \
     Sources/GUI/librarymodel.h \
     Sources/GUI/mainwindow.h \

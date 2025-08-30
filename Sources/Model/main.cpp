@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
 }
 
 
-
 /*#include <QCoreApplication>
 #include <QDebug>
 #include "json\jsonreader.h"
