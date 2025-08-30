@@ -1,6 +1,8 @@
 #include "librarymodel.h"
 #include <QString>
 #include <QPixmap>
+#include <QCoreApplication>
+#include <QDir>
 
 LibraryModel::LibraryModel(QObject* parent) : QAbstractTableModel(parent) {}
 
@@ -23,7 +25,13 @@ QVariant LibraryModel::data(const QModelIndex& index, int role) const {
     }
 
     if (role == Qt::DecorationRole) {
-        QPixmap pix(QString::fromStdString(p->getImage()));
+
+        QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
+        QString image = QString::fromStdString(p->getImage());
+        QString fullPath = QDir(path).filePath(image);
+
+        QPixmap pix(fullPath);
+
         if (pix.isNull()) {
             qDebug() << "Failed to load image from path:" << QString::fromStdString(p->getImage());
         }

@@ -84,8 +84,8 @@ QList<Product*> JsonReader::readAll(const string& filename){   //restituisce una
     QFile file(QString::fromStdString(filename));
 
     //per test
-    QString filePath = QString::fromStdString(filename);
-    qDebug() << "[DEBUG] Path file richiesto:" << QFileInfo(filePath).absoluteFilePath();
+    //QString filePath = QString::fromStdString(filename);
+    //qDebug() << "[DEBUG] Path file richiesto:" << QFileInfo(filePath).absoluteFilePath();
     //per test
 
     if (!file.open(QIODevice::ReadOnly)){

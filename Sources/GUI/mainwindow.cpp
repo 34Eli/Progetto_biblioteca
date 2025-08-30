@@ -1,5 +1,6 @@
 #include "Sources/GUI/mainwindow.h"
 #include "Sources/Data/JSON/jsonreader.h"
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
 
@@ -105,7 +106,7 @@ void MainWindow::setupUI(){
 
 void MainWindow::loadProducts(){
     JsonReader reader;
-    QList<Product*> productList = reader.readAll("C://Users//39346//OneDrive//Desktop//Progetto_biblioteca//Progetto_biblioteca//Sources//Data//JSON//library.json");
+    QList<Product*> productList = reader.readAll((QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json").toStdString());
     model->setProducts(productList);
 }
 
