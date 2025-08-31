@@ -266,7 +266,6 @@ QWidget* InfoVisitor::visit(Videogame& v) {
     });
 
     page->setLayout(layout);
-    return page;
 }
 
 //Metodo visit per Music
@@ -520,7 +519,6 @@ QWidget* InfoVisitor::visit(Book& b) {
     });
 
     page->setLayout(layout);
-    return page;
 }
 
 //Metodo visit per Photograph

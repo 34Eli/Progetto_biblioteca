@@ -1,30 +1,27 @@
 #ifndef INFOVISITOR_H
 #define INFOVISITOR_H
 
+#include "Sources/Model/visitor.h"
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QLabel>
 
-//dichiaro nomi classi
-class Film;
-class Book;
-class Music;
-class Videogame;
-class Photograph;
-
-class InfoVisitor {
+class InfoVisitor : public Visitor {
 public:
-    //costruttore di default
     InfoVisitor() = default;
+    ~InfoVisitor() override = default;
 
-    //dichiarazione dei metodi visit
-    QWidget* visit(Film& f);
-    QWidget* visit(Videogame& v);
-    QWidget* visit(Music& m);
-    QWidget* visit(Book& b);
-    QWidget* visit(Photograph& p);
+    // Ridefinizione dei metodi visit
+    void visitFilm(Film& f) override;
+    void visitBook(Book& b) override;
+    void visitMusic(Music& m) override;
+    void visitPhotograph(Photograph& p) override;
+    void visitVideogame(Videogame& v) override;
 
-    //distruttore di default
-    ~InfoVisitor() = default;
+    QWidget* getWidget() const { return widget; }
+
+private:
+    QWidget* widget = nullptr;  // contiene il layout creato durante la visita
 };
 
-#endif
-
+#endif // INFOVISITOR_H
