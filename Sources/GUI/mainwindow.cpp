@@ -1,5 +1,6 @@
 #include "Sources/GUI/mainwindow.h"
 #include "Sources/Data/JSON/jsonreader.h"
+#include "Sources/GUI/infovisitor.h"
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
@@ -102,6 +103,8 @@ void MainWindow::setupUI(){
 
 
     connect(searchBar, &QLineEdit::textChanged, proxymodel, &LibraryFilterProxyModel::setSearchFilter);
+
+    connect(listView, &QListView::clicked, this, &MainWindow::showProductDetails);
 }
 
 void MainWindow::loadProducts(){
@@ -109,6 +112,33 @@ void MainWindow::loadProducts(){
     QList<Product*> productList = reader.readAll((QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json").toStdString());
     model->setProducts(productList);
 }
+
+void MainWindow::showProductDetails(const QModelIndex& index) {
+    QModelIndex sourceIndex = proxymodel->mapToSource(index);
+    QVariant var = model->data(sourceIndex, Qt::UserRole);
+
+    Product* p = reinterpret_cast<Product*>(var.value<void*>());
+    if (!p)
+        return;
+
+    InfoVisitor visitor;
+    p->accept(visitor);
+    QWidget* productWidget = visitor.getWidget();
+
+    delete infoPage->layout();
+    QVBoxLayout* layout = new QVBoxLayout(infoPage);
+
+    layout->addWidget(productWidget);
+
+    QPushButton* backButton = new QPushButton("Indietro");
+    layout->addWidget(backButton);
+    connect(backButton, &QPushButton::clicked, this, [this]() {
+        stackedWidget->setCurrentWidget(mainPage);
+    });
+
+    stackedWidget->setCurrentWidget(infoPage);
+}
+
 
 
 

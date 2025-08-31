@@ -41,5 +41,6 @@ public:
     ~MainWindow();
     void setupUI();
     void loadProducts();
+    void showProductDetails(const QModelIndex& index);
 };
 #endif // MAINWINDOW_H

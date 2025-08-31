@@ -7,21 +7,25 @@
 #include <QLabel>
 
 class InfoVisitor : public Visitor {
-public:
-    InfoVisitor() = default;
-    ~InfoVisitor() override = default;
 
-    // Ridefinizione dei metodi visit
-    void visitFilm(Film& f) override;
-    void visitBook(Book& b) override;
-    void visitMusic(Music& m) override;
-    void visitPhotograph(Photograph& p) override;
-    void visitVideogame(Videogame& v) override;
+    private:
+        QWidget* widget = nullptr;
 
-    QWidget* getWidget() const { return widget; }
+    public:
+        InfoVisitor() = default;
+        ~InfoVisitor() override = default;
 
-private:
-    QWidget* widget = nullptr;  // contiene il layout creato durante la visita
+        void visitFilm(Film& f) override;
+        void visitBook(Book& b) override;
+        void visitMusic(Music& m) override;
+        void visitPhotograph(Photograph& p) override;
+        void visitVideogame(Videogame& v) override;
+
+        QWidget* commonSetUp(Product& p);
+
+        QWidget* getWidget() const;
+
+
 };
 
 #endif // INFOVISITOR_H
