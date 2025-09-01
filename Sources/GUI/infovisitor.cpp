@@ -32,7 +32,7 @@ QWidget* InfoVisitor::commonSetUp(Product& p){
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(p.getName()));
     titleEdit->setReadOnly(true);
 
-    QLineEdit* descrEdit = new QLineEdit(QString::fromStdString(p.getDescription()));
+    QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(p.getDescription()));
     descrEdit->setReadOnly(true);
 
     QLineEdit* genreEdit = new QLineEdit(QString::fromStdString(p.getGenre()));
