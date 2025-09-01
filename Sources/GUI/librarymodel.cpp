@@ -56,10 +56,10 @@ void LibraryModel::setProducts(const QList<Product*>& product){
     endResetModel();
 }
 
-Product* LibraryModel::getProducts(int row) const{
+/*Product* LibraryModel::getProducts(int row) const{
     if (row >= 0 && row < products.size()){
         return products[row];
     } else {
         return nullptr;
     }
-}
+}*/

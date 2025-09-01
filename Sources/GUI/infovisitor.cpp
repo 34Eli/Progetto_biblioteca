@@ -15,6 +15,7 @@
 #include <QObject>
 #include <QString>
 #include <QCheckBox>
+#include <QFormLayout>
 
 //1.Implementare modify fuori dai visit
 //2.delete delle cose precedenti
@@ -25,7 +26,8 @@
 QWidget* InfoVisitor::commonSetUp(Product& p){
 
     QWidget* common = new QWidget;
-    QVBoxLayout* commonLayout = new QVBoxLayout(common);
+    //QVBoxLayout* commonLayout = new QVBoxLayout(common);
+    QFormLayout* commonLayout = new QFormLayout(common);
 
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(p.getName()));
     titleEdit->setReadOnly(true);
@@ -48,7 +50,7 @@ QWidget* InfoVisitor::commonSetUp(Product& p){
     QLineEdit* starsEdit = new QLineEdit(QString::number(p.getStars()));
     starsEdit->setReadOnly(true);
 
-    commonLayout->addWidget(new QLabel("Titolo:"));
+    /*commonLayout->addWidget(new QLabel("Titolo:"));
     commonLayout->addWidget(titleEdit);
     commonLayout->addWidget(new QLabel("Descrizione:"));
     commonLayout->addWidget(descrEdit);
@@ -61,7 +63,15 @@ QWidget* InfoVisitor::commonSetUp(Product& p){
     commonLayout->addWidget(new QLabel("Prezzo:"));
     commonLayout->addWidget(costEdit);
     commonLayout->addWidget(new QLabel("Valutazione stelle:"));
-    commonLayout->addWidget(starsEdit);
+    commonLayout->addWidget(starsEdit);*/
+
+    commonLayout->addRow("Titolo:", titleEdit);
+    commonLayout->addRow("Descrizione:", descrEdit);
+    commonLayout->addRow("Genere:", genreEdit);
+    commonLayout->addRow("Paese:", countryEdit);
+    commonLayout->addRow("Anno:", yearEdit);
+    commonLayout->addRow("Prezzo:", costEdit);
+    commonLayout->addRow("Valutazione stelle:", starsEdit);
 
     return common;
 }
