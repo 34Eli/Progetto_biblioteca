@@ -25,7 +25,7 @@
 QWidget* InfoVisitor::commonSetUp(Product& p){
 
     QWidget* common = new QWidget;
-    QVBoxLayout* commonLayout = new QVBoxLayout();
+    QVBoxLayout* commonLayout = new QVBoxLayout(common);
 
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(p.getName()));
     titleEdit->setReadOnly(true);
@@ -63,15 +63,16 @@ QWidget* InfoVisitor::commonSetUp(Product& p){
     commonLayout->addWidget(new QLabel("Valutazione stelle:"));
     commonLayout->addWidget(starsEdit);
 
-    common->setLayout(commonLayout);
     return common;
 }
 
 
 void InfoVisitor::visitFilm(Film& f) {
 
-    QWidget* filmPage = commonSetUp(f);
-    QVBoxLayout* filmLayout = new QVBoxLayout();
+    QWidget* filmPage = new QWidget;
+    QWidget* commonWidget = commonSetUp(f);
+    QVBoxLayout* filmLayout = new QVBoxLayout;
+    filmLayout->addWidget(commonWidget);
 
     QLineEdit* directorEdit = new QLineEdit(QString::fromStdString(f.getDirector()));
     directorEdit->setReadOnly(true);
@@ -79,14 +80,11 @@ void InfoVisitor::visitFilm(Film& f) {
     QLineEdit* actorEdit = new QLineEdit(QString::fromStdString(f.getActor()));
     actorEdit->setReadOnly(true);
 
-    QSpinBox* minutesEdit = new QSpinBox();
-    minutesEdit->setRange(1, 500);
-    minutesEdit->setValue(f.getMinutes());
-    minutesEdit->setEnabled(false);
+    QLineEdit* minutesEdit = new QLineEdit(QString::number(f.getMinutes()));
+    minutesEdit->setReadOnly(true);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(f.getCompany()));
     companyEdit->setReadOnly(true);
-
 
     //filmLayout->addWidget(new QLabel("FILM")); come fare per il titolo
     filmLayout->addWidget(new QLabel("Regista:"));
@@ -105,8 +103,10 @@ void InfoVisitor::visitFilm(Film& f) {
 
 void InfoVisitor::visitVideogame(Videogame& v) {
 
-    QWidget* videogamePage = commonSetUp(v);
-    QVBoxLayout* videogameLayout = new QVBoxLayout();
+    QWidget* videogamePage = new QWidget;
+    QWidget* commonWidget = commonSetUp(v);
+    QVBoxLayout* videogameLayout = new QVBoxLayout;
+    videogameLayout->addWidget(commonWidget);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(v.getCompany()));
     companyEdit->setReadOnly(true);
@@ -132,8 +132,10 @@ void InfoVisitor::visitVideogame(Videogame& v) {
 
 void InfoVisitor::visitMusic(Music& m) {
 
-    QWidget* musicPage = commonSetUp(m);
-    QVBoxLayout* musicLayout = new QVBoxLayout();
+    QWidget* musicPage = new QWidget;
+    QWidget* commonWidget = commonSetUp(m);
+    QVBoxLayout* musicLayout = new QVBoxLayout;
+    musicLayout->addWidget(commonWidget);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(m.getCompany()));
     companyEdit->setReadOnly(true);
@@ -144,10 +146,8 @@ void InfoVisitor::visitMusic(Music& m) {
     QLineEdit* albumEdit = new QLineEdit(QString::fromStdString(m.getAlbum()));
     albumEdit->setReadOnly(true);
 
-    QSpinBox* minutesEdit = new QSpinBox();
-    minutesEdit->setRange(0, 1000);
-    minutesEdit->setValue(m.getMinutes());
-    minutesEdit->setEnabled(false);
+    QLineEdit* minutesEdit = new QLineEdit(QString::number(m.getMinutes()));
+    minutesEdit->setReadOnly(true);
 
     //musicLayout->addWidget(new QLabel("MUSIC"));
     musicLayout->addWidget(new QLabel("Casa di produzione:"));
@@ -166,24 +166,22 @@ void InfoVisitor::visitMusic(Music& m) {
 
 void InfoVisitor::visitBook(Book& b) {
 
-    QWidget* bookPage = commonSetUp(b);
-    QVBoxLayout* bookLayout = new QVBoxLayout();
+    QWidget* bookPage = new QWidget;
+    QWidget* commonWidget = commonSetUp(b);
+    QVBoxLayout* bookLayout = new QVBoxLayout;
+    bookLayout->addWidget(commonWidget);
 
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(b.getAuthor()));
     authorEdit->setReadOnly(true);
 
-    QSpinBox* pagesEdit = new QSpinBox();
-    pagesEdit->setRange(1, 5000);
-    pagesEdit->setValue(b.getPages());
-    pagesEdit->setEnabled(false);
+    QLineEdit* pagesEdit = new QLineEdit(QString::number(b.getPages()));
+    pagesEdit->setReadOnly(true);
 
     QLineEdit* publisherEdit = new QLineEdit(QString::fromStdString(b.getPublisher()));
     publisherEdit->setReadOnly(true);
 
-    QSpinBox* isbnEdit = new QSpinBox();
-    isbnEdit->setRange(0, 999999999);
-    isbnEdit->setValue(b.getISBN());
-    isbnEdit->setEnabled(false);
+    QLineEdit* isbnEdit = new QLineEdit(QString::number(b.getISBN()));
+    isbnEdit->setReadOnly(true);
 
     //bookLayout->addWidget(new QLabel("BOOK"));
     bookLayout->addWidget(new QLabel("Autore:"));
@@ -197,13 +195,20 @@ void InfoVisitor::visitBook(Book& b) {
 
     bookPage->setLayout(bookLayout);
     widget = bookPage;
+
+    qDebug() << "Author:" << QString::fromStdString(b.getAuthor());
+    qDebug() << "Pages:" << b.getPages();
+    qDebug() << "Publisher:" << QString::fromStdString(b.getPublisher());
+    qDebug() << "ISBN:" << b.getISBN();
 }
 
 
 void InfoVisitor::visitPhotograph(Photograph& p) {
 
-    QWidget* photographPage = commonSetUp(p);
-    QVBoxLayout* photographLayout = new QVBoxLayout();
+    QWidget* photographPage = new QWidget;
+    QWidget* commonWidget = commonSetUp(p);
+    QVBoxLayout* photographLayout = new QVBoxLayout;
+    photographLayout->addWidget(commonWidget);
 
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(p.getAuthor()));
     authorEdit->setReadOnly(true);
@@ -212,26 +217,20 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     colourBox->setChecked(p.getIsColourful());
     colourBox->setEnabled(false);
 
-    QSpinBox* lengthEdit = new QSpinBox();
-    lengthEdit->setRange(0, 5000);
-    lengthEdit->setValue(p.getLength());
-    lengthEdit->setEnabled(false);
+    QLineEdit* lengthEdit = new QLineEdit(QString::number(p.getLength()));
+    lengthEdit->setReadOnly(true);
 
-    QSpinBox* widthEdit = new QSpinBox();
-    widthEdit->setRange(0, 5000);
-    widthEdit->setValue(p.getWidth());
-    widthEdit->setEnabled(false);
+    QLineEdit* widthEdit = new QLineEdit(QString::number(p.getWidth()));
+    widthEdit->setReadOnly(true);
 
     //photographLayout->addWidget(new QLabel("PHOTOGRAPH"));
     photographLayout->addWidget(new QLabel("Autore:"));
     photographLayout->addWidget(authorEdit);
-    photographLayout->addWidget(new QLabel("Colorata?"));
     photographLayout->addWidget(colourBox);
     photographLayout->addWidget(new QLabel("Lunghezza:"));
     photographLayout->addWidget(lengthEdit);
     photographLayout->addWidget(new QLabel("Larghezza:"));
     photographLayout->addWidget(widthEdit);
-    photographLayout->addWidget(new QLabel("Genere:"));
 
     photographPage->setLayout(photographLayout);
     widget = photographPage;

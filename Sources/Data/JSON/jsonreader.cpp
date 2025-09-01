@@ -60,20 +60,20 @@ Videogame* JsonReader::readVideogame(const QJsonObject& obj){
 
 Book* JsonReader::readBook(const QJsonObject& obj){
     ProductData prod = readProduct(obj);
-    DigitalData dig = readDigital(obj);
+    PhysicalData phy = readPhysical(obj);
     int pages = obj["pages"].toInt();
     QString publisher = obj["publisher"].toString();
     int ISBN = obj["ISBN"].toInt();
-    return new Book(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), pages, publisher.toStdString(), ISBN);
+    return new Book(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), phy.author.toStdString(), pages, publisher.toStdString(), ISBN);
 }
 
 Photograph* JsonReader::readPhotograph(const QJsonObject& obj){
     ProductData prod = readProduct(obj);
-    DigitalData dig = readDigital(obj);
+    PhysicalData phy = readPhysical(obj);
     bool isColourful = obj["isColourful"].toBool();
     int length = obj["length"].toInt();
     int width = obj["width"].toInt();
-    return new Photograph(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), isColourful, length, width);
+    return new Photograph(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), phy.author.toStdString(), isColourful, length, width);
 }
 
 

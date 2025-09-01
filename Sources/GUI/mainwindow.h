@@ -42,5 +42,6 @@ public:
     void setupUI();
     void loadProducts();
     void showProductDetails(const QModelIndex& index);
+    void clearLayout(QLayout* layout);
 };
 #endif // MAINWINDOW_H

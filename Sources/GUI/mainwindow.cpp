@@ -125,8 +125,14 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     p->accept(visitor);
     QWidget* productWidget = visitor.getWidget();
 
-    delete infoPage->layout();
-    QVBoxLayout* layout = new QVBoxLayout(infoPage);
+    //delete infoPage->layout();
+    //QVBoxLayout* layout = new QVBoxLayout(infoPage);
+    QLayout* layout = infoPage->layout();
+    if (!layout) {
+        layout = new QVBoxLayout(infoPage);
+    } else {
+        clearLayout(layout);
+    }
 
     layout->addWidget(productWidget);
 
@@ -139,6 +145,19 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     stackedWidget->setCurrentWidget(infoPage);
 }
 
+void MainWindow::clearLayout(QLayout* layout) {
+    if (!layout) return;
+
+    QLayoutItem* item;
+    while ((item = layout->takeAt(0)) != nullptr) {
+        if (QWidget* widget = item->widget()) {
+            widget->deleteLater();
+        } else if (QLayout* childLayout = item->layout()) {
+            clearLayout(childLayout);  // Ricorsione
+        }
+        delete item;
+    }
+}
 
 
 
