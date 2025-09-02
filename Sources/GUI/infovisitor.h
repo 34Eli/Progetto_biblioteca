@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QFormLayout>
 
 class InfoVisitor : public Visitor {
 
@@ -21,7 +22,7 @@ class InfoVisitor : public Visitor {
         void visitPhotograph(Photograph& p) override;
         void visitVideogame(Videogame& v) override;
 
-        QWidget* commonSetUp(Product& p);
+        QFormLayout* commonSetUp(Product& p);
 
         QWidget* getWidget() const;
 
