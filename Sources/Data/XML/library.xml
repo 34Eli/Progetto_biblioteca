@@ -8,6 +8,7 @@
          <year_of_publication>2021</year_of_publication>
          <cost>4</cost>
          <stars>4</stars>
+         <imagePath>dune.jpg</imagePath>
          <minutes>155</minutes>
          <company>Warner Bros</company>
          <director>Denis Villeneuve</director>
@@ -21,6 +22,7 @@
          <year_of_publication>2015</year_of_publication>
          <cost>3</cost>
          <stars>4</stars>
+         <imagePath>the_hateful_eight.jpg</imagePath>
          <minutes>167</minutes>
          <company>01 Distribution</company>
          <director>Quentin Tarantino</director>
@@ -35,6 +37,7 @@
          <cost>4</cost>
          <stars>4</stars>
          <minutes>144</minutes>
+         <imagePath>pirati_dei_caraibi.jpg</imagePath>
          <company>Disney</company>
          <director>Gore Verbinski</director>
          <mainActor>Johnny Depp</mainActor>
@@ -47,6 +50,7 @@
          <year_of_publication>2001</year_of_publication>
          <cost>5</cost>
          <stars>5</stars>
+         <imagePath>signore_degli_anelli.jpg</imagePath>
          <minutes>178</minutes>
          <company>New Line Cinema</company>
          <director>Peter Jackson</director>
@@ -60,6 +64,7 @@
          <year_of_publication>2022</year_of_publication>
          <cost>2</cost>
          <stars>4</stars>
+         <imagePath>jungle.jpg</imagePath>
          <minutes>3</minutes>
          <company>Fred Again</company>
          <singer>Fred Again</singer>
@@ -73,6 +78,7 @@
          <year_of_publication>1997</year_of_publication>
          <cost>2</cost>
          <stars>4</stars>
+         <imagePath>ocean_man.jpg</imagePath>
          <minutes>2</minutes>
          <company>Elektra</company>
          <singer>Ween</singer>
@@ -86,6 +92,7 @@
          <year_of_publication>1991</year_of_publication>
          <cost>2</cost>
          <stars>5</stars>
+         <imagePath>enter_sandman.jpg</imagePath>
          <minutes>5</minutes>
          <company>Vertigo</company>
          <singer>Metallica</singer>
@@ -99,6 +106,7 @@
          <year_of_publication>1988</year_of_publication>
          <cost>2</cost>
          <stars>4</stars>
+         <imagePath>bad_medicine.jpg</imagePath>
          <minutes>4</minutes>
          <company>Mercury</company>
          <singer>Bon Jovi</singer>
@@ -112,6 +120,7 @@
          <year_of_publication>2023</year_of_publication>
          <cost>15</cost>
          <stars>4</stars>
+         <imagePath>counter_strike_2.jpg</imagePath>
          <company>Valve Corporation</company>
          <platform>Steam</platform>
          <isMultiplayer>true</isMultiplayer>
@@ -124,6 +133,7 @@
          <year_of_publication>2011</year_of_publication>
          <cost>30</cost>
          <stars>4</stars>
+         <imagePath>minecraft.jpg</imagePath>
          <company>Mojang Studios</company>
          <platform>PC</platform>
          <isMultiplayer>true</isMultiplayer>
@@ -136,6 +146,7 @@
          <year_of_publication>2025</year_of_publication>
          <cost>50</cost>
          <stars>5</stars>
+         <imagePath>clair_obscur.jpg</imagePath>
          <company>Sandfall Interactive</company>
          <platform>Steam</platform>
          <isMultiplayer>false</isMultiplayer>
@@ -148,6 +159,7 @@
          <year_of_publication>2018</year_of_publication>
          <cost>60</cost>
          <stars>4</stars>
+         <imagePath>god_of_war.jpg</imagePath>
          <company>Santa Monica Studio</company>
          <platform>Steam</platform>
          <isMultiplayer>false</isMultiplayer>
@@ -160,6 +172,7 @@
          <year_of_publication>1967</year_of_publication>
          <cost>10</cost>
          <stars>4</stars>
+         <imagePath>il_maestro_e_la_margherita.jpg</imagePath>
          <author>Bulgakov</author>
          <pages>560</pages>
          <publisher>EKSMO</publisher>
@@ -173,6 +186,7 @@
          <year_of_publication>1968</year_of_publication>
          <cost>12</cost>
          <stars>4</stars>
+         <imagePath>L'opera_al_nero.jpg</imagePath>
          <author>Marguerite Yourcenar</author>
          <pages>301</pages>
          <publisher>Gallimard</publisher>
@@ -186,6 +200,7 @@
          <year_of_publication>2002</year_of_publication>
          <cost>12</cost>
          <stars>4</stars>
+         <imagePath>eragon.jpg</imagePath>
          <author>Christopher Paolini</author>
          <pages>600</pages>
          <publisher>Knopf Books for Young Readers</publisher>
@@ -199,6 +214,7 @@
          <year_of_publication>1957</year_of_publication>
          <cost>10</cost>
          <stars>5</stars>
+         <imagePath>il_barone_rampante.jpg</imagePath>
          <author>Italo Calvino</author>
          <pages>312</pages>
          <publisher>Einaudi</publisher>
@@ -212,6 +228,7 @@
          <year_of_publication>1984</year_of_publication>
          <cost>20</cost>
          <stars>4</stars>
+         <imagePath>afghan_girl.jpg</imagePath>
          <author>Steve Mccurry</author>
          <isColourful>true</isColourful>
          <length>21</length>
@@ -225,6 +242,7 @@
          <year_of_publication>1936</year_of_publication>
          <cost>15</cost>
          <stars>4</stars>
+         <imagePath>the_falling_soldier.jpg</imagePath>
          <author>Robert Capa</author>
          <isColourful>false</isColourful>
          <length>30</length>
@@ -238,6 +256,7 @@
          <year_of_publication>1986</year_of_publication>
          <cost>17</cost>
          <stars>4</stars>
+         <imagePath>serra_pelada.jpg</imagePath>
          <author>Sebastião Salgado</author>
          <isColourful>false</isColourful>
          <length>20</length>
@@ -251,6 +270,7 @@
          <year_of_publication>1936</year_of_publication>
          <cost>18</cost>
          <stars>4</stars>
+         <imagePath>migrant_mother.jpg</imagePath>
          <author>Dorothea Lange</author>
          <isColourful>false</isColourful>
          <length>10</length>
