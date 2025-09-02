@@ -13,6 +13,7 @@ SOURCES += \
     Sources/GUI/libraryfilterproxymodel.cpp \
     Sources/GUI/librarymodel.cpp \
     Sources/GUI/mainwindow.cpp \
+    Sources/GUI/menubar.cpp \
     Sources/GUI/typevisitor.cpp \
     Sources/Model/book.cpp \
     Sources/Model/digitalproduct.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     Sources/GUI/libraryfilterproxymodel.h \
     Sources/GUI/librarymodel.h \
     Sources/GUI/mainwindow.h \
+    Sources/GUI/menubar.h \
     Sources/GUI/typevisitor.h \
     Sources/Headers/book.h \
     Sources/Headers/digitalproduct.h \

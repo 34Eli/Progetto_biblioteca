@@ -35,9 +35,9 @@ private:
     };
 
     //restituiscono campi dati con gli attributi comuni delle classi concrete
-    ProductData readProduct(QXmlStreamReader &xml);
-    DigitalData readDigital(QXmlStreamReader &xml);
-    PhysicalData readPhysical(QXmlStreamReader &xml);
+    void readProduct(QXmlStreamReader &xml, ProductData& prod);
+    void readDigital(QXmlStreamReader &xml, DigitalData& dig);
+    void readPhysical(QXmlStreamReader &xml, PhysicalData& phy);
 
     //per creare gli oggetti delle varie classi concrete
     Film* readFilm(QXmlStreamReader &xml);

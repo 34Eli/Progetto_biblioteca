@@ -1,5 +1,6 @@
 #include "Sources/GUI/mainwindow.h"
-#include "Sources/Data/JSON/jsonreader.h"
+//#include "Sources/Data/JSON/jsonreader.h"
+#include "Sources/Data/XML/xmlreader.h"
 #include "Sources/GUI/infovisitor.h"
 #include <QApplication>
 #include <QHBoxLayout>
@@ -108,8 +109,11 @@ void MainWindow::setupUI(){
 }
 
 void MainWindow::loadProducts(){
-    JsonReader reader;
+    /*JsonReader reader;
     QList<Product*> productList = reader.readAll((QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json").toStdString());
+    model->setProducts(productList);*/
+    XmlReader reader;
+    QList<Product*> productList = reader.readAll(QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml");
     model->setProducts(productList);
 }
 
