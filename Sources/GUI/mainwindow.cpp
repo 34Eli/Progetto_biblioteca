@@ -147,7 +147,6 @@ void MainWindow::clearLayout(QLayout* layout) {
     if (!layout) {
         return;
     }
-
     QLayoutItem* item;
     while ((item = layout->takeAt(0)) != nullptr) {
         if (QWidget* widget = item->widget()) {

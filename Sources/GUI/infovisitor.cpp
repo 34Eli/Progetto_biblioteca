@@ -16,6 +16,8 @@
 #include <QString>
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QApplication>
+#include <QDir>
 
 //1.Implementare modify fuori dai visit
 //2.delete delle cose precedenti
@@ -32,6 +34,7 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
 
     QTextEdit* descrEdit = new QTextEdit(QString::fromStdString(p.getDescription()));
     descrEdit->setReadOnly(true);
+    descrEdit->setFixedHeight(80);
 
     QLineEdit* genreEdit = new QLineEdit(QString::fromStdString(p.getGenre()));
     genreEdit->setReadOnly(true);
@@ -63,6 +66,11 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
 void InfoVisitor::visitFilm(Film& f) {
 
     QWidget* filmPage = new QWidget;
+    QHBoxLayout* mainLayout = new QHBoxLayout(filmPage);
+
+    QWidget* imageWidget = createImageWidget(f);
+    mainLayout->addWidget(imageWidget);
+
     QFormLayout* filmLayout = commonSetUp(f);
 
     QLineEdit* directorEdit = new QLineEdit(QString::fromStdString(f.getDirector()));
@@ -82,7 +90,11 @@ void InfoVisitor::visitFilm(Film& f) {
     filmLayout->addRow("Durata (minuti):", minutesEdit);
     filmLayout->addRow("Casa di produzione:", companyEdit);
 
-    filmPage->setLayout(filmLayout);
+    QWidget* filmWidget = new QWidget();
+    filmWidget->setLayout(filmLayout);
+    mainLayout->addWidget(filmWidget);
+
+    filmPage->setLayout(mainLayout);
     widget = filmPage;
 }
 
@@ -90,6 +102,11 @@ void InfoVisitor::visitFilm(Film& f) {
 void InfoVisitor::visitVideogame(Videogame& v) {
 
     QWidget* videogamePage = new QWidget;
+    QHBoxLayout* mainLayout = new QHBoxLayout(videogamePage);
+
+    QWidget* imageWidget = createImageWidget(v);
+    mainLayout->addWidget(imageWidget);
+
     QFormLayout* videogameLayout = commonSetUp(v);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(v.getCompany()));
@@ -106,7 +123,11 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     videogameLayout->addRow("Piattaforma:", companyEdit);
     videogameLayout->addRow("Multiplayer", multiplayerBox);
 
-    videogamePage->setLayout(videogameLayout);
+    QWidget* videogameWidget = new QWidget();
+    videogameWidget->setLayout(videogameLayout);
+    mainLayout->addWidget(videogameWidget);
+
+    videogamePage->setLayout(mainLayout);
     widget = videogamePage;
 }
 
@@ -114,6 +135,11 @@ void InfoVisitor::visitVideogame(Videogame& v) {
 void InfoVisitor::visitMusic(Music& m) {
 
     QWidget* musicPage = new QWidget;
+    QHBoxLayout* mainLayout = new QHBoxLayout(musicPage);
+
+    QWidget* imageWidget = createImageWidget(m);
+    mainLayout->addWidget(imageWidget);
+
     QFormLayout* musicLayout = commonSetUp(m);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(m.getCompany()));
@@ -133,7 +159,11 @@ void InfoVisitor::visitMusic(Music& m) {
     musicLayout->addRow("Album:", albumEdit);
     musicLayout->addRow("Durata (minuti):", minutesEdit);
 
-    musicPage->setLayout(musicLayout);
+    QWidget* musicWidget = new QWidget();
+    musicWidget->setLayout(musicLayout);
+    mainLayout->addWidget(musicWidget);
+
+    musicPage->setLayout(mainLayout);
     widget = musicPage;
 }
 
@@ -141,6 +171,11 @@ void InfoVisitor::visitMusic(Music& m) {
 void InfoVisitor::visitBook(Book& b) {
 
     QWidget* bookPage = new QWidget;
+    QHBoxLayout* mainLayout = new QHBoxLayout(bookPage);
+
+    QWidget* imageWidget = createImageWidget(b);
+    mainLayout->addWidget(imageWidget);
+
     QFormLayout* bookLayout = commonSetUp(b);
 
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(b.getAuthor()));
@@ -160,7 +195,11 @@ void InfoVisitor::visitBook(Book& b) {
     bookLayout->addRow("Editore:", publisherEdit);
     bookLayout->addRow("ISBN:", isbnEdit);
 
-    bookPage->setLayout(bookLayout);
+    QWidget* bookWidget = new QWidget();
+    bookWidget->setLayout(bookLayout);
+    mainLayout->addWidget(bookWidget);
+
+    bookPage->setLayout(mainLayout);
     widget = bookPage;
 }
 
@@ -168,6 +207,11 @@ void InfoVisitor::visitBook(Book& b) {
 void InfoVisitor::visitPhotograph(Photograph& p) {
 
     QWidget* photographPage = new QWidget;
+    QHBoxLayout* mainLayout = new QHBoxLayout(photographPage);
+
+    QWidget* imageWidget = createImageWidget(p);
+    mainLayout->addWidget(imageWidget);
+
     QFormLayout* photographLayout = commonSetUp(p);
 
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(p.getAuthor()));
@@ -188,8 +232,30 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     photographLayout->addRow("Lunghezza:", lengthEdit);
     photographLayout->addRow("Larghezza:", widthEdit);
 
-    photographPage->setLayout(photographLayout);
+    QWidget* photographWidget = new QWidget();
+    photographWidget->setLayout(photographLayout);
+    mainLayout->addWidget(photographWidget);
+
+    photographPage->setLayout(mainLayout);
     widget = photographPage;
+}
+
+QWidget* InfoVisitor::createImageWidget(Product& p){
+
+    QLabel* imageLabel = new QLabel();
+    QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
+    QString image = QString::fromStdString(p.getImage());
+    QString fullPath = QDir(path).filePath(image);
+
+    QPixmap pix(fullPath);
+
+    if (!pix.isNull()) {
+        imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    } else {
+        imageLabel->setText("Nessuna immagine");
+        imageLabel->setAlignment(Qt::AlignCenter);
+    }
+    return imageLabel;
 }
 
 QWidget* InfoVisitor::getWidget() const {

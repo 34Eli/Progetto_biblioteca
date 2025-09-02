@@ -26,6 +26,7 @@ class InfoVisitor : public Visitor {
 
         QWidget* getWidget() const;
 
+        QWidget* createImageWidget(Product& p);
 
 };
 
