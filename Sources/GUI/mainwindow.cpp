@@ -1,7 +1,8 @@
 #include "Sources/GUI/mainwindow.h"
-//#include "Sources/Data/JSON/jsonreader.h"
+#include "Sources/Data/JSON/jsonreader.h"
 #include "Sources/Data/XML/xmlreader.h"
 #include "Sources/GUI/infovisitor.h"
+#include "Sources/GUI/menubar.h"
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
@@ -9,9 +10,15 @@
 MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryModel(this)), proxymodel(new LibraryFilterProxyModel(this)){
     setWindowTitle("Digital Library");
     setupUI();
-    loadProducts();
+
     proxymodel->setSourceModel(model);
     listView->setModel(proxymodel);
+
+    MenuBar* bar = new MenuBar(this);
+    setMenuBar(bar);
+
+    connect(bar, &MenuBar::loadJsonSignal, this, &MainWindow::loadFromJson);
+    connect(bar, &MenuBar::loadXmlSignal, this, &MainWindow::loadFromXml);
 }
 
 MainWindow::~MainWindow() {}
@@ -108,10 +115,13 @@ void MainWindow::setupUI(){
     connect(listView, &QListView::clicked, this, &MainWindow::showProductDetails);
 }
 
-void MainWindow::loadProducts(){
-    /*JsonReader reader;
+void MainWindow::loadFromJson(){
+    JsonReader reader;
     QList<Product*> productList = reader.readAll((QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json").toStdString());
-    model->setProducts(productList);*/
+    model->setProducts(productList);
+}
+
+void MainWindow::loadFromXml(){
     XmlReader reader;
     QList<Product*> productList = reader.readAll(QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml");
     model->setProducts(productList);

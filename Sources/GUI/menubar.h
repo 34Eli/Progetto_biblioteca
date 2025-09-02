@@ -2,15 +2,20 @@
 #define MENUBAR_H
 
 #include <QObject>
+#include <QMenuBar>
 
-class MenuBar : public QObject {
+class MenuBar : public QMenuBar {
     Q_OBJECT
 
 private:
+    void setUpMenu(); //su private perchè la chiamo nel costruttore
 
+signals:
+    void loadJsonSignal();
+    void loadXmlSignal();
 
 public:
-    MenuBar();
+    explicit MenuBar(QWidget* parent = nullptr);
 };
 
 #endif // MENUBAR_H

@@ -40,7 +40,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void setupUI();
-    void loadProducts();
+    void loadFromJson();
+    void loadFromXml();
     void showProductDetails(const QModelIndex& index);
     void clearLayout(QLayout* layout);
 };
