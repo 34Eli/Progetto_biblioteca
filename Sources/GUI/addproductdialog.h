@@ -25,7 +25,7 @@ private:
 
 private slots:
     void on_addProduct_clicked();
-    void on_typeComboBox_currentIndexChanged(const QString& type);
+    void updateUIForProductType(const QString& type);
 
 public:
     explicit AddProductDialog(QWidget* parent = nullptr);
