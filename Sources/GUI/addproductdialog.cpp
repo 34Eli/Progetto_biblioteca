@@ -9,35 +9,34 @@ AddProductDialog::AddProductDialog(QWidget* parent)
 }
 
 AddProductDialog::~AddProductDialog() {
-    // Non distruggiamo newProduct qui: sarà gestito dal chiamante
 }
 
 void AddProductDialog::setupUI() {
     setWindowTitle("Add New Product");
     resize(400, 200);
 
-    // Layout principale
+    //Layout principale
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    // Campo nome
+    //Campo nome
     nameInput = new QLineEdit(this);
     nameInput->setPlaceholderText("Enter product name...");
     mainLayout->addWidget(new QLabel("Name:"));
     mainLayout->addWidget(nameInput);
 
-    // ComboBox per selezionare tipo
+    //ComboBox per selezionare tipo
     QComboBox* typeComboBox = new QComboBox(this);
-    typeComboBox->addItems({"Book", "Film", "Music", "Videogame", "Photograph"});
+    typeComboBox->addItems({"-- Select a product type --","Book", "Film", "Music", "Videogame", "Photograph"});
     mainLayout->addWidget(new QLabel("Type:"));
     mainLayout->addWidget(typeComboBox);
 
-    // Bottone di conferma
+    //Bottone di conferma
     addButton = new QPushButton("Add Product", this);
     mainLayout->addWidget(addButton);
 
-    // Connessioni
+    //Connessioni
     connect(addButton, &QPushButton::clicked, this, &AddProductDialog::on_addProduct_clicked);
-    connect(typeComboBox, &QComboBox::currentTextChanged, this, &AddProductDialog::on_typeComboBox_currentIndexChanged);
+    connect(typeComboBox, &QComboBox::currentTextChanged, this, &AddProductDialog::updateUIForProductType);
 }
 
 void AddProductDialog::on_addProduct_clicked() {
@@ -52,16 +51,18 @@ void AddProductDialog::on_addProduct_clicked() {
         return;
     }
 
-    // Imposta il nome scelto dall'utente nell'oggetto
     newProduct->setName(name.toStdString());
 
-    accept(); // chiude la finestra con QDialog::Accepted
+    accept();
 }
 
-void AddProductDialog::on_typeComboBox_currentIndexChanged(const QString& type) {
-    if (newProduct) {
-        delete newProduct;
-        newProduct = nullptr;
+void AddProductDialog::updateUIForProductType(const QString& type) {
+    if (type == "-- Select a product type --") {
+        if (newProduct) {
+            delete newProduct;
+            newProduct = nullptr;
+        }
+        return;
     }
 
     if (type == "Book") {
@@ -73,8 +74,6 @@ void AddProductDialog::on_typeComboBox_currentIndexChanged(const QString& type) 
     } else if (type == "Videogame") {
         newProduct = new Videogame("", "", "", "", 0, 0, 0, "", "", "", 0);
     } else if (type == "Photograph") {
-        // CORREZIONE QUI:
-        // Passa valori interi (ad esempio 0) per length e width
         newProduct = new Photograph("", "", "", "", 0, 0, 0, "", "", false, 0, 0);
     }
 }
