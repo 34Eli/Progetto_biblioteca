@@ -56,6 +56,17 @@ void LibraryModel::setProducts(const QList<Product*>& product){
     endResetModel();
 }
 
+void LibraryModel::addProduct(Product* newProduct) {
+    if (!newProduct) {
+        return;
+    }
+
+    int newRow = products.size();
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    products.append(newProduct);
+    endInsertRows();
+}
+
 /*Product* LibraryModel::getProducts(int row) const{
     if (row >= 0 && row < products.size()){
         return products[row];

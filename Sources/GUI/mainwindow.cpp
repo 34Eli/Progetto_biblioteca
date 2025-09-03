@@ -3,6 +3,7 @@
 #include "Sources/Data/XML/xmlreader.h"
 #include "Sources/GUI/infovisitor.h"
 #include "Sources/GUI/menubar.h"
+#include "Sources/GUI/addproductdialog.h"
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryM
 
     connect(bar, &MenuBar::loadJsonSignal, this, &MainWindow::loadFromJson);
     connect(bar, &MenuBar::loadXmlSignal, this, &MainWindow::loadFromXml);
+    connect(bar, &MenuBar::addProductSignal, this, &MainWindow::openAddProductDialog);
 }
 
 MainWindow::~MainWindow() {}
@@ -172,5 +174,15 @@ void MainWindow::clearLayout(QLayout* layout) {
     }
 }
 
-
+void MainWindow::openAddProductDialog() {
+    AddProductDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        Product* newProduct = dialog.getNewProduct();
+        if (newProduct) {
+            if (model) {
+                model->addProduct(newProduct);
+            }
+        }
+    }
+}
 

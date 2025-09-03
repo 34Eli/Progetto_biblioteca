@@ -13,6 +13,7 @@ private:
 signals:
     void loadJsonSignal();
     void loadXmlSignal();
+    void addProductSignal();
 
 public:
     explicit MenuBar(QWidget* parent = nullptr);

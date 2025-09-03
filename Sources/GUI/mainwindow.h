@@ -6,7 +6,9 @@
 #include <QPushButton>
 #include "Sources/GUI/librarymodel.h"
 #include "Sources/GUI/libraryfilterproxymodel.h"
+#include "addproductdialog.h"
 #include <QStackedWidget>
+#include "menubar.h"
 
 class MainWindow : public QMainWindow
 {
@@ -35,6 +37,7 @@ private slots:
     void filterMusic();
     void filterVideogames();
     void filterPhotograph();
+    void openAddProductDialog();
 
 public:
     MainWindow(QWidget *parent = nullptr);

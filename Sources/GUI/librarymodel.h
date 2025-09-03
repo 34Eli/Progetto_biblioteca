@@ -1,6 +1,7 @@
 #ifndef LIBRARYMODEL_H
 #define LIBRARYMODEL_H
 #include <QAbstractTableModel>
+#include <QList>
 #include "Sources/Headers/product.h"
 
 
@@ -19,6 +20,8 @@ class LibraryModel : public QAbstractTableModel {
 
         void setProducts(const QList<Product*>& product);
         Product* getProducts(int row) const;
+
+        void addProduct(Product* newProduct);
 };
 
 #endif // LIBRARYMODEL_H
