@@ -1,4 +1,4 @@
-#include "Sources/GUI/mainwindow.h"
+#include "mainwindow.h"
 #include "Sources/Data/JSON/jsonreader.h"
 #include "Sources/Data/XML/xmlreader.h"
 #include "Sources/GUI/infovisitor.h"
@@ -137,9 +137,9 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     if (!p)
         return;
 
-    InfoVisitor visitor;
-    p->accept(visitor);
-    QWidget* productWidget = visitor.getWidget();
+    InfoVisitor* visitor = new InfoVisitor(this);
+    p->accept(*visitor);
+    QWidget* productWidget = visitor->getWidget();
 
     QLayout* layout = infoPage->layout();
     if (!layout) {
@@ -150,9 +150,13 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
 
     layout->addWidget(productWidget);
 
-    QPushButton* backButton = new QPushButton("Indietro");
+    /*QPushButton* backButton = new QPushButton("Indietro");
     layout->addWidget(backButton);
     connect(backButton, &QPushButton::clicked, this, [this]() {
+        stackedWidget->setCurrentWidget(mainPage);
+    });*/
+
+    connect(visitor, &InfoVisitor::backSignal, this, [this](){
         stackedWidget->setCurrentWidget(mainPage);
     });
 

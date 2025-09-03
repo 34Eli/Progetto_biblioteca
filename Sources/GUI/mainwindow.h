@@ -6,12 +6,9 @@
 #include <QPushButton>
 #include "Sources/GUI/librarymodel.h"
 #include "Sources/GUI/libraryfilterproxymodel.h"
-#include "addproductdialog.h"
 #include <QStackedWidget>
-#include "menubar.h"
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:

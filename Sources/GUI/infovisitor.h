@@ -6,14 +6,22 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QFormLayout>
+#include <QLineEdit>
+#include <QObject>
 
-class InfoVisitor : public Visitor {
+class InfoVisitor : public QObject, public Visitor{
+    Q_OBJECT
 
     private:
         QWidget* widget = nullptr;
+        QList<QWidget*> editableFields;
+
+    signals:
+        void backSignal();
+        void modifiedSignal();
 
     public:
-        InfoVisitor() = default;
+        explicit InfoVisitor(QObject* parent = nullptr);
         ~InfoVisitor() override = default;
 
         void visitFilm(Film& f) override;
@@ -27,6 +35,8 @@ class InfoVisitor : public Visitor {
         QWidget* getWidget() const;
 
         QWidget* createImageWidget(Product& p);
+        QWidget* createButtonWidget();
+        void enableEdit();
 
 };
 

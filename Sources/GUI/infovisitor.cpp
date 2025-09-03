@@ -5,6 +5,7 @@
 #include "Sources/Headers/videogame.h"
 #include "Sources/Headers/photograph.h"
 
+
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -18,12 +19,15 @@
 #include <QFormLayout>
 #include <QApplication>
 #include <QDir>
+#include <QPushButton>
 
 //1.Implementare modify fuori dai visit
 //2.delete delle cose precedenti
 //3.save e salvare nel json
 //4.rendere spin, line
 //5.creare un nuovo metodo per gli attributi in comune (product)
+
+InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {}
 
 QFormLayout* InfoVisitor::commonSetUp(Product& p){
 
@@ -51,6 +55,14 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
     QLineEdit* starsEdit = new QLineEdit(QString::number(p.getStars()));
     starsEdit->setReadOnly(true);
 
+    editableFields.append(titleEdit);
+    editableFields.append(descrEdit);
+    editableFields.append(genreEdit);
+    editableFields.append(countryEdit);
+    editableFields.append(yearEdit);
+    editableFields.append(costEdit);
+    editableFields.append(starsEdit);
+
     commonLayout->addRow("Titolo:", titleEdit);
     commonLayout->addRow("Descrizione:", descrEdit);
     commonLayout->addRow("Genere:", genreEdit);
@@ -66,7 +78,7 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
 void InfoVisitor::visitFilm(Film& f) {
 
     QWidget* filmPage = new QWidget;
-    QHBoxLayout* mainLayout = new QHBoxLayout(filmPage);
+    QHBoxLayout* mainLayout = new QHBoxLayout();
 
     QWidget* imageWidget = createImageWidget(f);
     mainLayout->addWidget(imageWidget);
@@ -85,6 +97,11 @@ void InfoVisitor::visitFilm(Film& f) {
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(f.getCompany()));
     companyEdit->setReadOnly(true);
 
+    editableFields.append(directorEdit);
+    editableFields.append(actorEdit);
+    editableFields.append(minutesEdit);
+    editableFields.append(companyEdit);
+
     filmLayout->addRow("Regista:", directorEdit);
     filmLayout->addRow("Attore principale:", actorEdit);
     filmLayout->addRow("Durata (minuti):", minutesEdit);
@@ -94,7 +111,11 @@ void InfoVisitor::visitFilm(Film& f) {
     filmWidget->setLayout(filmLayout);
     mainLayout->addWidget(filmWidget);
 
-    filmPage->setLayout(mainLayout);
+    QVBoxLayout* finalLayout = new QVBoxLayout();
+    finalLayout->addLayout(mainLayout);
+    finalLayout->addWidget(createButtonWidget());
+
+    filmPage->setLayout(finalLayout);
     widget = filmPage;
 }
 
@@ -118,6 +139,10 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     QCheckBox* multiplayerBox = new QCheckBox("Multiplayer");
     multiplayerBox->setChecked(v.getIsMultiplayer());
     multiplayerBox->setEnabled(false);
+
+    editableFields.append(companyEdit);
+    editableFields.append(platformEdit);
+    editableFields.append(multiplayerBox);
 
     videogameLayout->addRow("Casa di produzione:", companyEdit);
     videogameLayout->addRow("Piattaforma:", companyEdit);
@@ -154,6 +179,11 @@ void InfoVisitor::visitMusic(Music& m) {
     QLineEdit* minutesEdit = new QLineEdit(QString::number(m.getMinutes()));
     minutesEdit->setReadOnly(true);
 
+    editableFields.append(companyEdit);
+    editableFields.append(singerEdit);
+    editableFields.append(albumEdit);
+    editableFields.append(minutesEdit);
+
     musicLayout->addRow("Casa di produzione:", companyEdit);
     musicLayout->addRow("Cantante:", singerEdit);
     musicLayout->addRow("Album:", albumEdit);
@@ -189,6 +219,11 @@ void InfoVisitor::visitBook(Book& b) {
 
     QLineEdit* isbnEdit = new QLineEdit(QString::number(b.getISBN()));
     isbnEdit->setReadOnly(true);
+
+    editableFields.append(authorEdit);
+    editableFields.append(pagesEdit);
+    editableFields.append(publisherEdit);
+    editableFields.append(isbnEdit);
 
     bookLayout->addRow("Autore:", authorEdit);
     bookLayout->addRow("Pagine:", pagesEdit);
@@ -227,6 +262,11 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     QLineEdit* widthEdit = new QLineEdit(QString::number(p.getWidth()));
     widthEdit->setReadOnly(true);
 
+    editableFields.append(authorEdit);
+    editableFields.append(colourBox);
+    editableFields.append(lengthEdit);
+    editableFields.append(widthEdit);
+
     photographLayout->addRow("Autore:", authorEdit);
     photographLayout->addRow("Colorata?", colourBox);
     photographLayout->addRow("Lunghezza:", lengthEdit);
@@ -256,6 +296,39 @@ QWidget* InfoVisitor::createImageWidget(Product& p){
         imageLabel->setAlignment(Qt::AlignCenter);
     }
     return imageLabel;
+}
+
+QWidget* InfoVisitor::createButtonWidget(){
+    QWidget* buttonWidget = new QWidget();
+    QHBoxLayout* buttonLayout = new QHBoxLayout(buttonWidget);
+
+    QPushButton* backButton = new QPushButton("Back");
+    //QPushButton* modifyButton = new QPushButton("Modify");
+    //QPushButton* saveButton = new QPushButton("Save");
+
+    buttonLayout->addWidget(backButton);
+    //buttonLayout->addWidget(modifyButton);
+    //buttonLayout->addWidget(saveButton);
+
+    //QObject::connect(modifyButton, &QPushButton::clicked, this, &InfoVisitor::enableEdit);
+    QObject::connect(backButton, &QPushButton::clicked, this, &InfoVisitor::backSignal);
+
+    return buttonWidget;
+}
+
+void InfoVisitor::enableEdit(){
+
+    for (auto e : editableFields){
+        if (auto* lineEdit = qobject_cast<QLineEdit*>(e)) {
+            lineEdit->setReadOnly(false);
+        } else if (auto* textEdit = qobject_cast<QTextEdit*>(e)){
+            textEdit->setReadOnly(false);
+        } else if (auto* checkBox = qobject_cast<QCheckBox*>(e)){
+            checkBox->setEnabled(true);
+        } else {
+            qDebug() << "Type not valid";
+        }
+    }
 }
 
 QWidget* InfoVisitor::getWidget() const {
