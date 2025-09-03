@@ -44,5 +44,6 @@ public:
     void loadFromXml();
     void showProductDetails(const QModelIndex& index);
     void clearLayout(QLayout* layout);
+    //void saveProducts();
 };
 #endif // MAINWINDOW_H

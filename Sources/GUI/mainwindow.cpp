@@ -150,15 +150,11 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
 
     layout->addWidget(productWidget);
 
-    /*QPushButton* backButton = new QPushButton("Indietro");
-    layout->addWidget(backButton);
-    connect(backButton, &QPushButton::clicked, this, [this]() {
-        stackedWidget->setCurrentWidget(mainPage);
-    });*/
-
     connect(visitor, &InfoVisitor::backSignal, this, [this](){
         stackedWidget->setCurrentWidget(mainPage);
     });
+
+    //connect(visitor, &InfoVisitor::modifiedSignal, this, &MainWindow::saveProducts);
 
     stackedWidget->setCurrentWidget(infoPage);
 }

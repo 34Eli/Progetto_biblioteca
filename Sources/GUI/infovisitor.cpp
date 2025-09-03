@@ -123,7 +123,7 @@ void InfoVisitor::visitFilm(Film& f) {
 void InfoVisitor::visitVideogame(Videogame& v) {
 
     QWidget* videogamePage = new QWidget;
-    QHBoxLayout* mainLayout = new QHBoxLayout(videogamePage);
+    QHBoxLayout* mainLayout = new QHBoxLayout();
 
     QWidget* imageWidget = createImageWidget(v);
     mainLayout->addWidget(imageWidget);
@@ -152,7 +152,11 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     videogameWidget->setLayout(videogameLayout);
     mainLayout->addWidget(videogameWidget);
 
-    videogamePage->setLayout(mainLayout);
+    QVBoxLayout* finalLayout = new QVBoxLayout();
+    finalLayout->addLayout(mainLayout);
+    finalLayout->addWidget(createButtonWidget());
+
+    videogamePage->setLayout(finalLayout);
     widget = videogamePage;
 }
 
@@ -160,7 +164,7 @@ void InfoVisitor::visitVideogame(Videogame& v) {
 void InfoVisitor::visitMusic(Music& m) {
 
     QWidget* musicPage = new QWidget;
-    QHBoxLayout* mainLayout = new QHBoxLayout(musicPage);
+    QHBoxLayout* mainLayout = new QHBoxLayout();
 
     QWidget* imageWidget = createImageWidget(m);
     mainLayout->addWidget(imageWidget);
@@ -193,7 +197,11 @@ void InfoVisitor::visitMusic(Music& m) {
     musicWidget->setLayout(musicLayout);
     mainLayout->addWidget(musicWidget);
 
-    musicPage->setLayout(mainLayout);
+    QVBoxLayout* finalLayout = new QVBoxLayout();
+    finalLayout->addLayout(mainLayout);
+    finalLayout->addWidget(createButtonWidget());
+
+    musicPage->setLayout(finalLayout);
     widget = musicPage;
 }
 
@@ -201,7 +209,7 @@ void InfoVisitor::visitMusic(Music& m) {
 void InfoVisitor::visitBook(Book& b) {
 
     QWidget* bookPage = new QWidget;
-    QHBoxLayout* mainLayout = new QHBoxLayout(bookPage);
+    QHBoxLayout* mainLayout = new QHBoxLayout();
 
     QWidget* imageWidget = createImageWidget(b);
     mainLayout->addWidget(imageWidget);
@@ -234,7 +242,11 @@ void InfoVisitor::visitBook(Book& b) {
     bookWidget->setLayout(bookLayout);
     mainLayout->addWidget(bookWidget);
 
-    bookPage->setLayout(mainLayout);
+    QVBoxLayout* finalLayout = new QVBoxLayout();
+    finalLayout->addLayout(mainLayout);
+    finalLayout->addWidget(createButtonWidget());
+
+    bookPage->setLayout(finalLayout);
     widget = bookPage;
 }
 
@@ -242,7 +254,7 @@ void InfoVisitor::visitBook(Book& b) {
 void InfoVisitor::visitPhotograph(Photograph& p) {
 
     QWidget* photographPage = new QWidget;
-    QHBoxLayout* mainLayout = new QHBoxLayout(photographPage);
+    QHBoxLayout* mainLayout = new QHBoxLayout();
 
     QWidget* imageWidget = createImageWidget(p);
     mainLayout->addWidget(imageWidget);
@@ -276,7 +288,11 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     photographWidget->setLayout(photographLayout);
     mainLayout->addWidget(photographWidget);
 
-    photographPage->setLayout(mainLayout);
+    QVBoxLayout* finalLayout = new QVBoxLayout();
+    finalLayout->addLayout(mainLayout);
+    finalLayout->addWidget(createButtonWidget());
+
+    photographPage->setLayout(finalLayout);
     widget = photographPage;
 }
 
