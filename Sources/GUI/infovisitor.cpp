@@ -145,7 +145,7 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     editableFields.append(multiplayerBox);
 
     videogameLayout->addRow("Casa di produzione:", companyEdit);
-    videogameLayout->addRow("Piattaforma:", companyEdit);
+    videogameLayout->addRow("Piattaforma:", platformEdit);
     videogameLayout->addRow("Multiplayer", multiplayerBox);
 
     QWidget* videogameWidget = new QWidget();
