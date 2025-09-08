@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     Sources/GUI/addproductdialog.cpp \
     Sources/GUI/infovisitor.cpp \
+    Sources/GUI/jsonwritervisitor.cpp \
     Sources/GUI/libraryfilterproxymodel.cpp \
     Sources/GUI/librarymodel.cpp \
     Sources/GUI/mainwindow.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 HEADERS += \
     Sources/GUI/addproductdialog.h \
     Sources/GUI/infovisitor.h \
+    Sources/GUI/jsonwritervisitor.h \
     Sources/GUI/libraryfilterproxymodel.h \
     Sources/GUI/librarymodel.h \
     Sources/GUI/mainwindow.h \
