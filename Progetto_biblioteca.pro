@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,6 +17,7 @@ SOURCES += \
     Sources/GUI/mainwindow.cpp \
     Sources/GUI/menubar.cpp \
     Sources/GUI/typevisitor.cpp \
+    Sources/GUI/xmlwritervisitor.cpp \
     Sources/Model/book.cpp \
     Sources/Model/digitalproduct.cpp \
     Sources/Model/film.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     Sources/GUI/mainwindow.h \
     Sources/GUI/menubar.h \
     Sources/GUI/typevisitor.h \
+    Sources/GUI/xmlwritervisitor.h \
     Sources/Headers/book.h \
     Sources/Headers/digitalproduct.h \
     Sources/Headers/film.h \
