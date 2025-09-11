@@ -6,7 +6,6 @@
 #include "Sources/Headers/photograph.h"
 #include "Sources/GUI/typevisitor.h"
 
-
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -22,16 +21,9 @@
 #include <QDir>
 #include <QPushButton>
 
-//1.Implementare modify fuori dai visit
-//2.delete delle cose precedenti
-//3.save e salvare nel json
-//4.rendere spin, line
-//5.creare un nuovo metodo per gli attributi in comune (product)
-
 InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {}
 
 QFormLayout* InfoVisitor::commonSetUp(Product& p){
-
     QFormLayout* commonLayout = new QFormLayout();
 
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(p.getName()));
@@ -75,9 +67,7 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
     return commonLayout;
 }
 
-
 void InfoVisitor::visitFilm(Film& f) {
-
     QWidget* filmPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
@@ -120,9 +110,7 @@ void InfoVisitor::visitFilm(Film& f) {
     widget = filmPage;
 }
 
-
 void InfoVisitor::visitVideogame(Videogame& v) {
-
     QWidget* videogamePage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
@@ -161,9 +149,7 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     widget = videogamePage;
 }
 
-
 void InfoVisitor::visitMusic(Music& m) {
-
     QWidget* musicPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
@@ -206,9 +192,7 @@ void InfoVisitor::visitMusic(Music& m) {
     widget = musicPage;
 }
 
-
 void InfoVisitor::visitBook(Book& b) {
-
     QWidget* bookPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
@@ -251,9 +235,7 @@ void InfoVisitor::visitBook(Book& b) {
     widget = bookPage;
 }
 
-
 void InfoVisitor::visitPhotograph(Photograph& p) {
-
     QWidget* photographPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
 
@@ -298,7 +280,6 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
 }
 
 QWidget* InfoVisitor::createImageWidget(Product& p){
-
     QLabel* imageLabel = new QLabel();
     QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
     QString image = QString::fromStdString(p.getImage());
@@ -324,9 +305,13 @@ QWidget* InfoVisitor::createButtonWidget(){
     saveButton = new QPushButton("Save");
     saveButton->setEnabled(false);
 
+    deleteButton = new QPushButton("Delete");
+    deleteButton->setStyleSheet("background-color: red; color: white; font-weight: bold;");
+
     buttonLayout->addWidget(backButton);
     buttonLayout->addWidget(modifyButton);
     buttonLayout->addWidget(saveButton);
+    buttonLayout->addWidget(deleteButton);
 
     connect(backButton, &QPushButton::clicked, this, &InfoVisitor::backSignal);
     connect(modifyButton, &QPushButton::clicked, this, &InfoVisitor::enableEdit);
@@ -335,13 +320,12 @@ QWidget* InfoVisitor::createButtonWidget(){
         emit modifiedSignal();
         saveButton->setEnabled(false);
     });
-
+    connect(deleteButton, &QPushButton::clicked, this, &InfoVisitor::deleteProduct);
 
     return buttonWidget;
 }
 
 void InfoVisitor::enableEdit(){
-
     for (auto e : editableFields){
         if (auto* lineEdit = qobject_cast<QLineEdit*>(e)) {
             lineEdit->setReadOnly(false);
@@ -349,16 +333,19 @@ void InfoVisitor::enableEdit(){
             textEdit->setReadOnly(false);
         } else if (auto* checkBox = qobject_cast<QCheckBox*>(e)){
             checkBox->setEnabled(true);
-        } else {
-            qDebug() << "Type not valid";
         }
     }
     saveButton->setEnabled(true);
 }
 
+void InfoVisitor::deleteProduct() {
+    if (product) {
+        emit deleteSignal(product);
+    }
+}
+
 void InfoVisitor::setProduct(Product* p){
     product = p;
-
     if (p) {
         TypeVisitor visitor;
         p->accept(visitor);
@@ -437,7 +424,6 @@ void InfoVisitor::applyEdits(){
         }
     }
 }
-
 
 QWidget* InfoVisitor::getWidget() const {
     return widget;

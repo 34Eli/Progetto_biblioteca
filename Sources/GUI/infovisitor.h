@@ -1,51 +1,62 @@
 #ifndef INFOVISITOR_H
 #define INFOVISITOR_H
 
-#include "Sources/Model/visitor.h"
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QFormLayout>
-#include <QLineEdit>
 #include <QObject>
+#include <QList>
 #include <QPushButton>
+#include <QFormLayout>
 
-class InfoVisitor : public QObject, public Visitor{
+#include "Sources/Headers/product.h"
+#include "Sources/Headers/film.h"
+#include "Sources/Headers/book.h"
+#include "Sources/Headers/music.h"
+#include "Sources/Headers/videogame.h"
+#include "Sources/Headers/photograph.h"
+#include "Sources/GUI/typevisitor.h"
+#include "Sources/Model/visitor.h"
+
+class InfoVisitor : public QObject, public Visitor
+{
     Q_OBJECT
 
-    private:
-        QWidget* widget = nullptr;
-        QList<QWidget*> editableFields;
-        QPushButton* backButton;
-        QPushButton* modifyButton;
-        QPushButton* saveButton;
-        Product* product = nullptr;
-        QString productType;
+private:
+    QWidget* widget = nullptr;
+    Product* product = nullptr;
+    QString productType;
 
-    signals:
-        void backSignal();
-        void modifiedSignal();
+    QPushButton* backButton;
+    QPushButton* modifyButton;
+    QPushButton* saveButton;
+    QPushButton* deleteButton;
 
-    public:
-        explicit InfoVisitor(QObject* parent = nullptr);
-        ~InfoVisitor() override = default;
+    QList<QWidget*> editableFields;
 
-        void visitFilm(Film& f) override;
-        void visitBook(Book& b) override;
-        void visitMusic(Music& m) override;
-        void visitPhotograph(Photograph& p) override;
-        void visitVideogame(Videogame& v) override;
+private slots:
+    void enableEdit();
+    void deleteProduct();
 
-        QFormLayout* commonSetUp(Product& p);
+signals:
+    void modifiedSignal();
+    void backSignal();
+    void deleteSignal(Product* p);
 
-        QWidget* getWidget() const;
+public:
+    explicit InfoVisitor(QObject* parent = nullptr);
+    QFormLayout* commonSetUp(Product& p);
 
-        QWidget* createImageWidget(Product& p);
-        QWidget* createButtonWidget();
-        void enableEdit();
-        void setProduct(Product* p);
-        void applyEdits();
+    void visitFilm(Film& f) override;
+    void visitVideogame(Videogame& v) override;
+    void visitMusic(Music& m) override;
+    void visitBook(Book& b) override;
+    void visitPhotograph(Photograph& p) override;
 
+    void setProduct(Product* p);
+    void applyEdits();
+    QWidget* getWidget() const;
+
+private:
+    QWidget* createImageWidget(Product& p);
+    QWidget* createButtonWidget();
 };
 
 #endif // INFOVISITOR_H
