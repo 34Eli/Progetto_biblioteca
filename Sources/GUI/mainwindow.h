@@ -27,6 +27,9 @@ private:
     QPushButton* btnVideogame;
     QPushButton* btnPhotograph;
 
+    QString filePath;
+    QList<Product*> productList;
+
 private slots:
     void filterAll();
     void filterBooks();
@@ -44,6 +47,8 @@ public:
     void loadFromXml();
     void showProductDetails(const QModelIndex& index);
     void clearLayout(QLayout* layout);
-    //void saveProducts();
+    void saveProducts();
+    void saveToJson();
+    void saveToXml();
 };
 #endif // MAINWINDOW_H

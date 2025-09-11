@@ -4,9 +4,12 @@
 #include "Sources/GUI/infovisitor.h"
 #include "Sources/GUI/menubar.h"
 #include "Sources/GUI/addproductdialog.h"
+#include "Sources/GUI/jsonwritervisitor.h"
+#include "Sources/GUI/xmlwritervisitor.h"
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryModel(this)), proxymodel(new LibraryFilterProxyModel(this)){
     setWindowTitle("Digital Library");
@@ -118,14 +121,16 @@ void MainWindow::setupUI(){
 }
 
 void MainWindow::loadFromJson(){
+    filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
     JsonReader reader;
-    QList<Product*> productList = reader.readAll((QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json").toStdString());
+    productList = reader.readAll(filePath.toStdString());
     model->setProducts(productList);
 }
 
 void MainWindow::loadFromXml(){
+    filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml";
     XmlReader reader;
-    QList<Product*> productList = reader.readAll(QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml");
+    productList = reader.readAll(filePath);
     model->setProducts(productList);
 }
 
@@ -154,7 +159,7 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
         stackedWidget->setCurrentWidget(mainPage);
     });
 
-    //connect(visitor, &InfoVisitor::modifiedSignal, this, &MainWindow::saveProducts);
+    connect(visitor, &InfoVisitor::modifiedSignal, this, &MainWindow::saveProducts);
 
     stackedWidget->setCurrentWidget(infoPage);
 }
@@ -184,5 +189,58 @@ void MainWindow::openAddProductDialog() {
             }
         }
     }
+}
+
+void MainWindow::saveProducts(){
+    if (filePath.endsWith(".json")) {
+        saveToJson();
+    } else if (filePath.endsWith(".xml")) {
+        saveToXml();
+    } else {
+        QMessageBox::warning(this, "Errore", "Formato di file non supportato.");
+    }
+}
+
+void MainWindow::saveToJson(){
+    QJsonArray array;
+
+    for (Product* p : productList) {
+        JsonWriterVisitor writer;
+        p->accept(writer);
+        array.append(writer.getJsonObject());
+    }
+
+    QJsonDocument doc(array);
+    QFile file(filePath);
+
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::warning(this, "Errore", "Impossibile scrivere nel file JSON.");
+        return;
+    }
+
+    file.write(doc.toJson(QJsonDocument::Indented));
+    file.close();
+}
+
+void MainWindow::saveToXml(){
+    QDomDocument doc("Library");
+    QDomElement root = doc.createElement("Products");
+    doc.appendChild(root);
+
+    for (Product* p : productList) {
+        XmlWriterVisitor writer(doc);
+        p->accept(writer);
+        root.appendChild(writer.getXmlDocument());
+    }
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Errore", "Impossibile scrivere nel file XML.");
+        return;
+    }
+
+    QTextStream stream(&file);
+    stream << doc.toString(4);  // 4 = indentazione
+    file.close();
 }
 

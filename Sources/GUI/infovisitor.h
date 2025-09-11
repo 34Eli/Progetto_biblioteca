@@ -8,6 +8,7 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QObject>
+#include <QPushButton>
 
 class InfoVisitor : public QObject, public Visitor{
     Q_OBJECT
@@ -15,6 +16,11 @@ class InfoVisitor : public QObject, public Visitor{
     private:
         QWidget* widget = nullptr;
         QList<QWidget*> editableFields;
+        QPushButton* backButton;
+        QPushButton* modifyButton;
+        QPushButton* saveButton;
+        Product* product = nullptr;
+        QString productType;
 
     signals:
         void backSignal();
@@ -37,6 +43,8 @@ class InfoVisitor : public QObject, public Visitor{
         QWidget* createImageWidget(Product& p);
         QWidget* createButtonWidget();
         void enableEdit();
+        void setProduct(Product* p);
+        void applyEdits();
 
 };
 

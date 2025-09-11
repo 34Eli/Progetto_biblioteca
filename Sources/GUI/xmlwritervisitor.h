@@ -14,7 +14,7 @@
 
 class XmlWriterVisitor : public Visitor {
 private:
-    QDomDocument doc;
+    QDomDocument& doc;
     QDomElement root;
 
     void productFields(const Product& p, QDomElement& elem);
@@ -24,7 +24,7 @@ private:
     void physicalFields(const PhysicalProduct& p, QDomElement& elem);
 
 public:
-    XmlWriterVisitor();
+    XmlWriterVisitor(QDomDocument& doc);
 
     void visitFilm(Film& f) override;
     void visitBook(Book& b) override;

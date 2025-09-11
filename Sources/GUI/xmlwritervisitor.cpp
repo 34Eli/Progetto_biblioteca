@@ -2,8 +2,9 @@
 #include <QDomDocument>
 #include <QString>
 
-XmlWriterVisitor::XmlWriterVisitor() {
-    doc = QDomDocument("ProductDocument");
+XmlWriterVisitor::XmlWriterVisitor(QDomDocument& doc) : doc(doc) {
+    root = doc.createElement("Products");
+    doc.appendChild(root);
 }
 
 void XmlWriterVisitor::productFields(const Product& p, QDomElement& elem) {

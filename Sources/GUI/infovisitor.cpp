@@ -4,6 +4,7 @@
 #include "Sources/Headers/music.h"
 #include "Sources/Headers/videogame.h"
 #include "Sources/Headers/photograph.h"
+#include "Sources/GUI/typevisitor.h"
 
 
 #include <QWidget>
@@ -318,16 +319,23 @@ QWidget* InfoVisitor::createButtonWidget(){
     QWidget* buttonWidget = new QWidget();
     QHBoxLayout* buttonLayout = new QHBoxLayout(buttonWidget);
 
-    QPushButton* backButton = new QPushButton("Back");
-    //QPushButton* modifyButton = new QPushButton("Modify");
-    //QPushButton* saveButton = new QPushButton("Save");
+    backButton = new QPushButton("Back");
+    modifyButton = new QPushButton("Modify");
+    saveButton = new QPushButton("Save");
+    saveButton->setEnabled(false);
 
     buttonLayout->addWidget(backButton);
-    //buttonLayout->addWidget(modifyButton);
-    //buttonLayout->addWidget(saveButton);
+    buttonLayout->addWidget(modifyButton);
+    buttonLayout->addWidget(saveButton);
 
-    //QObject::connect(modifyButton, &QPushButton::clicked, this, &InfoVisitor::enableEdit);
-    QObject::connect(backButton, &QPushButton::clicked, this, &InfoVisitor::backSignal);
+    connect(backButton, &QPushButton::clicked, this, &InfoVisitor::backSignal);
+    connect(modifyButton, &QPushButton::clicked, this, &InfoVisitor::enableEdit);
+    connect(saveButton, &QPushButton::clicked, this, [this]() {
+        applyEdits();
+        emit modifiedSignal();
+        saveButton->setEnabled(false);
+    });
+
 
     return buttonWidget;
 }
@@ -345,7 +353,91 @@ void InfoVisitor::enableEdit(){
             qDebug() << "Type not valid";
         }
     }
+    saveButton->setEnabled(true);
 }
+
+void InfoVisitor::setProduct(Product* p){
+    product = p;
+
+    if (p) {
+        TypeVisitor visitor;
+        p->accept(visitor);
+        productType = visitor.getType();
+    }
+}
+
+void InfoVisitor::applyEdits(){
+    if (!product){
+        return;
+    }
+
+    product->setName(qobject_cast<QLineEdit*>(editableFields[0])->text().toStdString());
+    QTextEdit* descrEdit = qobject_cast<QTextEdit*>(editableFields[1]);
+    if (descrEdit)
+        product->setDescription(descrEdit->toPlainText().toStdString());
+
+    product->setGenre(qobject_cast<QLineEdit*>(editableFields[2])->text().toStdString());
+    product->setCountry(qobject_cast<QLineEdit*>(editableFields[3])->text().toStdString());
+    product->setYear(qobject_cast<QLineEdit*>(editableFields[4])->text().toInt());
+    product->setCost(qobject_cast<QLineEdit*>(editableFields[5])->text().toInt());
+    product->setStars(qobject_cast<QLineEdit*>(editableFields[6])->text().toInt());
+
+    if (productType == "Film") {
+        Film* f = dynamic_cast<Film*>(product);
+        if (f) {
+            f->setDirector(qobject_cast<QLineEdit*>(editableFields[7])->text().toStdString());
+            f->setActor(qobject_cast<QLineEdit*>(editableFields[8])->text().toStdString());
+            f->setMinutes(qobject_cast<QLineEdit*>(editableFields[9])->text().toInt());
+            f->setCompany(qobject_cast<QLineEdit*>(editableFields[10])->text().toStdString());
+        }
+    }
+    else if (productType == "Music") {
+        Music* m = dynamic_cast<Music*>(product);
+        if (m) {
+            m->setCompany(qobject_cast<QLineEdit*>(editableFields[7])->text().toStdString());
+            m->setSinger(qobject_cast<QLineEdit*>(editableFields[8])->text().toStdString());
+            m->setAlbum(qobject_cast<QLineEdit*>(editableFields[9])->text().toStdString());
+            m->setMinutes(qobject_cast<QLineEdit*>(editableFields[10])->text().toInt());
+        }
+    }
+    else if (productType == "Videogame") {
+        Videogame* v = dynamic_cast<Videogame*>(product);
+        if (v) {
+            v->setCompany(qobject_cast<QLineEdit*>(editableFields[7])->text().toStdString());
+            v->setPlatform(qobject_cast<QLineEdit*>(editableFields[8])->text().toStdString());
+            v->setIsMultiplayer(qobject_cast<QCheckBox*>(editableFields[9])->isChecked());
+        }
+    }
+    else if (productType == "Book") {
+        Book* b = dynamic_cast<Book*>(product);
+        if (b) {
+            b->setAuthor(qobject_cast<QLineEdit*>(editableFields[7])->text().toStdString());
+            b->setPages(qobject_cast<QLineEdit*>(editableFields[8])->text().toInt());
+            b->setPublisher(qobject_cast<QLineEdit*>(editableFields[9])->text().toStdString());
+            b->setISBN(qobject_cast<QLineEdit*>(editableFields[10])->text().toInt());
+        }
+    }
+    else if (productType == "Photograph") {
+        Photograph* p = dynamic_cast<Photograph*>(product);
+        if (p) {
+            p->setAuthor(qobject_cast<QLineEdit*>(editableFields[7])->text().toStdString());
+            p->setIsColourful(qobject_cast<QCheckBox*>(editableFields[8])->isChecked());
+            p->setLength(qobject_cast<QLineEdit*>(editableFields[9])->text().toInt());
+            p->setWidth(qobject_cast<QLineEdit*>(editableFields[10])->text().toInt());
+        }
+    }
+
+    for (auto e : editableFields) {
+        if (auto* lineEdit = qobject_cast<QLineEdit*>(e)) {
+            lineEdit->setReadOnly(true);
+        } else if (auto* textEdit = qobject_cast<QTextEdit*>(e)) {
+            textEdit->setReadOnly(true);
+        } else if (auto* checkBox = qobject_cast<QCheckBox*>(e)) {
+            checkBox->setEnabled(false);
+        }
+    }
+}
+
 
 QWidget* InfoVisitor::getWidget() const {
     return widget;
