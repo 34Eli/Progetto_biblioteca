@@ -18,13 +18,11 @@ private:
     QDomElement root;
 
     void productFields(const Product& p, QDomElement& elem);
-
     void digitalFields(const DigitalProduct& d, QDomElement& elem);
-
     void physicalFields(const PhysicalProduct& p, QDomElement& elem);
 
 public:
-    XmlWriterVisitor(QDomDocument& doc);
+    explicit XmlWriterVisitor(QDomDocument& doc);
 
     void visitFilm(Film& f) override;
     void visitBook(Book& b) override;
@@ -32,7 +30,7 @@ public:
     void visitPhotograph(Photograph& p) override;
     void visitVideogame(Videogame& v) override;
 
-    QDomDocument getXmlDocument() const;
+    QDomDocument& getXmlDocument() const;
 };
 
 #endif // XMLWRITERVISITOR_H
