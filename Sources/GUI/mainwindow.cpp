@@ -10,11 +10,20 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QFile>
+#include <QDebug>
+#include <QDomDocument>
+#include <QTextStream>
 
-MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryModel(this)), proxymodel(new LibraryFilterProxyModel(this)){
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent),
+    model(new LibraryModel(this)),
+    proxymodel(new LibraryFilterProxyModel(this)),
+    infoVisitor(nullptr)
+{
     setWindowTitle("Digital Library");
     setupUI();
-
     proxymodel->setSourceModel(model);
     listView->setModel(proxymodel);
 
@@ -26,33 +35,35 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), model(new LibraryM
     connect(bar, &MenuBar::addProductSignal, this, &MainWindow::openAddProductDialog);
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow() {
+    delete infoVisitor;
+}
 
-void MainWindow::filterAll(){
+void MainWindow::filterAll() {
     proxymodel->setFilter("All");
 }
 
-void MainWindow::filterBooks(){
+void MainWindow::filterBooks() {
     proxymodel->setFilter("Book");
 }
 
-void MainWindow::filterFilms(){
+void MainWindow::filterFilms() {
     proxymodel->setFilter("Film");
 }
 
-void MainWindow::filterMusic(){
+void MainWindow::filterMusic() {
     proxymodel->setFilter("Music");
 }
 
-void MainWindow::filterVideogames(){
+void MainWindow::filterVideogames() {
     proxymodel->setFilter("Videogame");
 }
 
-void MainWindow::filterPhotograph(){
+void MainWindow::filterPhotograph() {
     proxymodel->setFilter("Photograph");
 }
 
-void MainWindow::setupUI(){
+void MainWindow::setupUI() {
     QWidget* centralWidget = new QWidget(this);
     this->setCentralWidget(centralWidget);
 
@@ -89,6 +100,7 @@ void MainWindow::setupUI(){
     QVBoxLayout* listLayout = new QVBoxLayout;
     listLayout->addWidget(searchBar);
     listLayout->addWidget(listView);
+
     QWidget* listWidget = new QWidget(this);
     listWidget->setLayout(listLayout);
 
@@ -100,34 +112,32 @@ void MainWindow::setupUI(){
     mainPage->setLayout(mainLayout);
     infoPage = new QWidget;
     stackedWidget = new QStackedWidget(this);
-    stackedWidget->addWidget(mainPage); //pagina 0
-    stackedWidget->addWidget(infoPage); //pagina 1
+    stackedWidget->addWidget(mainPage);
+    stackedWidget->addWidget(infoPage);
 
     QVBoxLayout* centralLayout = new QVBoxLayout;
     centralLayout->addWidget(stackedWidget);
     centralWidget->setLayout(centralLayout);
 
-    connect(btnAll, &QPushButton::clicked, this, &MainWindow::filterAll);    //singolare
+    connect(btnAll, &QPushButton::clicked, this, &MainWindow::filterAll);
     connect(btnBook, &QPushButton::clicked, this, &MainWindow::filterBooks);
     connect(btnFilm, &QPushButton::clicked, this, &MainWindow::filterFilms);
     connect(btnMusic, &QPushButton::clicked, this, &MainWindow::filterMusic);
     connect(btnVideogame, &QPushButton::clicked, this, &MainWindow::filterVideogames);
     connect(btnPhotograph, &QPushButton::clicked, this, &MainWindow::filterPhotograph);
 
-
     connect(searchBar, &QLineEdit::textChanged, proxymodel, &LibraryFilterProxyModel::setSearchFilter);
-
     connect(listView, &QListView::clicked, this, &MainWindow::showProductDetails);
 }
 
-void MainWindow::loadFromJson(){
+void MainWindow::loadFromJson() {
     filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
     JsonReader reader;
     productList = reader.readAll(filePath.toStdString());
     model->setProducts(productList);
 }
 
-void MainWindow::loadFromXml(){
+void MainWindow::loadFromXml() {
     filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml";
     XmlReader reader;
     productList = reader.readAll(filePath);
@@ -142,27 +152,44 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     if (!p)
         return;
 
-    InfoVisitor* visitor = new InfoVisitor(this);
-    visitor->setProduct(p);
-    p->accept(*visitor);
-    QWidget* productWidget = visitor->getWidget();
+    if (infoVisitor) {
+        clearLayout(infoPage->layout());
+        delete infoVisitor;
+        infoVisitor = nullptr;
+    }
+
+    infoVisitor = new InfoVisitor(this);
+    infoVisitor->setProduct(p);
+    infoVisitor->setProductIndex(sourceIndex);
+    p->accept(*infoVisitor);
+    QWidget* productWidget = infoVisitor->getWidget();
 
     QLayout* layout = infoPage->layout();
     if (!layout) {
         layout = new QVBoxLayout(infoPage);
-    } else {
-        clearLayout(layout);
     }
-
     layout->addWidget(productWidget);
 
-    connect(visitor, &InfoVisitor::backSignal, this, [this](){
+    connect(infoVisitor, &InfoVisitor::backSignal, this, [this]() {
         stackedWidget->setCurrentWidget(mainPage);
     });
 
-    connect(visitor, &InfoVisitor::modifiedSignal, this, &MainWindow::saveProducts);
+    connect(infoVisitor, &InfoVisitor::deleteProductSignal, this, &MainWindow::deleteProduct);
+    connect(infoVisitor, &InfoVisitor::modifiedSignal, this, &MainWindow::saveProducts);
 
     stackedWidget->setCurrentWidget(infoPage);
+}
+
+void MainWindow::deleteProduct() {
+    if (infoVisitor && infoVisitor->getProductIndex().isValid()) {
+        QModelIndex sourceIndex = infoVisitor->getProductIndex();
+        if (model->removeRow(sourceIndex.row())) {
+            saveProducts();
+            stackedWidget->setCurrentWidget(mainPage);
+            delete infoVisitor;
+            infoVisitor = nullptr;
+        }
+    }
 }
 
 void MainWindow::clearLayout(QLayout* layout) {
@@ -187,21 +214,13 @@ void MainWindow::openAddProductDialog() {
         if (newProduct) {
             if (model) {
                 model->addProduct(newProduct);
+                saveProducts();
             }
         }
     }
 }
 
-void MainWindow::saveProducts(){
-    if (model->rowCount() > 0) {
-        Product* test = model->getProducts(0);
-        if (test) {
-            qDebug() << "DEBUG nome prodotto [prima di scrivere]:"
-                     << QString::fromStdString(test->getName());
-            qDebug() << "DEBUG descrizione:"
-                     << QString::fromStdString(test->getDescription());
-        }
-    }
+void MainWindow::saveProducts() {
     if (filePath.endsWith(".json")) {
         saveToJson();
     } else if (filePath.endsWith(".xml")) {
@@ -209,13 +228,10 @@ void MainWindow::saveProducts(){
     } else {
         QMessageBox::warning(this, "Errore", "Formato di file non supportato.");
     }
-    qDebug() << "Salvataggio in corso su:" << filePath;
 }
 
-void MainWindow::saveToJson(){
-
+void MainWindow::saveToJson() {
     QJsonArray array;
-
     for (int row = 0; row < model->rowCount(); ++row) {
         Product* p = model->getProducts(row);
         if (p) {
@@ -224,26 +240,19 @@ void MainWindow::saveToJson(){
             array.append(writer.getJsonObject());
         }
     }
-
-    qDebug() << "Numero prodotti salvati:" << array.size();
     QJsonDocument doc(array);
     QFile file(filePath);
-
     if (!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::warning(this, "Errore", "Impossibile scrivere nel file JSON.");
         return;
     }
-
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
 }
 
-void MainWindow::saveToXml(){
-
+void MainWindow::saveToXml() {
     QDomDocument doc("Library");
     QDomElement root = doc.createElement("Products");
     doc.appendChild(root);
-
     for (int row = 0; row < model->rowCount(); ++row) {
         Product* p = model->getProducts(row);
         if (p) {
@@ -252,15 +261,11 @@ void MainWindow::saveToXml(){
             root.appendChild(writer.getXmlDocument());
         }
     }
-
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Errore", "Impossibile scrivere nel file XML.");
         return;
     }
-
     QTextStream stream(&file);
-    stream << doc.toString(4);  // 4 = indentazione
+    stream << doc.toString(4);
     file.close();
 }
-

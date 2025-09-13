@@ -236,21 +236,6 @@
         "year_of_publication": 1957
     },
     {
-        "author": "Steve Mccurry",
-        "cost": 20,
-        "country": "Pakistan",
-        "description": "Afghan Girl is a famous photograph that shows Sharbat Gula, a young Afghan refugee with striking green eyes, captured in a refugee camp in Pakistan. The photo became an iconic symbol of the Afghan conflict and the plight of refugees.",
-        "genre": "Portrait",
-        "imagePath": "afghan_girl.jpg",
-        "isColourful": true,
-        "length": 25,
-        "name": "Afghan Girl",
-        "stars": 4,
-        "type": "Photograph",
-        "width": 30,
-        "year_of_publication": 1984
-    },
-    {
         "author": "Robert Capa",
         "cost": 15,
         "country": "Spain",

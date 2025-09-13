@@ -2,6 +2,12 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include <QComboBox>
+#include "Sources/Headers/book.h"
+#include "Sources/Headers/film.h"
+#include "Sources/Headers/music.h"
+#include "Sources/Headers/videogame.h"
+#include "Sources/Headers/photograph.h"
 
 AddProductDialog::AddProductDialog(QWidget* parent)
     : QDialog(parent), newProduct(nullptr) {
@@ -9,32 +15,28 @@ AddProductDialog::AddProductDialog(QWidget* parent)
 }
 
 AddProductDialog::~AddProductDialog() {
+    delete newProduct;
 }
 
 void AddProductDialog::setupUI() {
     setWindowTitle("Add New Product");
     resize(400, 200);
 
-    //Layout principale
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    //Campo nome
     nameInput = new QLineEdit(this);
     nameInput->setPlaceholderText("Enter product name...");
     mainLayout->addWidget(new QLabel("Name:"));
     mainLayout->addWidget(nameInput);
 
-    //ComboBox per selezionare tipo
     QComboBox* typeComboBox = new QComboBox(this);
-    typeComboBox->addItems({"-- Select a product type --","Book", "Film", "Music", "Videogame", "Photograph"});
+    typeComboBox->addItems({"-- Select a product type --", "Book", "Film", "Music", "Videogame", "Photograph"});
     mainLayout->addWidget(new QLabel("Type:"));
     mainLayout->addWidget(typeComboBox);
 
-    //Bottone di conferma
     addButton = new QPushButton("Add Product", this);
     mainLayout->addWidget(addButton);
 
-    //Connessioni
     connect(addButton, &QPushButton::clicked, this, &AddProductDialog::on_addProduct_clicked);
     connect(typeComboBox, &QComboBox::currentTextChanged, this, &AddProductDialog::updateUIForProductType);
 }
@@ -52,16 +54,16 @@ void AddProductDialog::on_addProduct_clicked() {
     }
 
     newProduct->setName(name.toStdString());
-
     accept();
 }
 
 void AddProductDialog::updateUIForProductType(const QString& type) {
+    if (newProduct) {
+        delete newProduct;
+        newProduct = nullptr;
+    }
+
     if (type == "-- Select a product type --") {
-        if (newProduct) {
-            delete newProduct;
-            newProduct = nullptr;
-        }
         return;
     }
 

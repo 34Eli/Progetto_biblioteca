@@ -74,3 +74,18 @@ Product* LibraryModel::getProducts(int row) const{
         return nullptr;
     }
 }
+
+bool LibraryModel::removeRows(int row, int count, const QModelIndex& parent) {
+    if (parent.isValid() || row < 0 || row >= products.size() || (row + count) > products.size()) {
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), row, row + count - 1);
+    for (int i = 0; i < count; ++i) {
+        delete products.at(row);
+        products.removeAt(row);
+    }
+    endRemoveRows();
+
+    return true;
+}
