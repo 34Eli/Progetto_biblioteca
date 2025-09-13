@@ -240,7 +240,7 @@ void MainWindow::saveToJson(){
 
 void MainWindow::saveToXml(){
 
-    QDomDocument doc("Library");
+    /*QDomDocument doc("Library");
     QDomElement root = doc.createElement("Products");
     doc.appendChild(root);
 
@@ -252,7 +252,6 @@ void MainWindow::saveToXml(){
             root.appendChild(writer.getXmlDocument());
         }
     }
-
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Errore", "Impossibile scrivere nel file XML.");
@@ -261,6 +260,15 @@ void MainWindow::saveToXml(){
 
     QTextStream stream(&file);
     stream << doc.toString(4);  // 4 = indentazione
-    file.close();
+    file.close();*/
+    filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml";
+    XmlWriterVisitor writer;
+    if (!writer.writeAll(filePath, productList)) {
+        qWarning() << "Errore nel salvataggio del file XML";
+    } else {
+        qDebug() << "File XML salvato correttamente in" << filePath;
+    }
 }
+
+
 
