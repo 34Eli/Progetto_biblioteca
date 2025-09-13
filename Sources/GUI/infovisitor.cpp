@@ -55,14 +55,6 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
     QLineEdit* starsEdit = new QLineEdit(QString::number(p.getStars()));
     starsEdit->setReadOnly(true);
 
-    /*editableFields.append(titleEdit);
-    editableFields.append(descrEdit);
-    editableFields.append(genreEdit);
-    editableFields.append(countryEdit);
-    editableFields.append(yearEdit);
-    editableFields.append(costEdit);
-    editableFields.append(starsEdit);*/
-
     editableMap["name"] = titleEdit;
     editableMap["description"] = descrEdit;
     editableMap["genre"] = genreEdit;
@@ -71,13 +63,13 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
     editableMap["cost"] = costEdit;
     editableMap["stars"] = starsEdit;
 
-    commonLayout->addRow("Titolo:", titleEdit);
-    commonLayout->addRow("Descrizione:", descrEdit);
-    commonLayout->addRow("Genere:", genreEdit);
-    commonLayout->addRow("Paese:", countryEdit);
-    commonLayout->addRow("Anno:", yearEdit);
-    commonLayout->addRow("Prezzo:", costEdit);
-    commonLayout->addRow("Valutazione stelle:", starsEdit);
+    commonLayout->addRow("Title:", titleEdit);
+    commonLayout->addRow("Description:", descrEdit);
+    commonLayout->addRow("Genre:", genreEdit);
+    commonLayout->addRow("Country:", countryEdit);
+    commonLayout->addRow("Year:", yearEdit);
+    commonLayout->addRow("Price:", costEdit);
+    commonLayout->addRow("Stars:", starsEdit);
 
     return commonLayout;
 }
@@ -108,10 +100,10 @@ void InfoVisitor::visitFilm(Film& f) {
     editableMap["minutes"] = minutesEdit;
     editableMap["company"] = companyEdit;
 
-    filmLayout->addRow("Regista:", directorEdit);
-    filmLayout->addRow("Attore principale:", actorEdit);
-    filmLayout->addRow("Durata (minuti):", minutesEdit);
-    filmLayout->addRow("Casa di produzione:", companyEdit);
+    filmLayout->addRow("Director:", directorEdit);
+    filmLayout->addRow("Main actor:", actorEdit);
+    filmLayout->addRow("Length (minutes):", minutesEdit);
+    filmLayout->addRow("Production company:", companyEdit);
 
     QWidget* filmWidget = new QWidget();
     filmWidget->setLayout(filmLayout);
@@ -148,9 +140,9 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     editableMap["platform"] = platformEdit;
     editableMap["isMultiplayer"] = multiplayerBox;
 
-    videogameLayout->addRow("Casa di produzione:", companyEdit);
-    videogameLayout->addRow("Piattaforma:", platformEdit);
-    videogameLayout->addRow("Multiplayer", multiplayerBox);
+    videogameLayout->addRow("Production company:", companyEdit);
+    videogameLayout->addRow("Platform:", platformEdit);
+    videogameLayout->addRow("Multiplayer?", multiplayerBox);
 
     QWidget* videogameWidget = new QWidget();
     videogameWidget->setLayout(videogameLayout);
@@ -190,10 +182,10 @@ void InfoVisitor::visitMusic(Music& m) {
     editableMap["album"] = albumEdit;
     editableMap["minutes"] = minutesEdit;
 
-    musicLayout->addRow("Casa di produzione:", companyEdit);
-    musicLayout->addRow("Cantante:", singerEdit);
+    musicLayout->addRow("Production company:", companyEdit);
+    musicLayout->addRow("Singer:", singerEdit);
     musicLayout->addRow("Album:", albumEdit);
-    musicLayout->addRow("Durata (minuti):", minutesEdit);
+    musicLayout->addRow("Length (minutes):", minutesEdit);
 
     QWidget* musicWidget = new QWidget();
     musicWidget->setLayout(musicLayout);
@@ -233,9 +225,9 @@ void InfoVisitor::visitBook(Book& b) {
     editableMap["publisher"] = publisherEdit;
     editableMap["ISBN"] = isbnEdit;
 
-    bookLayout->addRow("Autore:", authorEdit);
-    bookLayout->addRow("Pagine:", pagesEdit);
-    bookLayout->addRow("Editore:", publisherEdit);
+    bookLayout->addRow("Author:", authorEdit);
+    bookLayout->addRow("Pages:", pagesEdit);
+    bookLayout->addRow("Publisher:", publisherEdit);
     bookLayout->addRow("ISBN:", isbnEdit);
 
     QWidget* bookWidget = new QWidget();
@@ -277,10 +269,10 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     editableMap["length"] = lengthEdit;
     editableMap["width"] = widthEdit;
 
-    photographLayout->addRow("Autore:", authorEdit);
-    photographLayout->addRow("Colorata?", colourBox);
-    photographLayout->addRow("Lunghezza:", lengthEdit);
-    photographLayout->addRow("Larghezza:", widthEdit);
+    photographLayout->addRow("Author:", authorEdit);
+    photographLayout->addRow("Colourful?", colourBox);
+    photographLayout->addRow("Length:", lengthEdit);
+    photographLayout->addRow("Width:", widthEdit);
 
     QWidget* photographWidget = new QWidget();
     photographWidget->setLayout(photographLayout);
@@ -312,7 +304,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p){
         imageLabel->setAlignment(Qt::AlignCenter);
     }
 
-    QPushButton* changeImageButton = new QPushButton("Cambia Immagine");
+    QPushButton* changeImageButton = new QPushButton("Change image");
 
     imageEdit = new QLineEdit(image);
     imageEdit->setReadOnly(true);
