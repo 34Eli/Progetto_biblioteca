@@ -1,6 +1,6 @@
 #ifndef PHOTOGRAPH_H
 #define PHOTOGRAPH_H
-#include "PhysicalProduct.h"
+#include "Sources/Headers/PhysicalProduct.h"
 
 class Visitor;
 

@@ -1,145 +1,97 @@
 #include "xmlwritervisitor.h"
 #include <QString>
+#include <QFile>
+#include <QDebug>
 
-XmlWriterVisitor::XmlWriterVisitor(QDomDocument& doc) : doc(doc) {
-    root = doc.createElement("Products");
-    doc.appendChild(root);
+XmlWriterVisitor::XmlWriterVisitor() : xml(nullptr) {}
+
+bool XmlWriterVisitor::writeAll(const QString& filename, const QList<Product*>& products) {
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Impossibile aprire il file XML per scrittura";
+        return false;
+    }
+
+    QXmlStreamWriter writer(&file);
+    xml = &writer;
+    xml->setAutoFormatting(true);
+    xml->writeStartDocument();
+    xml->writeStartElement("root");
+
+    for (Product* p : products) {
+        if (p) p->accept(*this);  // usa il visitor
+    }
+
+    xml->writeEndElement(); // chiude root
+    xml->writeEndDocument();
+    file.close();
+    return true;
 }
 
-void XmlWriterVisitor::productFields(const Product& p, QDomElement& elem) {
-    QDomElement name = doc.createElement("name");
-    name.appendChild(doc.createTextNode(QString::fromStdString(p.getName())));
-    elem.appendChild(name);
-
-    QDomElement desc = doc.createElement("description");
-    desc.appendChild(doc.createTextNode(QString::fromStdString(p.getDescription())));
-    elem.appendChild(desc);
-
-    QDomElement genre = doc.createElement("genre");
-    genre.appendChild(doc.createTextNode(QString::fromStdString(p.getGenre())));
-    elem.appendChild(genre);
-
-    QDomElement country = doc.createElement("country");
-    country.appendChild(doc.createTextNode(QString::fromStdString(p.getCountry())));
-    elem.appendChild(country);
-
-    QDomElement year = doc.createElement("year_of_publication");
-    year.appendChild(doc.createTextNode(QString::number(p.getYear())));
-    elem.appendChild(year);
-
-    QDomElement cost = doc.createElement("cost");
-    cost.appendChild(doc.createTextNode(QString::number(p.getCost())));
-    elem.appendChild(cost);
-
-    QDomElement stars = doc.createElement("stars");
-    stars.appendChild(doc.createTextNode(QString::number(p.getStars())));
-    elem.appendChild(stars);
+void XmlWriterVisitor::writeCommonAttributes(Product& p) {
+    xml->writeTextElement("name", QString::fromStdString(p.getName()));
+    xml->writeTextElement("description", QString::fromStdString(p.getDescription()));
+    xml->writeTextElement("genre", QString::fromStdString(p.getGenre()));
+    xml->writeTextElement("country", QString::fromStdString(p.getCountry()));
+    xml->writeTextElement("year_of_publication", QString::number(p.getYear()));
+    xml->writeTextElement("cost", QString::number(p.getCost()));
+    xml->writeTextElement("stars", QString::number(p.getStars()));
+    xml->writeTextElement("imagePath", QString::fromStdString(p.getImage()));
 }
 
-void XmlWriterVisitor::digitalFields(const DigitalProduct& d, QDomElement& elem) {
-    QDomElement company = doc.createElement("company");
-    company.appendChild(doc.createTextNode(QString::fromStdString(d.getCompany())));
-    elem.appendChild(company);
-}
-
-void XmlWriterVisitor::physicalFields(const PhysicalProduct& p, QDomElement& elem) {
-    QDomElement author = doc.createElement("author");
-    author.appendChild(doc.createTextNode(QString::fromStdString(p.getAuthor())));
-    elem.appendChild(author);
-}
+// -------------------- VISIT METHODS --------------------
 
 void XmlWriterVisitor::visitFilm(Film& f) {
-    QDomElement filmElem = doc.createElement("Film");
-    productFields(f, filmElem);
-    digitalFields(f, filmElem);
-
-    QDomElement director = doc.createElement("director");
-    director.appendChild(doc.createTextNode(QString::fromStdString(f.getDirector())));
-    filmElem.appendChild(director);
-
-    QDomElement actor = doc.createElement("actor");
-    actor.appendChild(doc.createTextNode(QString::fromStdString(f.getActor())));
-    filmElem.appendChild(actor);
-
-    QDomElement minutes = doc.createElement("minutes");
-    minutes.appendChild(doc.createTextNode(QString::number(f.getMinutes())));
-    filmElem.appendChild(minutes);
-
-    root.appendChild(filmElem);
+    xml->writeStartElement("Product");
+    xml->writeAttribute("type", "Film");
+    writeCommonAttributes(f);
+    xml->writeTextElement("company", QString::fromStdString(f.getCompany()));
+    xml->writeTextElement("director", QString::fromStdString(f.getDirector()));
+    xml->writeTextElement("mainActor", QString::fromStdString(f.getActor()));
+    xml->writeTextElement("minutes", QString::number(f.getMinutes()));
+    xml->writeEndElement();
 }
 
 void XmlWriterVisitor::visitBook(Book& b) {
-    QDomElement bookElem = doc.createElement("Book");
-    productFields(b, bookElem);
-    physicalFields(b, bookElem);
-
-    QDomElement pages = doc.createElement("pages");
-    pages.appendChild(doc.createTextNode(QString::number(b.getPages())));
-    bookElem.appendChild(pages);
-
-    QDomElement publisher = doc.createElement("publisher");
-    publisher.appendChild(doc.createTextNode(QString::fromStdString(b.getPublisher())));
-    bookElem.appendChild(publisher);
-
-    root.appendChild(bookElem);
+    xml->writeStartElement("Product");
+    xml->writeAttribute("type", "Book");
+    writeCommonAttributes(b);
+    xml->writeTextElement("author", QString::fromStdString(b.getAuthor()));
+    xml->writeTextElement("pages", QString::number(b.getPages()));
+    xml->writeTextElement("publisher", QString::fromStdString(b.getPublisher()));
+    xml->writeTextElement("ISBN", QString::number(b.getISBN()));
+    xml->writeEndElement();
 }
 
 void XmlWriterVisitor::visitMusic(Music& m) {
-    QDomElement musicElem = doc.createElement("Music");
-    productFields(m, musicElem);
-    digitalFields(m, musicElem);
-
-    QDomElement minutes = doc.createElement("minutes");
-    minutes.appendChild(doc.createTextNode(QString::number(m.getMinutes())));
-    musicElem.appendChild(minutes);
-
-    QDomElement singer = doc.createElement("singer");
-    singer.appendChild(doc.createTextNode(QString::fromStdString(m.getSinger())));
-    musicElem.appendChild(singer);
-
-    QDomElement album = doc.createElement("album");
-    album.appendChild(doc.createTextNode(QString::fromStdString(m.getAlbum())));
-    musicElem.appendChild(album);
-
-    root.appendChild(musicElem);
+    xml->writeStartElement("Product");
+    xml->writeAttribute("type", "Music");
+    writeCommonAttributes(m);
+    xml->writeTextElement("company", QString::fromStdString(m.getCompany()));
+    xml->writeTextElement("singer", QString::fromStdString(m.getSinger()));
+    xml->writeTextElement("album", QString::fromStdString(m.getAlbum()));
+    xml->writeTextElement("minutes", QString::number(m.getMinutes()));
+    xml->writeEndElement();
 }
 
 void XmlWriterVisitor::visitPhotograph(Photograph& p) {
-    QDomElement photoElem = doc.createElement("Photograph");
-    productFields(p, photoElem);
-    physicalFields(p, photoElem);
-
-    QDomElement isColourful = doc.createElement("isColourful");
-    isColourful.appendChild(doc.createTextNode(p.getIsColourful() ? "true" : "false"));
-    photoElem.appendChild(isColourful);
-
-    QDomElement length = doc.createElement("length");
-    length.appendChild(doc.createTextNode(QString::number(p.getLength())));
-    photoElem.appendChild(length);
-
-    QDomElement width = doc.createElement("width");
-    width.appendChild(doc.createTextNode(QString::number(p.getWidth())));
-    photoElem.appendChild(width);
-
-    root.appendChild(photoElem);
+    xml->writeStartElement("Product");
+    xml->writeAttribute("type", "Photograph");
+    writeCommonAttributes(p);
+    xml->writeTextElement("author", QString::fromStdString(p.getAuthor()));
+    xml->writeTextElement("isColourful", p.getIsColourful() ? "true" : "false");
+    xml->writeTextElement("length", QString::number(p.getLength()));
+    xml->writeTextElement("width", QString::number(p.getWidth()));
+    xml->writeEndElement();
 }
 
 void XmlWriterVisitor::visitVideogame(Videogame& v) {
-    QDomElement vgElem = doc.createElement("Videogame");
-    productFields(v, vgElem);
-    digitalFields(v, vgElem);
-
-    QDomElement platform = doc.createElement("platform");
-    platform.appendChild(doc.createTextNode(QString::fromStdString(v.getPlatform())));
-    vgElem.appendChild(platform);
-
-    QDomElement multiplayer = doc.createElement("isMultiplayer");
-    multiplayer.appendChild(doc.createTextNode(v.getIsMultiplayer() ? "true" : "false"));
-    vgElem.appendChild(multiplayer);
-
-    root.appendChild(vgElem);
+    xml->writeStartElement("Product");
+    xml->writeAttribute("type", "Videogame");
+    writeCommonAttributes(v);
+    xml->writeTextElement("company", QString::fromStdString(v.getCompany()));
+    xml->writeTextElement("platform", QString::fromStdString(v.getPlatform()));
+    xml->writeTextElement("isMultiplayer", v.getIsMultiplayer() ? "true" : "false");
+    xml->writeEndElement();
 }
 
-QDomDocument& XmlWriterVisitor::getXmlDocument() const {
-    return doc;
-}

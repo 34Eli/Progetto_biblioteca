@@ -1,6 +1,6 @@
 #ifndef VIDEOGAME_H
 #define VIDEOGAME_H
-#include "DigitalProduct.h"
+#include "Sources/Headers/DigitalProduct.h"
 
 class Visitor;
 

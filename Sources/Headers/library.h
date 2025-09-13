@@ -1,6 +1,6 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
-#include "Product.h"
+#include "Sources/Headers/Product.h"
 #include <list>
 
 class Library {
