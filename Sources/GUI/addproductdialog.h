@@ -9,6 +9,7 @@
 #include <QSpinBox>
 #include "Sources/Headers/product.h"
 
+
 class AddProductDialog : public QDialog {
     Q_OBJECT
 

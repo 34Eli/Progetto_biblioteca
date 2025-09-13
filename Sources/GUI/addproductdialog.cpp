@@ -2,6 +2,11 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include "Sources/Headers/film.h"
+#include "Sources/Headers/book.h"
+#include "Sources/Headers/music.h"
+#include "Sources/Headers/videogame.h"
+#include "Sources/Headers/photograph.h"
 
 AddProductDialog::AddProductDialog(QWidget* parent)
     : QDialog(parent), newProduct(nullptr) {
