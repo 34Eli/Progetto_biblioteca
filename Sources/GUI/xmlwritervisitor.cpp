@@ -1,5 +1,4 @@
 #include "xmlwritervisitor.h"
-#include <QDomDocument>
 #include <QString>
 
 XmlWriterVisitor::XmlWriterVisitor(QDomDocument& doc) : doc(doc) {
@@ -49,8 +48,6 @@ void XmlWriterVisitor::physicalFields(const PhysicalProduct& p, QDomElement& ele
     elem.appendChild(author);
 }
 
-// --- VISITORS ---
-
 void XmlWriterVisitor::visitFilm(Film& f) {
     QDomElement filmElem = doc.createElement("Film");
     productFields(f, filmElem);
@@ -68,7 +65,7 @@ void XmlWriterVisitor::visitFilm(Film& f) {
     minutes.appendChild(doc.createTextNode(QString::number(f.getMinutes())));
     filmElem.appendChild(minutes);
 
-    root = filmElem;
+    root.appendChild(filmElem);
 }
 
 void XmlWriterVisitor::visitBook(Book& b) {
@@ -84,7 +81,7 @@ void XmlWriterVisitor::visitBook(Book& b) {
     publisher.appendChild(doc.createTextNode(QString::fromStdString(b.getPublisher())));
     bookElem.appendChild(publisher);
 
-    root = bookElem;
+    root.appendChild(bookElem);
 }
 
 void XmlWriterVisitor::visitMusic(Music& m) {
@@ -104,7 +101,7 @@ void XmlWriterVisitor::visitMusic(Music& m) {
     album.appendChild(doc.createTextNode(QString::fromStdString(m.getAlbum())));
     musicElem.appendChild(album);
 
-    root = musicElem;
+    root.appendChild(musicElem);
 }
 
 void XmlWriterVisitor::visitPhotograph(Photograph& p) {
@@ -124,7 +121,7 @@ void XmlWriterVisitor::visitPhotograph(Photograph& p) {
     width.appendChild(doc.createTextNode(QString::number(p.getWidth())));
     photoElem.appendChild(width);
 
-    root = photoElem;
+    root.appendChild(photoElem);
 }
 
 void XmlWriterVisitor::visitVideogame(Videogame& v) {
@@ -140,12 +137,9 @@ void XmlWriterVisitor::visitVideogame(Videogame& v) {
     multiplayer.appendChild(doc.createTextNode(v.getIsMultiplayer() ? "true" : "false"));
     vgElem.appendChild(multiplayer);
 
-    root = vgElem;
+    root.appendChild(vgElem);
 }
 
-QDomDocument XmlWriterVisitor::getXmlDocument() const {
-    QDomDocument finalDoc = doc;
-    finalDoc.appendChild(root);
-    return finalDoc;
+QDomDocument& XmlWriterVisitor::getXmlDocument() const {
+    return doc;
 }
-
