@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <Product type="Film">
-        <name>Duneeeeee</name>
-        <description>Paul Atreides is a young nobleman, whose family takes control of the desert planet Arrakis — the only source of a powerful substance called spice. After betrayal and war, Paul rises as a leader among the planet's native people, the Fremen, and seeks to fulfill his destiny.yyy</description>
-        <genre>Science fictionnnn</genre>
-        <country>USAaaaa</country>
-        <year_of_publication>2021111</year_of_publication>
+        <name>Dune</name>
+        <description>Paul Atreides is a young nobleman, whose family takes control of the desert planet Arrakis — the only source of a powerful substance called spice. After betrayal and war, Paul rises as a leader among the planet's native people, the Fremen, and seeks to fulfill his destiny</description>
+        <genre>Science fiction</genre>
+        <country>USA</country>
+        <year_of_publication>2021</year_of_publication>
         <cost>44</cost>
         <stars>44</stars>
         <imagePath>img_1757762988333.jpg</imagePath>
-        <company>Warner Brossss</company>
-        <director>Denis Villeneuveee</director>
-        <mainActor>Timotheè Chalamettt</mainActor>
-        <minutes>1555</minutes>
+        <company>Warner Bros</company>
+        <director>Denis Villeneuve</director>
+        <mainActor>Timotheè Chalamet</mainActor>
+        <minutes>155</minutes>
     </Product>
     <Product type="Film">
         <name>The Hateful Eight</name>
