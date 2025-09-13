@@ -10,6 +10,7 @@ void JsonWriterVisitor::productFields(const Product& p){
     obj["year_of_publication"] = p.getYear();
     obj["cost"] = p.getCost();
     obj["stars"] = p.getStars();
+    obj["imagePath"] = QString::fromStdString(p.getImage());
 }
 
 void JsonWriterVisitor::digitalFields(const DigitalProduct& d){
@@ -35,6 +36,7 @@ void JsonWriterVisitor::visitBook(Book& b){
     physicalFields(b);
     obj["pages"] = b.getPages();
     obj["publisher"] = QString::fromStdString(b.getPublisher());
+    obj["ISBN"] = b.getISBN();
 }
 
 void JsonWriterVisitor::visitMusic(Music& m){

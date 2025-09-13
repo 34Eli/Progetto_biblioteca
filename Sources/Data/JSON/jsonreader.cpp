@@ -34,7 +34,7 @@ Film* JsonReader::readFilm(const QJsonObject& obj){
     ProductData prod = readProduct(obj);
     DigitalData dig = readDigital(obj);
     QString director = obj["director"].toString();
-    QString mainActor = obj["mainActor"].toString();
+    QString mainActor = obj["actor"].toString();
     int minutes = obj["minutes"].toInt();
     return new Film(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), director.toStdString(), mainActor.toStdString(), minutes);
     //ricorda di deferenziare puntatore/sistemare la memoria per sta roba del new Film()

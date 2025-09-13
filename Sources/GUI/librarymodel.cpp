@@ -67,10 +67,10 @@ void LibraryModel::addProduct(Product* newProduct) {
     endInsertRows();
 }
 
-/*Product* LibraryModel::getProducts(int row) const{
+Product* LibraryModel::getProducts(int row) const{
     if (row >= 0 && row < products.size()){
         return products[row];
     } else {
         return nullptr;
     }
-}*/
+}

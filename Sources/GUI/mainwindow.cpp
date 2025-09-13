@@ -143,6 +143,7 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
         return;
 
     InfoVisitor* visitor = new InfoVisitor(this);
+    visitor->setProduct(p);
     p->accept(*visitor);
     QWidget* productWidget = visitor->getWidget();
 
@@ -192,6 +193,15 @@ void MainWindow::openAddProductDialog() {
 }
 
 void MainWindow::saveProducts(){
+    if (model->rowCount() > 0) {
+        Product* test = model->getProducts(0);
+        if (test) {
+            qDebug() << "DEBUG nome prodotto [prima di scrivere]:"
+                     << QString::fromStdString(test->getName());
+            qDebug() << "DEBUG descrizione:"
+                     << QString::fromStdString(test->getDescription());
+        }
+    }
     if (filePath.endsWith(".json")) {
         saveToJson();
     } else if (filePath.endsWith(".xml")) {
@@ -199,17 +209,23 @@ void MainWindow::saveProducts(){
     } else {
         QMessageBox::warning(this, "Errore", "Formato di file non supportato.");
     }
+    qDebug() << "Salvataggio in corso su:" << filePath;
 }
 
 void MainWindow::saveToJson(){
+
     QJsonArray array;
 
-    for (Product* p : productList) {
-        JsonWriterVisitor writer;
-        p->accept(writer);
-        array.append(writer.getJsonObject());
+    for (int row = 0; row < model->rowCount(); ++row) {
+        Product* p = model->getProducts(row);
+        if (p) {
+            JsonWriterVisitor writer;
+            p->accept(writer);
+            array.append(writer.getJsonObject());
+        }
     }
 
+    qDebug() << "Numero prodotti salvati:" << array.size();
     QJsonDocument doc(array);
     QFile file(filePath);
 
@@ -223,14 +239,18 @@ void MainWindow::saveToJson(){
 }
 
 void MainWindow::saveToXml(){
+
     QDomDocument doc("Library");
     QDomElement root = doc.createElement("Products");
     doc.appendChild(root);
 
-    for (Product* p : productList) {
-        XmlWriterVisitor writer(doc);
-        p->accept(writer);
-        root.appendChild(writer.getXmlDocument());
+    for (int row = 0; row < model->rowCount(); ++row) {
+        Product* p = model->getProducts(row);
+        if (p) {
+            XmlWriterVisitor writer(doc);
+            p->accept(writer);
+            root.appendChild(writer.getXmlDocument());
+        }
     }
 
     QFile file(filePath);

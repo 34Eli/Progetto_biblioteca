@@ -12,8 +12,9 @@
 #include "Sources/Headers/music.h"
 #include "Sources/Headers/videogame.h"
 #include "Sources/Headers/photograph.h"
-#include "Sources/GUI/typevisitor.h"
 #include "Sources/Model/visitor.h"
+
+#include <QLineEdit>
 
 class InfoVisitor : public QObject, public Visitor
 {
@@ -28,8 +29,12 @@ private:
     QPushButton* modifyButton;
     QPushButton* saveButton;
     QPushButton* deleteButton;
+    QPushButton* imageButton;
 
-    QList<QWidget*> editableFields;
+    //QList<QWidget*> editableFields;
+    QMap<QString, QWidget*> editableMap;
+
+    QLineEdit* imageEdit;
 
 private slots:
     void enableEdit();
