@@ -7,7 +7,7 @@
 #include "Sources/Headers/videogame.h"
 
 #include <QList>
-#include <Qfile>
+#include <QFile>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
