@@ -1,4 +1,4 @@
-#include "addproductdialog.h"
+#include "Sources/GUI/addproductdialog.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QMessageBox>

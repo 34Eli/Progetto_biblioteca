@@ -1,4 +1,4 @@
-#include "typevisitor.h"
+#include "Sources/GUI/typevisitor.h"
 
 TypeVisitor::TypeVisitor() {}
 

@@ -1,4 +1,4 @@
-#include "libraryfilterproxymodel.h"
+#include "Sources/GUI/libraryfilterproxymodel.h"
 #include "Sources/Headers/product.h"
 #include "Sources/GUI/typevisitor.h"
 

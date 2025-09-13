@@ -1,4 +1,4 @@
-#include "infovisitor.h"
+#include "Sources/GUI/infovisitor.h"
 #include "Sources/Headers/film.h"
 #include "Sources/Headers/book.h"
 #include "Sources/Headers/music.h"

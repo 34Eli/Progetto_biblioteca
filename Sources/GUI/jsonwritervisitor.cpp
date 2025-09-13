@@ -1,4 +1,4 @@
-#include "jsonwritervisitor.h"
+#include "Sources/GUI/jsonwritervisitor.h"
 
 JsonWriterVisitor::JsonWriterVisitor() {}
 

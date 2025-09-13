@@ -1,4 +1,4 @@
-#include "jsonreader.h"
+#include "Sources/Data/JSON/jsonreader.h"
 #include <QFileInfo> //per test
 
 

@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "Sources/GUI/mainwindow.h"
 #include "Sources/Data/JSON/jsonreader.h"
 #include "Sources/Data/XML/xmlreader.h"
 #include "Sources/GUI/infovisitor.h"

@@ -1,4 +1,4 @@
-#include "xmlwritervisitor.h"
+#include "Sources/GUI/xmlwritervisitor.h"
 #include <QString>
 #include <QFile>
 #include <QDebug>

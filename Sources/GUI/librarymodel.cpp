@@ -1,4 +1,4 @@
-#include "librarymodel.h"
+#include "Sources/GUI/librarymodel.h"
 #include <QString>
 #include <QPixmap>
 #include <QCoreApplication>

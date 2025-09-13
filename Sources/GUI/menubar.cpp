@@ -1,4 +1,4 @@
-#include "menubar.h"
+#include "Sources/GUI/menubar.h"
 #include <QMenu>
 
 MenuBar::MenuBar(QWidget* parent) : QMenuBar(parent) {
