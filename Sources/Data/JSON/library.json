@@ -30,14 +30,14 @@
         "year_of_publication": 2015
     },
     {
-        "actor": "Johnny Deppppppppp",
-        "company": "Disneyyyyyyyy",
+        "actor": "Johnny Depp",
+        "company": "Disney",
         "cost": 5,
         "country": "USA",
         "description": "Pirates of the Caribbean follows the pirate Captain Jack Sparrow as he teams up with a blacksmith, Will Turner, to rescue Elizabeth Swann and stop a crew of cursed pirates led by Captain Barbossa.",
         "director": "Gore Verbinski",
         "genre": "Adventure",
-        "imagePath": "img_1757751707420.jpg",
+        "imagePath": "pirati_dei_caraibi.jpg",
         "minutes": 144,
         "name": "Pirates of the Caribbean",
         "stars": 4,
@@ -45,19 +45,19 @@
         "year_of_publication": 2003
     },
     {
-        "actor": "Peter Jackson",
-        "company": "178",
-        "cost": 2001,
+        "actor": "Elijah Wood",
+        "company": "New Line Cinema",
+        "cost": 20,
         "country": "Fantasy",
         "description": "A young hobbit, Frodo Baggins, must destroy a powerful ring to stop the dark lord Sauron from conquering Middle-earth (his home). Alongside friends, he embarks on a perilous journey to Mount Doom.",
-        "director": "5",
+        "director": "Peter Jackson",
         "genre": "Fantasy",
         "imagePath": "signore_degli_anelli.jpg",
-        "minutes": 0,
+        "minutes": 218,
         "name": "Lord of the rings",
         "stars": 5,
         "type": "Film",
-        "year_of_publication": 0
+        "year_of_publication": 2001
     },
     {
         "album": "Jungle",
