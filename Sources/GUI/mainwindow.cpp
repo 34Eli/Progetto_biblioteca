@@ -16,6 +16,9 @@
 #include <QDebug>
 #include <QDomDocument>
 #include <QTextStream>
+#include <QGraphicsDropShadowEffect>
+#include <QVariant>
+#include <QList>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent),
     model(new LibraryModel(this)),
@@ -67,6 +70,9 @@ void MainWindow::setupUI() {
     QWidget* centralWidget = new QWidget(this);
     this->setCentralWidget(centralWidget);
 
+    // Aggiungi uno sfondo con gradiente al widget centrale e bordi arrotondati
+    centralWidget->setStyleSheet("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1E1E1E, stop:1 #333333); border-radius: 15px;");
+
     listView = new QListView(this);
     listView->setViewMode(QListView::IconMode);
     listView->setIconSize(QSize(100, 100));
@@ -75,6 +81,16 @@ void MainWindow::setupUI() {
     listView->setResizeMode(QListView::Adjust);
     listView->setMovement(QListView::Static);
 
+    // Stile e ombra per la QListView
+    listView->setStyleSheet("QListView { background: #3c3c3c; border-radius: 12px; }"
+                            "QListView::item { background: #444444; border-radius: 8px; }"
+                            "QListView::item:hover { background: #555555; }");
+    QGraphicsDropShadowEffect* listViewShadow = new QGraphicsDropShadowEffect(this);
+    listViewShadow->setBlurRadius(15);
+    listViewShadow->setColor(QColor(0, 0, 0, 150));
+    listViewShadow->setOffset(4, 4);
+    listView->setGraphicsEffect(listViewShadow);
+
     btnAll = new QPushButton("All", this);
     btnBook = new QPushButton("Book", this);
     btnFilm = new QPushButton("Film", this);
@@ -82,6 +98,7 @@ void MainWindow::setupUI() {
     btnVideogame = new QPushButton("Videogame", this);
     btnPhotograph = new QPushButton("Photograph", this);
 
+    // Layout per i bottoni
     QVBoxLayout* buttonLayout = new QVBoxLayout;
     buttonLayout->addWidget(btnAll);
     buttonLayout->addWidget(btnBook);
@@ -93,15 +110,50 @@ void MainWindow::setupUI() {
 
     QWidget* buttonWidget = new QWidget(this);
     buttonWidget->setLayout(buttonLayout);
+    // Imposta lo stile del widget contenitore
+    buttonWidget->setStyleSheet("QWidget { background-color: #2c3e50; border-radius: 15px; }");
+
+    // Applica lo stile e l'ombra a tutti i pulsanti in modo automatico
+    for (QPushButton* button : buttonWidget->findChildren<QPushButton*>()) {
+        QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
+        shadowEffect->setBlurRadius(10);
+        shadowEffect->setColor(QColor(0, 0, 0, 100));
+        shadowEffect->setOffset(2, 2);
+        button->setGraphicsEffect(shadowEffect);
+
+        // Nuovi colori a gradiente per i pulsanti
+        button->setStyleSheet("QPushButton { border: 1px solid #555; color: #ecf0f1; border-radius: 8px; background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #424242, stop:1 #525252); padding: 8px; }"
+                              "QPushButton:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #525252, stop:1 #424242); }"
+                              "QPushButton:pressed { background: #3c3c3c; }");
+    }
 
     searchBar = new QLineEdit(this);
     searchBar->setPlaceholderText("Search by name...");
+    searchBar->setStyleSheet("QLineEdit { background-color: #2c3e50; color: #ecf0f1; border: 1px solid #34495e; border-radius: 8px; padding: 5px; }"
+                             "QLineEdit:focus { border: 1px solid #4a637a; }");
+
+    // Ombra per la searchBar
+    QGraphicsDropShadowEffect* searchBarShadow = new QGraphicsDropShadowEffect(this);
+    searchBarShadow->setBlurRadius(10);
+    searchBarShadow->setColor(QColor(0, 0, 0, 100));
+    searchBarShadow->setOffset(2, 2);
+    searchBar->setGraphicsEffect(searchBarShadow);
 
     QVBoxLayout* listLayout = new QVBoxLayout;
     listLayout->addWidget(searchBar);
+
+    // Linea separatrice
+    QFrame* line = new QFrame(this);
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    line->setStyleSheet("QFrame { background-color: #4a637a; margin-top: 5px; margin-bottom: 5px; }");
+    listLayout->addWidget(line);
+
     listLayout->addWidget(listView);
+
     QWidget* listWidget = new QWidget(this);
     listWidget->setLayout(listLayout);
+    listWidget->setStyleSheet("QWidget { background-color: #3c3c3c; border-radius: 15px; }");
 
     QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->addWidget(buttonWidget);
@@ -128,6 +180,7 @@ void MainWindow::setupUI() {
     connect(searchBar, &QLineEdit::textChanged, proxymodel, &LibraryFilterProxyModel::setSearchFilter);
     connect(listView, &QListView::clicked, this, &MainWindow::showProductDetails);
 }
+
 
 void MainWindow::loadFromJson() {
     filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
