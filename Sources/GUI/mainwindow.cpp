@@ -162,6 +162,7 @@ void MainWindow::setupUI() {
     mainPage = new QWidget;
     mainPage->setLayout(mainLayout);
     infoPage = new QWidget;
+    infoPage->setLayout(new QVBoxLayout);
     stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(mainPage);
     stackedWidget->addWidget(infoPage);
@@ -213,17 +214,16 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     infoVisitor = new InfoVisitor(this);
     infoVisitor->setProduct(p);
     infoVisitor->setProductIndex(sourceIndex);
-    p->accept(*infoVisitor);
+    //p->accept(*infoVisitor);
     QWidget* productWidget = infoVisitor->getWidget();
 
-    QLayout* layout = infoPage->layout();
-    if (!layout) {
-        layout = new QVBoxLayout(infoPage);
+    if (!infoPage->layout()) {
+        QVBoxLayout* layout = new QVBoxLayout(infoPage);
+        layout->addWidget(productWidget);
     } else {
-        clearLayout(layout);
+        clearLayout(infoPage->layout());
+        infoPage->layout()->addWidget(productWidget);
     }
-
-    layout->addWidget(productWidget);
 
     connect(infoVisitor, &InfoVisitor::backSignal, this, [this]() {
         stackedWidget->setCurrentWidget(mainPage);
@@ -233,18 +233,6 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     connect(infoVisitor, &InfoVisitor::modifiedSignal, this, &MainWindow::saveProducts);
 
     stackedWidget->setCurrentWidget(infoPage);
-}
-
-void MainWindow::deleteProduct() {
-    if (infoVisitor && infoVisitor->getProductIndex().isValid()) {
-        QModelIndex sourceIndex = infoVisitor->getProductIndex();
-        if (model->removeRow(sourceIndex.row())) {
-            saveProducts();
-            stackedWidget->setCurrentWidget(mainPage);
-            delete infoVisitor;
-            infoVisitor = nullptr;
-        }
-    }
 }
 
 void MainWindow::clearLayout(QLayout* layout) {
@@ -319,5 +307,23 @@ void MainWindow::saveToXml() {
         QMessageBox::warning(this, "Errore", "Impossibile scrivere nel file XML.");
     } else {
         qDebug() << "File XML salvato correttamente in" << filePath;
+    }
+}
+
+void MainWindow::deleteProduct() {
+    if (!infoVisitor || !infoVisitor->getProductIndex().isValid())
+        return;
+
+    QModelIndex sourceIndex = infoVisitor->getProductIndex();
+
+    if (model->removeRow(sourceIndex.row())) {
+        saveProducts();
+
+        // Pulisci infoPage e distruggi infoVisitor
+        clearLayout(infoPage->layout());
+        delete infoVisitor;
+        infoVisitor = nullptr;
+
+        stackedWidget->setCurrentWidget(mainPage);
     }
 }

@@ -30,13 +30,15 @@ InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {
 }
 
 void InfoVisitor::setProduct(Product* p) {
+
     product = p;
-    if (p) {
-        TypeVisitor visitor;
-        p->accept(visitor);
-        productType = visitor.getType();
-        p->accept(*this);
-    }
+    if (!p) return;
+
+    TypeVisitor visitor;
+    p->accept(visitor);
+    productType = visitor.getType();
+
+    p->accept(*this);
 }
 
 void InfoVisitor::setProductIndex(const QModelIndex& index) {
@@ -88,6 +90,7 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p) {
 }
 
 void InfoVisitor::visitFilm(Film& f) {
+    resetWidget();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QWidget* imageWidget = createImageWidget(f);
     mainLayout->addWidget(imageWidget);
@@ -124,6 +127,7 @@ void InfoVisitor::visitFilm(Film& f) {
 }
 
 void InfoVisitor::visitVideogame(Videogame& v) {
+    resetWidget();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QWidget* imageWidget = createImageWidget(v);
     mainLayout->addWidget(imageWidget);
@@ -157,6 +161,7 @@ void InfoVisitor::visitVideogame(Videogame& v) {
 }
 
 void InfoVisitor::visitMusic(Music& m) {
+    resetWidget();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QWidget* imageWidget = createImageWidget(m);
     mainLayout->addWidget(imageWidget);
@@ -193,6 +198,7 @@ void InfoVisitor::visitMusic(Music& m) {
 }
 
 void InfoVisitor::visitBook(Book& b) {
+    resetWidget();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QWidget* imageWidget = createImageWidget(b);
     mainLayout->addWidget(imageWidget);
@@ -229,6 +235,7 @@ void InfoVisitor::visitBook(Book& b) {
 }
 
 void InfoVisitor::visitPhotograph(Photograph& p) {
+    resetWidget();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QWidget* imageWidget = createImageWidget(p);
     mainLayout->addWidget(imageWidget);
@@ -339,14 +346,13 @@ QWidget* InfoVisitor::createButtonWidget() {
 }
 
 void InfoVisitor::enableEdit() {
-    for (auto m : editableMap) {
-        if (auto* lineEdit = qobject_cast<QLineEdit*>(m)) lineEdit->setReadOnly(false);
-        else if (auto* textEdit = qobject_cast<QTextEdit*>(m)) textEdit->setReadOnly(false);
-        else if (auto* checkBox = qobject_cast<QCheckBox*>(m)) checkBox->setEnabled(true);
+    for (auto it = editableMap.constBegin(); it != editableMap.constEnd(); ++it) {
+        QWidget* w = it.value();
+        if (auto* le = qobject_cast<QLineEdit*>(w)) le->setReadOnly(false);
+        else if (auto* te = qobject_cast<QTextEdit*>(w)) te->setReadOnly(false);
+        else if (auto* cb = qobject_cast<QCheckBox*>(w)) cb->setEnabled(true);
     }
-    if (saveButton) {
-        saveButton->setEnabled(true);
-    }
+    if (saveButton) saveButton->setEnabled(true);
 }
 
 void InfoVisitor::applyEdits() {
@@ -416,20 +422,14 @@ void InfoVisitor::applyEdits() {
         }
     }
 
-    for (auto w : editableMap) {
-        if (auto* lineEdit = qobject_cast<QLineEdit*>(w)) {
-            lineEdit->setReadOnly(true);
-        } else if (auto* textEdit = qobject_cast<QTextEdit*>(w)) {
-            textEdit->setReadOnly(true);
-        } else if (auto* checkBox = qobject_cast<QCheckBox*>(w)) {
-            checkBox->setEnabled(false);
-        }
+    for (auto it = editableMap.constBegin(); it != editableMap.constEnd(); ++it) {
+        QWidget* w = it.value();
+        if (auto* le = qobject_cast<QLineEdit*>(w)) le->setReadOnly(true);
+        else if (auto* te = qobject_cast<QTextEdit*>(w)) te->setReadOnly(true);
+        else if (auto* cb = qobject_cast<QCheckBox*>(w)) cb->setEnabled(false);
     }
-
     emit modifiedSignal();
-    if (saveButton) {
-        saveButton->setEnabled(false);
-    }
+
 }
 
 QModelIndex InfoVisitor::getProductIndex() const {
@@ -438,6 +438,32 @@ QModelIndex InfoVisitor::getProductIndex() const {
 
 void InfoVisitor::on_deleteButton_clicked() {
     emit deleteProductSignal();
+}
+
+void InfoVisitor::deleteLayoutRecursively(QLayout* layout) {
+    if (!layout) return;
+    QLayoutItem* item;
+    while ((item = layout->takeAt(0)) != nullptr) {
+        if (QWidget* w = item->widget()) {
+            delete w;
+        } else if (QLayout* child = item->layout()) {
+            deleteLayoutRecursively(child);
+            delete child;
+        }
+        delete item;
+    }
+}
+
+void InfoVisitor::resetWidget() {
+    if (!widget) widget = new QWidget;
+
+    QLayout* old = widget->layout();
+    if (old) {
+        deleteLayoutRecursively(old); // rimuove widget figli + sub-layouts
+        delete old;                  // elimina il QLayout stesso
+    }
+
+    editableMap.clear(); // svuota le mappe di puntatori
 }
 
 QWidget* InfoVisitor::getWidget() const {

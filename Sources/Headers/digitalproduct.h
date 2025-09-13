@@ -1,6 +1,6 @@
 #ifndef DIGITALPRODUCT_H
 #define DIGITALPRODUCT_H
-#include "Sources/Headers/Product.h"
+#include "Sources/Headers/product.h"
 
 class DigitalProduct : public Product {
 

@@ -40,6 +40,9 @@ public:
     void visitBook(Book& b) override;
     void visitPhotograph(Photograph& p) override;
 
+    void resetWidget(); // cancella layout + children e svuota editableMap
+    static void deleteLayoutRecursively(QLayout* layout);
+
 signals:
     void modifiedSignal();
     void backSignal();

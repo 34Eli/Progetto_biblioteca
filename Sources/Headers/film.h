@@ -1,6 +1,6 @@
 #ifndef FILM_H
 #define FILM_H
-#include "Sources/Headers/DigitalProduct.h"
+#include "Sources/Headers/digitalproduct.h"
 
 class Visitor;
 
