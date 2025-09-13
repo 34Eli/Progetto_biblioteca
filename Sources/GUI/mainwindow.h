@@ -6,7 +6,10 @@
 #include <QPushButton>
 #include "Sources/GUI/librarymodel.h"
 #include "Sources/GUI/libraryfilterproxymodel.h"
+#include "Sources/GUI/infovisitor.h"
 #include <QStackedWidget>
+#include <memory>
+#include <QModelIndex>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -30,6 +33,8 @@ private:
     QString filePath;
     QList<Product*> productList;
 
+    InfoVisitor* infoVisitor;
+
 private slots:
     void filterAll();
     void filterBooks();
@@ -38,6 +43,7 @@ private slots:
     void filterVideogames();
     void filterPhotograph();
     void openAddProductDialog();
+    void deleteProduct();
 
 public:
     MainWindow(QWidget *parent = nullptr);

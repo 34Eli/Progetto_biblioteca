@@ -22,15 +22,28 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QFileInfo>
+#include <QDateTime>
 
-//scroll bar (anche per descrizioni lunghe)
-//limiti anni
-//togliere limite descrizione (renderlo flessibile)
-//stile
+InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {
+    widget = new QWidget;
+}
 
-InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {}
+void InfoVisitor::setProduct(Product* p) {
+    product = p;
+    if (p) {
+        TypeVisitor visitor;
+        p->accept(visitor);
+        productType = visitor.getType();
+        p->accept(*this);
+    }
+}
 
-QFormLayout* InfoVisitor::commonSetUp(Product& p){
+void InfoVisitor::setProductIndex(const QModelIndex& index) {
+    productIndex = index;
+}
+
+QFormLayout* InfoVisitor::commonSetUp(Product& p) {
     QFormLayout* commonLayout = new QFormLayout();
 
     QLineEdit* titleEdit = new QLineEdit(QString::fromStdString(p.getName()));
@@ -75,23 +88,17 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p){
 }
 
 void InfoVisitor::visitFilm(Film& f) {
-    QWidget* filmPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
-
     QWidget* imageWidget = createImageWidget(f);
     mainLayout->addWidget(imageWidget);
-
     QFormLayout* filmLayout = commonSetUp(f);
 
     QLineEdit* directorEdit = new QLineEdit(QString::fromStdString(f.getDirector()));
     directorEdit->setReadOnly(true);
-
     QLineEdit* actorEdit = new QLineEdit(QString::fromStdString(f.getActor()));
     actorEdit->setReadOnly(true);
-
     QLineEdit* minutesEdit = new QLineEdit(QString::number(f.getMinutes()));
     minutesEdit->setReadOnly(true);
-
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(f.getCompany()));
     companyEdit->setReadOnly(true);
 
@@ -113,25 +120,19 @@ void InfoVisitor::visitFilm(Film& f) {
     finalLayout->addLayout(mainLayout);
     finalLayout->addWidget(createButtonWidget());
 
-    filmPage->setLayout(finalLayout);
-    widget = filmPage;
+    widget->setLayout(finalLayout);
 }
 
 void InfoVisitor::visitVideogame(Videogame& v) {
-    QWidget* videogamePage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
-
     QWidget* imageWidget = createImageWidget(v);
     mainLayout->addWidget(imageWidget);
-
     QFormLayout* videogameLayout = commonSetUp(v);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(v.getCompany()));
     companyEdit->setReadOnly(true);
-
     QLineEdit* platformEdit = new QLineEdit(QString::fromStdString(v.getPlatform()));
     platformEdit->setReadOnly(true);
-
     QCheckBox* multiplayerBox = new QCheckBox("Multiplayer");
     multiplayerBox->setChecked(v.getIsMultiplayer());
     multiplayerBox->setEnabled(false);
@@ -152,28 +153,21 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     finalLayout->addLayout(mainLayout);
     finalLayout->addWidget(createButtonWidget());
 
-    videogamePage->setLayout(finalLayout);
-    widget = videogamePage;
+    widget->setLayout(finalLayout);
 }
 
 void InfoVisitor::visitMusic(Music& m) {
-    QWidget* musicPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
-
     QWidget* imageWidget = createImageWidget(m);
     mainLayout->addWidget(imageWidget);
-
     QFormLayout* musicLayout = commonSetUp(m);
 
     QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(m.getCompany()));
     companyEdit->setReadOnly(true);
-
     QLineEdit* singerEdit = new QLineEdit(QString::fromStdString(m.getSinger()));
     singerEdit->setReadOnly(true);
-
     QLineEdit* albumEdit = new QLineEdit(QString::fromStdString(m.getAlbum()));
     albumEdit->setReadOnly(true);
-
     QLineEdit* minutesEdit = new QLineEdit(QString::number(m.getMinutes()));
     minutesEdit->setReadOnly(true);
 
@@ -195,28 +189,21 @@ void InfoVisitor::visitMusic(Music& m) {
     finalLayout->addLayout(mainLayout);
     finalLayout->addWidget(createButtonWidget());
 
-    musicPage->setLayout(finalLayout);
-    widget = musicPage;
+    widget->setLayout(finalLayout);
 }
 
 void InfoVisitor::visitBook(Book& b) {
-    QWidget* bookPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
-
     QWidget* imageWidget = createImageWidget(b);
     mainLayout->addWidget(imageWidget);
-
     QFormLayout* bookLayout = commonSetUp(b);
 
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(b.getAuthor()));
     authorEdit->setReadOnly(true);
-
     QLineEdit* pagesEdit = new QLineEdit(QString::number(b.getPages()));
     pagesEdit->setReadOnly(true);
-
     QLineEdit* publisherEdit = new QLineEdit(QString::fromStdString(b.getPublisher()));
     publisherEdit->setReadOnly(true);
-
     QLineEdit* isbnEdit = new QLineEdit(QString::number(b.getISBN()));
     isbnEdit->setReadOnly(true);
 
@@ -238,29 +225,22 @@ void InfoVisitor::visitBook(Book& b) {
     finalLayout->addLayout(mainLayout);
     finalLayout->addWidget(createButtonWidget());
 
-    bookPage->setLayout(finalLayout);
-    widget = bookPage;
+    widget->setLayout(finalLayout);
 }
 
 void InfoVisitor::visitPhotograph(Photograph& p) {
-    QWidget* photographPage = new QWidget;
     QHBoxLayout* mainLayout = new QHBoxLayout();
-
     QWidget* imageWidget = createImageWidget(p);
     mainLayout->addWidget(imageWidget);
-
     QFormLayout* photographLayout = commonSetUp(p);
 
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(p.getAuthor()));
     authorEdit->setReadOnly(true);
-
     QCheckBox* colourBox = new QCheckBox("Colorata");
     colourBox->setChecked(p.getIsColourful());
     colourBox->setEnabled(false);
-
     QLineEdit* lengthEdit = new QLineEdit(QString::number(p.getLength()));
     lengthEdit->setReadOnly(true);
-
     QLineEdit* widthEdit = new QLineEdit(QString::number(p.getWidth()));
     widthEdit->setReadOnly(true);
 
@@ -282,15 +262,12 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     finalLayout->addLayout(mainLayout);
     finalLayout->addWidget(createButtonWidget());
 
-    photographPage->setLayout(finalLayout);
-    widget = photographPage;
+    widget->setLayout(finalLayout);
 }
 
-QWidget* InfoVisitor::createImageWidget(Product& p){
-
+QWidget* InfoVisitor::createImageWidget(Product& p) {
     QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
-
     QLabel* imageLabel = new QLabel();
     QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
     QString image = QString::fromStdString(p.getImage());
@@ -305,14 +282,13 @@ QWidget* InfoVisitor::createImageWidget(Product& p){
     }
 
     QPushButton* changeImageButton = new QPushButton("Change image");
-
     imageEdit = new QLineEdit(image);
     imageEdit->setReadOnly(true);
     editableMap["image"] = imageEdit;
+
     connect(changeImageButton, &QPushButton::clicked, this, [this, imageLabel]() {
         QString srcPath = QFileDialog::getOpenFileName(nullptr, "Seleziona Immagine", "", "Immagini (*.png *.jpg *.jpeg)");
         if (!srcPath.isEmpty()) {
-
             QString extension = QFileInfo(srcPath).suffix();
             QString uniqueName = "img_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + "." + extension;
             QString destDir = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
@@ -322,7 +298,9 @@ QWidget* InfoVisitor::createImageWidget(Product& p){
                 QPixmap newPix(destPath);
                 imageLabel->setPixmap(newPix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
                 imageEdit->setText(uniqueName);
-                saveButton->setEnabled(true);
+                if (saveButton) {
+                    saveButton->setEnabled(true);
+                }
             } else {
                 QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");
             }
@@ -336,7 +314,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p){
     return container;
 }
 
-QWidget* InfoVisitor::createButtonWidget(){
+QWidget* InfoVisitor::createButtonWidget() {
     QWidget* buttonWidget = new QWidget();
     QHBoxLayout* buttonLayout = new QHBoxLayout(buttonWidget);
 
@@ -344,7 +322,6 @@ QWidget* InfoVisitor::createButtonWidget(){
     modifyButton = new QPushButton("Modify");
     saveButton = new QPushButton("Save");
     saveButton->setEnabled(false);
-
     deleteButton = new QPushButton("Delete");
     deleteButton->setStyleSheet("background-color: red; color: white; font-weight: bold;");
 
@@ -356,39 +333,26 @@ QWidget* InfoVisitor::createButtonWidget(){
     connect(backButton, &QPushButton::clicked, this, &InfoVisitor::backSignal);
     connect(modifyButton, &QPushButton::clicked, this, &InfoVisitor::enableEdit);
     connect(saveButton, &QPushButton::clicked, this, &InfoVisitor::applyEdits);
-    connect(deleteButton, &QPushButton::clicked, this, &InfoVisitor::deleteProduct);
+    connect(deleteButton, &QPushButton::clicked, this, &InfoVisitor::on_deleteButton_clicked);
 
     return buttonWidget;
 }
 
-void InfoVisitor::enableEdit(){
-
+void InfoVisitor::enableEdit() {
     for (auto m : editableMap) {
         if (auto* lineEdit = qobject_cast<QLineEdit*>(m)) lineEdit->setReadOnly(false);
         else if (auto* textEdit = qobject_cast<QTextEdit*>(m)) textEdit->setReadOnly(false);
         else if (auto* checkBox = qobject_cast<QCheckBox*>(m)) checkBox->setEnabled(true);
     }
-    if (saveButton) saveButton->setEnabled(true);
-}
-
-void InfoVisitor::deleteProduct() {
-    if (product) {
-        emit deleteSignal(product);
+    if (saveButton) {
+        saveButton->setEnabled(true);
     }
 }
 
-void InfoVisitor::setProduct(Product* p){
-    product = p;
-    if (p) {
-        TypeVisitor visitor;
-        p->accept(visitor);
-        productType = visitor.getType();
+void InfoVisitor::applyEdits() {
+    if (!product) {
+        return;
     }
-}
-
-void InfoVisitor::applyEdits(){
-
-    if (!product) return;
 
     if (editableMap.contains("image")) {
         QLineEdit* imgEdit = qobject_cast<QLineEdit*>(editableMap["image"]);
@@ -397,11 +361,13 @@ void InfoVisitor::applyEdits(){
         }
     }
 
-    if (auto* title = qobject_cast<QLineEdit*>(editableMap["name"]))
+    if (auto* title = qobject_cast<QLineEdit*>(editableMap["name"])) {
         product->setName(title->text().toStdString());
+    }
 
-    if (auto* descr = qobject_cast<QTextEdit*>(editableMap["description"]))
+    if (auto* descr = qobject_cast<QTextEdit*>(editableMap["description"])) {
         product->setDescription(descr->toPlainText().toStdString());
+    }
 
     product->setGenre(qobject_cast<QLineEdit*>(editableMap["genre"])->text().toStdString());
     product->setCountry(qobject_cast<QLineEdit*>(editableMap["country"])->text().toStdString());
@@ -417,9 +383,7 @@ void InfoVisitor::applyEdits(){
             f->setMinutes(qobject_cast<QLineEdit*>(editableMap["minutes"])->text().toInt());
             f->setCompany(qobject_cast<QLineEdit*>(editableMap["company"])->text().toStdString());
         }
-    }
-
-    else if (productType == "Music") {
+    } else if (productType == "Music") {
         Music* m = dynamic_cast<Music*>(product);
         if (m) {
             m->setCompany(qobject_cast<QLineEdit*>(editableMap["company"])->text().toStdString());
@@ -427,16 +391,14 @@ void InfoVisitor::applyEdits(){
             m->setAlbum(qobject_cast<QLineEdit*>(editableMap["album"])->text().toStdString());
             m->setMinutes(qobject_cast<QLineEdit*>(editableMap["minutes"])->text().toInt());
         }
-    }
-    else if (productType == "Videogame") {
+    } else if (productType == "Videogame") {
         Videogame* v = dynamic_cast<Videogame*>(product);
         if (v) {
             v->setCompany(qobject_cast<QLineEdit*>(editableMap["company"])->text().toStdString());
             v->setPlatform(qobject_cast<QLineEdit*>(editableMap["platform"])->text().toStdString());
             v->setIsMultiplayer(qobject_cast<QCheckBox*>(editableMap["isMultiplayer"])->isChecked());
         }
-    }
-    else if (productType == "Book") {
+    } else if (productType == "Book") {
         Book* b = dynamic_cast<Book*>(product);
         if (b) {
             b->setAuthor(qobject_cast<QLineEdit*>(editableMap["author"])->text().toStdString());
@@ -444,8 +406,7 @@ void InfoVisitor::applyEdits(){
             b->setPublisher(qobject_cast<QLineEdit*>(editableMap["publisher"])->text().toStdString());
             b->setISBN(qobject_cast<QLineEdit*>(editableMap["ISBN"])->text().toInt());
         }
-    }
-    else if (productType == "Photograph") {
+    } else if (productType == "Photograph") {
         Photograph* p = dynamic_cast<Photograph*>(product);
         if (p) {
             p->setAuthor(qobject_cast<QLineEdit*>(editableMap["author"])->text().toStdString());
@@ -456,13 +417,27 @@ void InfoVisitor::applyEdits(){
     }
 
     for (auto w : editableMap) {
-        if (auto* lineEdit = qobject_cast<QLineEdit*>(w)) lineEdit->setReadOnly(true);
-        else if (auto* textEdit = qobject_cast<QTextEdit*>(w)) textEdit->setReadOnly(true);
-        else if (auto* checkBox = qobject_cast<QCheckBox*>(w)) checkBox->setEnabled(false);
+        if (auto* lineEdit = qobject_cast<QLineEdit*>(w)) {
+            lineEdit->setReadOnly(true);
+        } else if (auto* textEdit = qobject_cast<QTextEdit*>(w)) {
+            textEdit->setReadOnly(true);
+        } else if (auto* checkBox = qobject_cast<QCheckBox*>(w)) {
+            checkBox->setEnabled(false);
+        }
     }
 
     emit modifiedSignal();
-    if (saveButton) saveButton->setEnabled(false);
+    if (saveButton) {
+        saveButton->setEnabled(false);
+    }
+}
+
+QModelIndex InfoVisitor::getProductIndex() const {
+    return productIndex;
+}
+
+void InfoVisitor::on_deleteButton_clicked() {
+    emit deleteProductSignal();
 }
 
 QWidget* InfoVisitor::getWidget() const {
