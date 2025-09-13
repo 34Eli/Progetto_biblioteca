@@ -15,7 +15,6 @@ AddProductDialog::AddProductDialog(QWidget* parent)
 }
 
 AddProductDialog::~AddProductDialog() {
-    delete newProduct;
 }
 
 void AddProductDialog::setupUI() {
@@ -81,5 +80,7 @@ void AddProductDialog::updateUIForProductType(const QString& type) {
 }
 
 Product* AddProductDialog::getNewProduct() const {
-    return newProduct;
+    Product* temp = newProduct;
+    const_cast<AddProductDialog*>(this)->newProduct = nullptr;
+    return temp;
 }
