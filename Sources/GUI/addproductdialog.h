@@ -8,11 +8,6 @@
 #include <QFormLayout>
 #include <QSpinBox>
 #include "Sources/Headers/product.h"
-#include "Sources/Headers/book.h"
-#include "Sources/Headers/film.h"
-#include "Sources/Headers/music.h"
-#include "Sources/Headers/videogame.h"
-#include "Sources/Headers/photograph.h"
 
 class AddProductDialog : public QDialog {
     Q_OBJECT
