@@ -1,6 +1,6 @@
 #ifndef PHYSICALPRODUCT_H
 #define PHYSICALPRODUCT_H
-#include "Product.h"
+#include "Sources/Headers/Product.h"
 
 class PhysicalProduct : public Product {
 

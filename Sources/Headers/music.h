@@ -1,6 +1,6 @@
 #ifndef MUSIC_H
 #define MUSIC_H
-#include "DigitalProduct.h"
+#include "Sources/Headers/DigitalProduct.h"
 
 class Visitor;
 

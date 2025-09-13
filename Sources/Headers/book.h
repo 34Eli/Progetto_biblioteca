@@ -1,6 +1,6 @@
 #ifndef BOOK_H
 #define BOOK_H
-#include "PhysicalProduct.h"
+#include "Sources/Headers/PhysicalProduct.h"
 
 class Visitor;
 
