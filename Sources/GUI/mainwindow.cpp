@@ -189,10 +189,9 @@ void MainWindow::loadFromJson() {
     /*filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
     JsonReader reader;
     productList = reader.readAll(filePath.toStdString());
-    model->setProducts(productList);*/
+    model->setProducts(productList);
     QDir exeDir(QCoreApplication::applicationDirPath());
 
-    // entra in Sources/Data/JSON
     if (!exeDir.cd("Sources/Data/JSON")) {
         qWarning() << "Cartella JSON non trovata!";
         return;
@@ -200,6 +199,28 @@ void MainWindow::loadFromJson() {
 
     QString filePath = exeDir.filePath("library.json");
     qDebug() << "[DEBUG] JSON caricato da:" << filePath;
+
+    JsonReader reader;
+    productList = reader.readAll(filePath.toStdString());
+    model->setProducts(productList);*/
+    QString baseDir;
+
+#ifdef Q_OS_WINDOWS
+        // Su Windows in Qt Creator: percorso relativo al progetto
+    baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/Data/JSON";
+#else
+        // Su Linux (Ubuntu) con eseguibile standalone
+    baseDir = QCoreApplication::applicationDirPath() + "/Sources/Data/JSON";
+#endif
+
+    QDir dir(baseDir);
+    if (!dir.exists()) {
+        qWarning() << "Cartella JSON non trovata:" << dir.absolutePath();
+        return;
+    }
+
+    QString filePath = dir.filePath("library.json");
+    qDebug() << "[DEBUG] Carico JSON da:" << filePath;
 
     JsonReader reader;
     productList = reader.readAll(filePath.toStdString());
