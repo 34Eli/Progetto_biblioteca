@@ -24,7 +24,7 @@ QVariant LibraryModel::data(const QModelIndex& index, int role) const {
         return QString::fromStdString(p->getName());
     }
 
-    if (role == Qt::DecorationRole) {
+    /*if (role == Qt::DecorationRole) {
 
         QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
         QString image = QString::fromStdString(p->getImage());
@@ -35,6 +35,28 @@ QVariant LibraryModel::data(const QModelIndex& index, int role) const {
         if (pix.isNull()) {
             qDebug() << "Failed to load image from path:" << QString::fromStdString(p->getImage());
         }
+        return pix.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }*/
+    if (role == Qt::DecorationRole) {
+        QString basePath;
+
+#ifdef Q_OS_WINDOWS
+        // Su Windows, risaliamo fino alla cartella Sources
+        basePath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
+#else
+        // Su Linux/Ubuntu, partiamo dalla directory dell'eseguibile e aggiungiamo Sources/IMG
+        basePath = QCoreApplication::applicationDirPath() + "/Sources/IMG";
+#endif
+
+        QString imageName = QString::fromStdString(p->getImage());
+        QString fullPath = QDir(basePath).filePath(imageName);
+
+        QPixmap pix(fullPath);
+        if (pix.isNull()) {
+            qDebug() << "Failed to load image from path:" << fullPath;
+            return QVariant();
+        }
+
         return pix.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 
