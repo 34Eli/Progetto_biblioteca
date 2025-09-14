@@ -192,12 +192,10 @@ void MainWindow::loadFromJson() {
     model->setProducts(productList);*/
     QDir dir(QCoreApplication::applicationDirPath());
 
-    // Risali fino alla root del progetto (adatta il numero di cdUp() alla tua struttura)
-    for (int i = 0; i < 3; ++i) {
-        dir.cdUp();
-    }
+    // Risali di una cartella per arrivare alla root del progetto
+    dir.cdUp(); // dall'eseguibile alla cartella principale
 
-    // Vai nella cartella JSON all’interno del progetto
+    // Vai nella cartella JSON
     if (!dir.cd("Sources/Data/JSON")) {
         qWarning() << "Cartella JSON non trovata!";
         return;
