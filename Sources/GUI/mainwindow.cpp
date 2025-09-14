@@ -20,6 +20,7 @@
 #include <QVariant>
 #include <QList>
 #include <QDir>
+#include <QStandardPaths>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent),
     model(new LibraryModel(this)),
@@ -196,12 +197,13 @@ void MainWindow::loadFromJson() {
         dir.cdUp();
     }
 
+    // Vai nella cartella JSON all’interno del progetto
     if (!dir.cd("Sources/Data/JSON")) {
         qWarning() << "Cartella JSON non trovata!";
         return;
     }
 
-    filePath = dir.filePath("library.json");
+    QString filePath = dir.filePath("library.json");
     qDebug() << "[DEBUG] Carico JSON da:" << filePath;
 
     JsonReader reader;
