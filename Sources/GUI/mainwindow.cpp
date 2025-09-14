@@ -190,19 +190,16 @@ void MainWindow::loadFromJson() {
     JsonReader reader;
     productList = reader.readAll(filePath.toStdString());
     model->setProducts(productList);*/
-    QDir dir(QCoreApplication::applicationDirPath());
+    QDir exeDir(QCoreApplication::applicationDirPath());
 
-    // Risali di una cartella per arrivare alla root del progetto
-    dir.cdUp(); // dall'eseguibile alla cartella principale
-
-    // Vai nella cartella JSON
-    if (!dir.cd("Sources/Data/JSON")) {
+    // entra in Sources/Data/JSON
+    if (!exeDir.cd("Sources/Data/JSON")) {
         qWarning() << "Cartella JSON non trovata!";
         return;
     }
 
-    QString filePath = dir.filePath("library.json");
-    qDebug() << "[DEBUG] Carico JSON da:" << filePath;
+    QString filePath = exeDir.filePath("library.json");
+    qDebug() << "[DEBUG] JSON caricato da:" << filePath;
 
     JsonReader reader;
     productList = reader.readAll(filePath.toStdString());
