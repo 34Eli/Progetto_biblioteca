@@ -19,10 +19,10 @@ bool XmlWriterVisitor::writeAll(const QString& filename, const QList<Product*>& 
     xml->writeStartElement("root");
 
     for (Product* p : products) {
-        if (p) p->accept(*this);  // usa il visitor
+        if (p) p->accept(*this);
     }
 
-    xml->writeEndElement(); // chiude root
+    xml->writeEndElement();
     xml->writeEndDocument();
     file.close();
     return true;
@@ -39,7 +39,6 @@ void XmlWriterVisitor::writeCommonAttributes(Product& p) {
     xml->writeTextElement("imagePath", QString::fromStdString(p.getImage()));
 }
 
-// -------------------- VISIT METHODS --------------------
 
 void XmlWriterVisitor::visitFilm(Film& f) {
     xml->writeStartElement("Product");

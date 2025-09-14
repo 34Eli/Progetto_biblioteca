@@ -5,6 +5,7 @@ MenuBar::MenuBar(QWidget* parent) : QMenuBar(parent) {
     setUpMenu();
 }
 
+//per creare la menubar
 void MenuBar::setUpMenu(){
     QMenu* menu = this->addMenu("File");
     QMenu* addMenu = this->addMenu("Add");

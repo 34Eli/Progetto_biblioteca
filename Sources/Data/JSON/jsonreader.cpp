@@ -4,6 +4,7 @@
 
 JsonReader::JsonReader() {}
 
+//restituisce uno struct con gli attributi comuni (classe Product)
 JsonReader::ProductData JsonReader::readProduct(const QJsonObject& obj){
     ProductData prod;
     prod.name = obj["name"].toString();
@@ -17,12 +18,14 @@ JsonReader::ProductData JsonReader::readProduct(const QJsonObject& obj){
     return prod;
 }
 
+//restituisce uno struct con gli attributi comuni (classe DigitalProduct)
 JsonReader::DigitalData JsonReader::readDigital(const QJsonObject& obj){
     DigitalData dig;
     dig.company = obj["company"].toString();
     return dig;
 }
 
+//restituisce uno struct con gli attributi comuni (classe PhysicalProduct)
 JsonReader::PhysicalData JsonReader::readPhysical(const QJsonObject& obj){
     PhysicalData phy;
     phy.author = obj["author"].toString();
@@ -37,7 +40,6 @@ Film* JsonReader::readFilm(const QJsonObject& obj){
     QString mainActor = obj["actor"].toString();
     int minutes = obj["minutes"].toInt();
     return new Film(prod.name.toStdString(), prod.description.toStdString(), prod.genre.toStdString(), prod.country.toStdString(), prod.year_of_publication, prod.cost, prod.stars, prod.imagePath.toStdString(), dig.company.toStdString(), director.toStdString(), mainActor.toStdString(), minutes);
-    //ricorda di deferenziare puntatore/sistemare la memoria per sta roba del new Film()
 }
 
 Music* JsonReader::readMusic(const QJsonObject& obj){
@@ -77,16 +79,11 @@ Photograph* JsonReader::readPhotograph(const QJsonObject& obj){
 }
 
 
-
-QList<Product*> JsonReader::readAll(const string& filename){   //restituisce una lista con tutti gli oggetti delle varie classi
+//restituisce una lista con tutti gli oggetti delle varie classi
+QList<Product*> JsonReader::readAll(const string& filename){
 
     QList<Product*> library;
     QFile file(QString::fromStdString(filename));
-
-    //per test
-    //QString filePath = QString::fromStdString(filename);
-    //qDebug() << "[DEBUG] Path file richiesto:" << QFileInfo(filePath).absoluteFilePath();
-    //per test
 
     if (!file.open(QIODevice::ReadOnly)){
         qWarning() << "Apertura non ha successo";

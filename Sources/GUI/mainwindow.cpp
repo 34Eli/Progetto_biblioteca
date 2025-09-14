@@ -44,7 +44,7 @@ MainWindow::~MainWindow() {
     delete infoVisitor;
 }
 
-void MainWindow::filterAll() {
+void MainWindow::filterAll() {            //per i filtri per classe
     proxymodel->setFilter("All");
 }
 
@@ -72,7 +72,6 @@ void MainWindow::setupUI() {
     QWidget* centralWidget = new QWidget(this);
     this->setCentralWidget(centralWidget);
 
-    // Aggiungi uno sfondo con gradiente al widget centrale e bordi arrotondati
     centralWidget->setStyleSheet("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1E1E1E, stop:1 #333333); border-radius: 15px;");
 
     listView = new QListView(this);
@@ -83,7 +82,7 @@ void MainWindow::setupUI() {
     listView->setResizeMode(QListView::Adjust);
     listView->setMovement(QListView::Static);
 
-    // Stile e ombra per la QListView
+    //Stile e ombra per la QListView
     listView->setStyleSheet("QListView { background: #3c3c3c; border-radius: 12px; }"
                             "QListView::item { background: #444444; border-radius: 8px; }"
                             "QListView::item:hover { background: #555555; }");
@@ -100,7 +99,7 @@ void MainWindow::setupUI() {
     btnVideogame = new QPushButton("Videogame", this);
     btnPhotograph = new QPushButton("Photograph", this);
 
-    // Layout per i bottoni
+    //Layout per i bottoni
     QVBoxLayout* buttonLayout = new QVBoxLayout;
     buttonLayout->addWidget(btnAll);
     buttonLayout->addWidget(btnBook);
@@ -112,10 +111,10 @@ void MainWindow::setupUI() {
 
     QWidget* buttonWidget = new QWidget(this);
     buttonWidget->setLayout(buttonLayout);
-    // Imposta lo stile del widget contenitore
+
     buttonWidget->setStyleSheet("QWidget { background-color: #2c3e50; border-radius: 15px; }");
 
-    // Applica lo stile e l'ombra a tutti i pulsanti in modo automatico
+    //Per applicare lo stile e l'ombra a tutti i pulsanti
     for (QPushButton* button : buttonWidget->findChildren<QPushButton*>()) {
         QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
         shadowEffect->setBlurRadius(10);
@@ -123,7 +122,6 @@ void MainWindow::setupUI() {
         shadowEffect->setOffset(2, 2);
         button->setGraphicsEffect(shadowEffect);
 
-        // Nuovi colori a gradiente per i pulsanti
         button->setStyleSheet("QPushButton { border: 1px solid #555; color: #ecf0f1; border-radius: 8px; background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #424242, stop:1 #525252); padding: 8px; }"
                               "QPushButton:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #525252, stop:1 #424242); }"
                               "QPushButton:pressed { background: #3c3c3c; }");
@@ -134,7 +132,7 @@ void MainWindow::setupUI() {
     searchBar->setStyleSheet("QLineEdit { background-color: #2c3e50; color: #ecf0f1; border: 1px solid #34495e; border-radius: 8px; padding: 5px; }"
                              "QLineEdit:focus { border: 1px solid #4a637a; }");
 
-    // Ombra per la searchBar
+    //Per mettere l'ombra per la searchbar
     QGraphicsDropShadowEffect* searchBarShadow = new QGraphicsDropShadowEffect(this);
     searchBarShadow->setBlurRadius(10);
     searchBarShadow->setColor(QColor(0, 0, 0, 100));
@@ -144,7 +142,7 @@ void MainWindow::setupUI() {
     QVBoxLayout* listLayout = new QVBoxLayout;
     listLayout->addWidget(searchBar);
 
-    // Linea separatrice
+    //per creare linea separatrice
     QFrame* line = new QFrame(this);
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
@@ -173,30 +171,27 @@ void MainWindow::setupUI() {
     centralLayout->addWidget(stackedWidget);
     centralWidget->setLayout(centralLayout);
 
-    connect(btnAll, &QPushButton::clicked, this, &MainWindow::filterAll);
+    connect(btnAll, &QPushButton::clicked, this, &MainWindow::filterAll);           //filtri
     connect(btnBook, &QPushButton::clicked, this, &MainWindow::filterBooks);
     connect(btnFilm, &QPushButton::clicked, this, &MainWindow::filterFilms);
     connect(btnMusic, &QPushButton::clicked, this, &MainWindow::filterMusic);
     connect(btnVideogame, &QPushButton::clicked, this, &MainWindow::filterVideogames);
     connect(btnPhotograph, &QPushButton::clicked, this, &MainWindow::filterPhotograph);
 
-    connect(searchBar, &QLineEdit::textChanged, proxymodel, &LibraryFilterProxyModel::setSearchFilter);
-    connect(listView, &QListView::clicked, this, &MainWindow::showProductDetails);
+    connect(searchBar, &QLineEdit::textChanged, proxymodel, &LibraryFilterProxyModel::setSearchFilter);   //searchbar
+    connect(listView, &QListView::clicked, this, &MainWindow::showProductDetails);           //per entrare nei dettagli di un prodotto
 }
 
 
+//caricamento file .json sia per windows sia per linux
 void MainWindow::loadFromJson() {
-    /*filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
-    JsonReader reader;
-    productList = reader.readAll(filePath.toStdString());
-    model->setProducts(productList);*/
     QString baseDir;
 
 #ifdef Q_OS_WINDOWS
-        // Su Windows in Qt Creator: percorso relativo al progetto
+
     baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/Data/JSON";
 #else
-        // Su Linux (Ubuntu) con eseguibile standalone
+
     baseDir = QCoreApplication::applicationDirPath() + "/Sources/Data/JSON";
 #endif
 
@@ -214,11 +209,8 @@ void MainWindow::loadFromJson() {
     model->setProducts(productList);
 }
 
+//caricamento file .xml sia per windows sia per linux
 void MainWindow::loadFromXml() {
-    /*filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml";
-    XmlReader reader;
-    productList = reader.readAll(filePath);
-    model->setProducts(productList);*/
     QString baseDir;
 #ifdef Q_OS_WINDOWS
     baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/Data/XML";
@@ -240,6 +232,7 @@ void MainWindow::loadFromXml() {
     model->setProducts(productList);
 }
 
+//per mostrare la infopage (pagina dei dettagli)
 void MainWindow::showProductDetails(const QModelIndex& index) {
     QModelIndex sourceIndex = proxymodel->mapToSource(index);
     QVariant var = model->data(sourceIndex, Qt::UserRole);
@@ -257,7 +250,6 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     infoVisitor = new InfoVisitor(this);
     infoVisitor->setProduct(p);
     infoVisitor->setProductIndex(sourceIndex);
-    //p->accept(*infoVisitor);
     QWidget* productWidget = infoVisitor->getWidget();
 
     if (!infoPage->layout()) {
@@ -278,6 +270,7 @@ void MainWindow::showProductDetails(const QModelIndex& index) {
     stackedWidget->setCurrentWidget(infoPage);
 }
 
+//per pulire
 void MainWindow::clearLayout(QLayout* layout) {
     if (!layout) {
         return;
@@ -306,6 +299,7 @@ void MainWindow::openAddProductDialog() {
     }
 }
 
+//per salvare modifiche con opzione json o xml in base al file caricato all'inizio
 void MainWindow::saveProducts() {
     if (filePath.endsWith(".json")) {
         saveToJson();
@@ -353,8 +347,16 @@ void MainWindow::saveToXml() {
     }
 }
 
+//per togliere un prodotto
 void MainWindow::deleteProduct() {
     if (!infoVisitor || !infoVisitor->getProductIndex().isValid())
+        return;
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Conferma eliminazione",
+                                  "Are you sure you want to delete this product?",
+                                  QMessageBox::Yes | QMessageBox::No);
+    if (reply != QMessageBox::Yes)
         return;
 
     QModelIndex sourceIndex = infoVisitor->getProductIndex();
@@ -362,7 +364,7 @@ void MainWindow::deleteProduct() {
     if (model->removeRow(sourceIndex.row())) {
         saveProducts();
 
-        // Pulisci infoPage e distruggi infoVisitor
+        //per pulire
         clearLayout(infoPage->layout());
         delete infoVisitor;
         infoVisitor = nullptr;

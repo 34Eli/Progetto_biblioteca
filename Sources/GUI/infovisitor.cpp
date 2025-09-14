@@ -30,7 +30,6 @@ InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {
 }
 
 void InfoVisitor::setProduct(Product* p) {
-
     product = p;
     if (!p) return;
 
@@ -70,7 +69,7 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p) {
     QLineEdit* starsEdit = new QLineEdit(QString::number(p.getStars()));
     starsEdit->setReadOnly(true);
 
-    editableMap["name"] = titleEdit;
+    editableMap["name"] = titleEdit;                   //aggiungo alla QMap gli attributi comuni
     editableMap["description"] = descrEdit;
     editableMap["genre"] = genreEdit;
     editableMap["country"] = countryEdit;
@@ -272,14 +271,16 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     widget->setLayout(finalLayout);
 }
 
-QWidget* InfoVisitor::createImageWidget(Product& p) {
+QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con l'immagine del prodotto
     QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
     QLabel* imageLabel = new QLabel();
 
-    /*QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
-    QString image = QString::fromStdString(p.getImage());
-    QString fullPath = QDir(path).filePath(image);*/
+    imageLabel->setAlignment(Qt::AlignCenter);
+    //imageLabel->setScaledContents(true);
+    //imageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //imageLabel->setMaximumSize(400, 600);
+
     QString basePath;
 #ifdef Q_OS_WINDOWS
     basePath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
@@ -299,6 +300,23 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {
     }
 
     QPushButton* changeImageButton = new QPushButton("Change image");
+
+    changeImageButton->setStyleSheet(R"(
+    QPushButton {
+        background-color: #27ae60;
+        color: white;
+        font-weight: bold;
+        border-radius: 6px;
+        padding: 6px 12px;
+    }
+    QPushButton:hover {
+        background-color: #2ecc71;
+    }
+    QPushButton:pressed {
+        background-color: #1e8449;
+    }
+    )");
+
     imageEdit = new QLineEdit(image);
     imageEdit->setReadOnly(true);
     editableMap["image"] = imageEdit;
@@ -331,6 +349,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {
     return container;
 }
 
+//crea il widget dei bottoni
 QWidget* InfoVisitor::createButtonWidget() {
     QWidget* buttonWidget = new QWidget();
     QHBoxLayout* buttonLayout = new QHBoxLayout(buttonWidget);
@@ -340,9 +359,52 @@ QWidget* InfoVisitor::createButtonWidget() {
     saveButton = new QPushButton("Save");
     saveButton->setEnabled(false);
     deleteButton = new QPushButton("Delete");
-    deleteButton->setStyleSheet("background-color: red; color: white; font-weight: bold;");
+
+    //stile per far vedere che i pulsanti sono stati cliccati
+    QString btnStyle = R"(
+QPushButton {
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 6px;
+    padding: 8px 18px;
+    min-width: 90px;
+    min-height: 36px;
+}
+QPushButton:hover {
+    background-color: #357ABD;
+}
+QPushButton:pressed {
+    background-color: #2C5F9E;
+}
+QPushButton:disabled {
+    background-color: #888888;
+    color: #cccccc;
+}
+)";
+    backButton->setStyleSheet(btnStyle);
+    modifyButton->setStyleSheet(btnStyle);
+    saveButton->setStyleSheet(btnStyle);
+
+    deleteButton->setStyleSheet(R"(
+QPushButton {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 8px 18px;
+    min-width: 90px;
+    min-height: 36px;
+}
+QPushButton:hover {
+    background-color: darkred;
+}
+QPushButton:pressed {
+    background-color: #8B0000;
+}
+)");
 
     buttonLayout->addWidget(backButton);
+    buttonLayout->addStretch();
     buttonLayout->addWidget(modifyButton);
     buttonLayout->addWidget(saveButton);
     buttonLayout->addWidget(deleteButton);
@@ -355,6 +417,7 @@ QWidget* InfoVisitor::createButtonWidget() {
     return buttonWidget;
 }
 
+//per abilitare le modifiche dei campi di un prodotto
 void InfoVisitor::enableEdit() {
     for (auto it = editableMap.constBegin(); it != editableMap.constEnd(); ++it) {
         QWidget* w = it.value();
@@ -365,6 +428,7 @@ void InfoVisitor::enableEdit() {
     if (saveButton) saveButton->setEnabled(true);
 }
 
+//per applicare le modifiche ai prodotti
 void InfoVisitor::applyEdits() {
     if (!product) {
         return;
@@ -450,6 +514,7 @@ void InfoVisitor::on_deleteButton_clicked() {
     emit deleteProductSignal();
 }
 
+//funzione per pulire layout e widget per non avere problemi
 void InfoVisitor::deleteLayoutRecursively(QLayout* layout) {
     if (!layout) return;
     QLayoutItem* item;
@@ -464,16 +529,17 @@ void InfoVisitor::deleteLayoutRecursively(QLayout* layout) {
     }
 }
 
+//funzione per pulire layout e widget per non avere problemi
 void InfoVisitor::resetWidget() {
     if (!widget) widget = new QWidget;
 
     QLayout* old = widget->layout();
     if (old) {
-        deleteLayoutRecursively(old); // rimuove widget figli + sub-layouts
-        delete old;                  // elimina il QLayout stesso
+        deleteLayoutRecursively(old);
+        delete old;
     }
 
-    editableMap.clear(); // svuota le mappe di puntatori
+    editableMap.clear();
 }
 
 QWidget* InfoVisitor::getWidget() const {

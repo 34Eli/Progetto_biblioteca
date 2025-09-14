@@ -8,7 +8,7 @@ class MenuBar : public QMenuBar {
     Q_OBJECT
 
 private:
-    void setUpMenu(); //su private perchè la chiamo nel costruttore
+    void setUpMenu();
 
 signals:
     void loadJsonSignal();
