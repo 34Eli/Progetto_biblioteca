@@ -21,7 +21,6 @@ SOURCES += \
     Sources/Model/book.cpp \
     Sources/Model/digitalproduct.cpp \
     Sources/Model/film.cpp \
-    Sources/Model/library.cpp \
     Sources/Model/main.cpp \
     Sources/Model/music.cpp \
     Sources/Model/photograph.cpp \
