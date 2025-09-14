@@ -48,8 +48,7 @@ private:
 
 public:
     XmlReader();
-    //restituisce una lista di tutti gli oggetti presenti nel xml
-    QList<Product*> readAll(const QString &filename);
+    QList<Product*> readAll(const QString &filename);//restituisce una lista di tutti gli oggetti presenti nel xml
 };
 
 #endif // XMLREADER_H

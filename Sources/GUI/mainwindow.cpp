@@ -19,6 +19,7 @@
 #include <QGraphicsDropShadowEffect>
 #include <QVariant>
 #include <QList>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent),
     model(new LibraryModel(this)),
@@ -184,7 +185,25 @@ void MainWindow::setupUI() {
 
 
 void MainWindow::loadFromJson() {
-    filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
+    /*filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/JSON/library.json";
+    JsonReader reader;
+    productList = reader.readAll(filePath.toStdString());
+    model->setProducts(productList);*/
+    QDir dir(QCoreApplication::applicationDirPath());
+
+    // Risali fino alla root del progetto (adatta il numero di cdUp() alla tua struttura)
+    for (int i = 0; i < 3; ++i) {
+        dir.cdUp();
+    }
+
+    if (!dir.cd("Sources/Data/JSON")) {
+        qWarning() << "Cartella JSON non trovata!";
+        return;
+    }
+
+    filePath = dir.filePath("library.json");
+    qDebug() << "[DEBUG] Carico JSON da:" << filePath;
+
     JsonReader reader;
     productList = reader.readAll(filePath.toStdString());
     model->setProducts(productList);
