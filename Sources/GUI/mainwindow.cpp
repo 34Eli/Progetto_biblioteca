@@ -206,7 +206,7 @@ void MainWindow::loadFromJson() {
         return;
     }
 
-    QString filePath = dir.filePath("library.json");
+    filePath = dir.filePath("library.json");
     qDebug() << "[DEBUG] Carico JSON da:" << filePath;
 
     JsonReader reader;
@@ -232,7 +232,7 @@ void MainWindow::loadFromXml() {
         return;
     }
 
-    QString filePath = dir.filePath("library.xml");
+    filePath = dir.filePath("library.xml");
     qDebug() << "[DEBUG] Carico XML da:" << filePath;
 
     XmlReader reader;
