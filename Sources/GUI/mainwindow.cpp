@@ -215,7 +215,26 @@ void MainWindow::loadFromJson() {
 }
 
 void MainWindow::loadFromXml() {
-    filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml";
+    /*filePath = QCoreApplication::applicationDirPath() + "/../../../Sources/Data/XML/library.xml";
+    XmlReader reader;
+    productList = reader.readAll(filePath);
+    model->setProducts(productList);*/
+    QString baseDir;
+#ifdef Q_OS_WINDOWS
+    baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/Data/XML";
+#else
+    baseDir = QCoreApplication::applicationDirPath() + "/Sources/Data/XML";
+#endif
+
+    QDir dir(baseDir);
+    if (!dir.exists()) {
+        qWarning() << "Cartella XML non trovata:" << dir.absolutePath();
+        return;
+    }
+
+    QString filePath = dir.filePath("library.xml");
+    qDebug() << "[DEBUG] Carico XML da:" << filePath;
+
     XmlReader reader;
     productList = reader.readAll(filePath);
     model->setProducts(productList);

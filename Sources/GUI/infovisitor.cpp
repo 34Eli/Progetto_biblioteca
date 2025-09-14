@@ -276,9 +276,19 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {
     QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
     QLabel* imageLabel = new QLabel();
-    QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
+
+    /*QString path = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
     QString image = QString::fromStdString(p.getImage());
-    QString fullPath = QDir(path).filePath(image);
+    QString fullPath = QDir(path).filePath(image);*/
+    QString basePath;
+#ifdef Q_OS_WINDOWS
+    basePath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
+#else
+    basePath = QCoreApplication::applicationDirPath() + "/Sources/IMG";
+#endif
+
+    QString image = QString::fromStdString(p.getImage());
+    QString fullPath = QDir(basePath).filePath(image);
 
     QPixmap pix(fullPath);
     if (!pix.isNull()) {
