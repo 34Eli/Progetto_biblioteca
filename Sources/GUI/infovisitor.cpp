@@ -299,12 +299,15 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     QString image = QString::fromStdString(p.getImage());
     QString fullPath = dir.filePath(image);
 
-    /*QPixmap pix(fullPath);
+    QPixmap pix(fullPath);
     if (!pix.isNull()) {
         imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        imageLabel->update();
+        imageLabel->repaint();
     } else {
         imageLabel->setText("Nessuna immagine");
-    }*/
+    }
+
     /*QPixmap pix;
     if (!pix.load(fullPath)) {
         imageLabel->setText("Nessuna immagine");
@@ -315,7 +318,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
         }
         imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }*/
-    QImage img;
+    /*QImage img;
     if (!img.load(fullPath)) {
         imageLabel->setText("Nessuna immagine");
     } else {
@@ -325,7 +328,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
             img = img.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         imageLabel->setPixmap(QPixmap::fromImage(img).scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }
+    }*/
 
     QPushButton* changeImageButton = new QPushButton("Change image");
     changeImageButton->setStyleSheet(R"(
