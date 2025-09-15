@@ -305,7 +305,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     } else {
         imageLabel->setText("Nessuna immagine");
     }*/
-    QPixmap pix;
+    /*QPixmap pix;
     if (!pix.load(fullPath)) {
         imageLabel->setText("Nessuna immagine");
     } else {
@@ -314,6 +314,17 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
             pix = pix.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
         imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }*/
+    QImage img;
+    if (!img.load(fullPath)) {
+        imageLabel->setText("Nessuna immagine");
+    } else {
+        // Limita dimensione massima per evitare crash su Linux
+        QSize maxSize(2000, 2000);
+        if (img.width() > maxSize.width() || img.height() > maxSize.height())
+            img = img.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        imageLabel->setPixmap(QPixmap::fromImage(img).scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 
     QPushButton* changeImageButton = new QPushButton("Change image");
@@ -348,6 +359,7 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
                 QPixmap newPix(destPath);
                 imageLabel->setPixmap(newPix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
                 imageEdit->setText(uniqueName);
+
                 if (saveButton) saveButton->setEnabled(true);
             } else {
                 QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");

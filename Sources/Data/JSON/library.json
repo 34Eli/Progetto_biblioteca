@@ -294,5 +294,20 @@
         "type": "Photograph",
         "width": 20,
         "year_of_publication": 1936
+    },
+    {
+        "actor": "",
+        "company": "",
+        "cost": 0,
+        "country": "",
+        "description": "",
+        "director": "",
+        "genre": "",
+        "imagePath": "img_1757938699594.jpg",
+        "minutes": 0,
+        "name": "RRRRRRR",
+        "stars": 0,
+        "type": "Film",
+        "year_of_publication": 0
     }
 ]
