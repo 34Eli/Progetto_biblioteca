@@ -6,8 +6,8 @@
         <genre>Science fiction</genre>
         <country>USA</country>
         <year_of_publication>2021</year_of_publication>
-        <cost>44</cost>
-        <stars>44</stars>
+        <cost>4</cost>
+        <stars>4</stars>
         <imagePath>dune.jpg</imagePath>
         <company>Warner Bros</company>
         <director>Denis Villeneuve</director>
@@ -133,7 +133,7 @@
         <year_of_publication>2011</year_of_publication>
         <cost>30</cost>
         <stars>4</stars>
-        <imagePath>minecraft.jpg</imagePath>
+        <imagePath>Minecraft.jpg</imagePath>
         <company>Mojang Studios</company>
         <platform>PC</platform>
         <isMultiplayer>true</isMultiplayer>
