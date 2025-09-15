@@ -88,12 +88,30 @@ QFormLayout* InfoVisitor::commonSetUp(Product& p) {
     return commonLayout;
 }
 
+QFormLayout* InfoVisitor::setUpDigital(DigitalProduct& d, QFormLayout* layout) {
+    QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(d.getCompany()));
+    companyEdit->setReadOnly(true);
+    editableMap["company"] = companyEdit;
+    layout->addRow("Production company:", companyEdit);
+    return layout;
+}
+
+// Supporto per prodotti fisici
+QFormLayout* InfoVisitor::setUpPhysical(PhysicalProduct& p, QFormLayout* layout) {
+    QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(p.getAuthor()));
+    authorEdit->setReadOnly(true);
+    editableMap["author"] = authorEdit;
+    layout->addRow("Author:", authorEdit);
+    return layout;
+}
+
 void InfoVisitor::visitFilm(Film& f) {
     resetWidget();
     QHBoxLayout* mainLayout = new QHBoxLayout();
     QWidget* imageWidget = createImageWidget(f);
     mainLayout->addWidget(imageWidget);
     QFormLayout* filmLayout = commonSetUp(f);
+    setUpDigital(f, filmLayout);
 
     QLineEdit* directorEdit = new QLineEdit(QString::fromStdString(f.getDirector()));
     directorEdit->setReadOnly(true);
@@ -101,18 +119,14 @@ void InfoVisitor::visitFilm(Film& f) {
     actorEdit->setReadOnly(true);
     QLineEdit* minutesEdit = new QLineEdit(QString::number(f.getMinutes()));
     minutesEdit->setReadOnly(true);
-    QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(f.getCompany()));
-    companyEdit->setReadOnly(true);
 
     editableMap["director"] = directorEdit;
     editableMap["actor"] = actorEdit;
     editableMap["minutes"] = minutesEdit;
-    editableMap["company"] = companyEdit;
 
     filmLayout->addRow("Director:", directorEdit);
     filmLayout->addRow("Main actor:", actorEdit);
     filmLayout->addRow("Length (minutes):", minutesEdit);
-    filmLayout->addRow("Production company:", companyEdit);
 
     QWidget* filmWidget = new QWidget();
     filmWidget->setLayout(filmLayout);
@@ -131,20 +145,17 @@ void InfoVisitor::visitVideogame(Videogame& v) {
     QWidget* imageWidget = createImageWidget(v);
     mainLayout->addWidget(imageWidget);
     QFormLayout* videogameLayout = commonSetUp(v);
+    setUpDigital(v, videogameLayout);
 
-    QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(v.getCompany()));
-    companyEdit->setReadOnly(true);
     QLineEdit* platformEdit = new QLineEdit(QString::fromStdString(v.getPlatform()));
     platformEdit->setReadOnly(true);
     QCheckBox* multiplayerBox = new QCheckBox("Multiplayer");
     multiplayerBox->setChecked(v.getIsMultiplayer());
     multiplayerBox->setEnabled(false);
 
-    editableMap["company"] = companyEdit;
     editableMap["platform"] = platformEdit;
     editableMap["isMultiplayer"] = multiplayerBox;
 
-    videogameLayout->addRow("Production company:", companyEdit);
     videogameLayout->addRow("Platform:", platformEdit);
     videogameLayout->addRow("Multiplayer?", multiplayerBox);
 
@@ -165,9 +176,8 @@ void InfoVisitor::visitMusic(Music& m) {
     QWidget* imageWidget = createImageWidget(m);
     mainLayout->addWidget(imageWidget);
     QFormLayout* musicLayout = commonSetUp(m);
+    setUpDigital(m, musicLayout);
 
-    QLineEdit* companyEdit = new QLineEdit(QString::fromStdString(m.getCompany()));
-    companyEdit->setReadOnly(true);
     QLineEdit* singerEdit = new QLineEdit(QString::fromStdString(m.getSinger()));
     singerEdit->setReadOnly(true);
     QLineEdit* albumEdit = new QLineEdit(QString::fromStdString(m.getAlbum()));
@@ -175,12 +185,10 @@ void InfoVisitor::visitMusic(Music& m) {
     QLineEdit* minutesEdit = new QLineEdit(QString::number(m.getMinutes()));
     minutesEdit->setReadOnly(true);
 
-    editableMap["company"] = companyEdit;
     editableMap["singer"] = singerEdit;
     editableMap["album"] = albumEdit;
     editableMap["minutes"] = minutesEdit;
 
-    musicLayout->addRow("Production company:", companyEdit);
     musicLayout->addRow("Singer:", singerEdit);
     musicLayout->addRow("Album:", albumEdit);
     musicLayout->addRow("Length (minutes):", minutesEdit);
@@ -202,9 +210,8 @@ void InfoVisitor::visitBook(Book& b) {
     QWidget* imageWidget = createImageWidget(b);
     mainLayout->addWidget(imageWidget);
     QFormLayout* bookLayout = commonSetUp(b);
+    setUpPhysical(b, bookLayout);
 
-    QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(b.getAuthor()));
-    authorEdit->setReadOnly(true);
     QLineEdit* pagesEdit = new QLineEdit(QString::number(b.getPages()));
     pagesEdit->setReadOnly(true);
     QLineEdit* publisherEdit = new QLineEdit(QString::fromStdString(b.getPublisher()));
@@ -212,12 +219,10 @@ void InfoVisitor::visitBook(Book& b) {
     QLineEdit* isbnEdit = new QLineEdit(QString::number(b.getISBN()));
     isbnEdit->setReadOnly(true);
 
-    editableMap["author"] = authorEdit;
     editableMap["pages"] = pagesEdit;
     editableMap["publisher"] = publisherEdit;
     editableMap["ISBN"] = isbnEdit;
 
-    bookLayout->addRow("Author:", authorEdit);
     bookLayout->addRow("Pages:", pagesEdit);
     bookLayout->addRow("Publisher:", publisherEdit);
     bookLayout->addRow("ISBN:", isbnEdit);
@@ -239,9 +244,8 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     QWidget* imageWidget = createImageWidget(p);
     mainLayout->addWidget(imageWidget);
     QFormLayout* photographLayout = commonSetUp(p);
+    setUpPhysical(p, photographLayout);
 
-    QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(p.getAuthor()));
-    authorEdit->setReadOnly(true);
     QCheckBox* colourBox = new QCheckBox("Colorata");
     colourBox->setChecked(p.getIsColourful());
     colourBox->setEnabled(false);
@@ -250,12 +254,10 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
     QLineEdit* widthEdit = new QLineEdit(QString::number(p.getWidth()));
     widthEdit->setReadOnly(true);
 
-    editableMap["author"] = authorEdit;
     editableMap["isColourful"] = colourBox;
     editableMap["length"] = lengthEdit;
     editableMap["width"] = widthEdit;
 
-    photographLayout->addRow("Author:", authorEdit);
     photographLayout->addRow("Colourful?", colourBox);
     photographLayout->addRow("Length:", lengthEdit);
     photographLayout->addRow("Width:", widthEdit);
@@ -277,9 +279,6 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     QLabel* imageLabel = new QLabel();
 
     imageLabel->setAlignment(Qt::AlignCenter);
-    //imageLabel->setScaledContents(true);
-    //imageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //imageLabel->setMaximumSize(400, 600);
 
     QString basePath;
 #ifdef Q_OS_WINDOWS

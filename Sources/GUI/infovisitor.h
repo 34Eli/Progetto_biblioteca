@@ -42,6 +42,8 @@ public:
 
     void resetWidget();
     static void deleteLayoutRecursively(QLayout* layout);
+    QFormLayout* setUpDigital(DigitalProduct& d, QFormLayout* layout);
+    QFormLayout* setUpPhysical(PhysicalProduct& p, QFormLayout* layout);
 
 signals:
     void modifiedSignal();
