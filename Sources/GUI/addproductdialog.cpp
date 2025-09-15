@@ -66,16 +66,23 @@ void AddProductDialog::updateUIForProductType(const QString& type) {
         return;
     }
 
+    const string defaultImage = "default.jpg";
+
     if (type == "Book") {
         newProduct = new Book("", "", "", "", 0, 0, 0, "", "", 0, "", 0);
+        newProduct->setImage(defaultImage);
     } else if (type == "Film") {
         newProduct = new Film("", "", "", "", 0, 0, 0, "", "", "", "", 0);
+        newProduct->setImage(defaultImage);
     } else if (type == "Music") {
         newProduct = new Music("", "", "", "", 0, 0, 0, "", "", "", "", 0);
+        newProduct->setImage(defaultImage);
     } else if (type == "Videogame") {
         newProduct = new Videogame("", "", "", "", 0, 0, 0, "", "", "", 0);
+        newProduct->setImage(defaultImage);
     } else if (type == "Photograph") {
         newProduct = new Photograph("", "", "", "", 0, 0, 0, "", "", false, 0, 0);
+        newProduct->setImage(defaultImage);
     }
 }
 

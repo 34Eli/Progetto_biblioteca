@@ -8,7 +8,7 @@
 #include "Sources/GUI/libraryfilterproxymodel.h"
 #include "Sources/GUI/infovisitor.h"
 #include <QStackedWidget>
-#include <memory>
+//#include <memory>
 #include <QModelIndex>
 
 class MainWindow : public QMainWindow {

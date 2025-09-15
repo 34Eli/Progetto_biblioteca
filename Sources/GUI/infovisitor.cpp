@@ -360,7 +360,6 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     QLabel* imageLabel = new QLabel();
     imageLabel->setAlignment(Qt::AlignCenter);
 
-    // Determina la cartella immagini cross-platform
     QString baseDir;
 #ifdef Q_OS_WINDOWS
     baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
@@ -379,10 +378,9 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     QString imageName = QString::fromStdString(p.getImage());
     QString fullPath = dir.filePath(imageName);
 
-    // Uso QImageReader per leggere e ridimensionare in memoria
     QImageReader reader(fullPath);
-    reader.setAutoTransform(true); // Rispetta rotazioni EXIF
-    QSize maxReadSize(2000, 2000); // Limite per non superare allocazione
+    reader.setAutoTransform(true);
+    QSize maxReadSize(2000, 2000);
     reader.setScaledSize(maxReadSize);
 
     QImage img = reader.read();
@@ -429,6 +427,8 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
                 QImage img = reader.read();
                 if (!img.isNull()) {
                     imageLabel->setPixmap(QPixmap::fromImage(img).scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                    imageLabel->update();
+                    imageLabel->repaint();
                     imageEdit->setText(uniqueName);
                     if (saveButton) saveButton->setEnabled(true);
                 } else {
