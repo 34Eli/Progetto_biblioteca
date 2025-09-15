@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDateTime>
+#include <QImageReader>
 
 InfoVisitor::InfoVisitor(QObject* parent) : QObject(parent) {
     widget = new QWidget;
@@ -274,7 +275,7 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
 
 QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con l'immagine del prodotto
 
-    QWidget* container = new QWidget;
+    /*QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
     QLabel* imageLabel = new QLabel();
     imageLabel->setAlignment(Qt::AlignCenter);
@@ -307,28 +308,6 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     } else {
         imageLabel->setText("Nessuna immagine");
     }
-
-    /*QPixmap pix;
-    if (!pix.load(fullPath)) {
-        imageLabel->setText("Nessuna immagine");
-    } else {
-        QSize maxSize(2000, 2000);
-        if (pix.size().width() > maxSize.width() || pix.size().height() > maxSize.height()) {
-            pix = pix.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        }
-        imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }*/
-    /*QImage img;
-    if (!img.load(fullPath)) {
-        imageLabel->setText("Nessuna immagine");
-    } else {
-        // Limita dimensione massima per evitare crash su Linux
-        QSize maxSize(2000, 2000);
-        if (img.width() > maxSize.width() || img.height() > maxSize.height())
-            img = img.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        imageLabel->setPixmap(QPixmap::fromImage(img).scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }*/
 
     QPushButton* changeImageButton = new QPushButton("Change image");
     changeImageButton->setStyleSheet(R"(
@@ -364,6 +343,97 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
                 imageEdit->setText(uniqueName);
 
                 if (saveButton) saveButton->setEnabled(true);
+            } else {
+                QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");
+            }
+        }
+    });
+
+    layout->addWidget(imageLabel);
+    layout->addWidget(imageEdit);
+    layout->addWidget(changeImageButton);
+
+    return container;*/
+    QWidget* container = new QWidget;
+    QVBoxLayout* layout = new QVBoxLayout(container);
+
+    QLabel* imageLabel = new QLabel();
+    imageLabel->setAlignment(Qt::AlignCenter);
+
+    // Determina la cartella immagini cross-platform
+    QString baseDir;
+#ifdef Q_OS_WINDOWS
+    baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
+#else
+    baseDir = QCoreApplication::applicationDirPath() + "/Sources/IMG";
+#endif
+
+    QDir dir(baseDir);
+    if (!dir.exists() && !dir.mkpath(".")) {
+        QMessageBox::warning(nullptr, "Errore", "Impossibile creare la cartella immagini:\n" + dir.absolutePath());
+        imageLabel->setText("Cartella immagini mancante");
+        layout->addWidget(imageLabel);
+        return container;
+    }
+
+    QString imageName = QString::fromStdString(p.getImage());
+    QString fullPath = dir.filePath(imageName);
+
+    // Uso QImageReader per leggere e ridimensionare in memoria
+    QImageReader reader(fullPath);
+    reader.setAutoTransform(true); // Rispetta rotazioni EXIF
+    QSize maxReadSize(2000, 2000); // Limite per non superare allocazione
+    reader.setScaledSize(maxReadSize);
+
+    QImage img = reader.read();
+    if (img.isNull()) {
+        imageLabel->setText("Nessuna immagine");
+    } else {
+        imageLabel->setPixmap(QPixmap::fromImage(img).scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+
+    // Pulsante per cambiare immagine
+    QPushButton* changeImageButton = new QPushButton("Change image");
+    changeImageButton->setStyleSheet(R"(
+        QPushButton {
+            background-color: #27ae60;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            padding: 6px 12px;
+        }
+        QPushButton:hover {
+            background-color: #2ecc71;
+        }
+        QPushButton:pressed {
+            background-color: #1e8449;
+        }
+    )");
+
+    imageEdit = new QLineEdit(imageName);
+    imageEdit->setReadOnly(true);
+    editableMap["image"] = imageEdit;
+
+    connect(changeImageButton, &QPushButton::clicked, this, [this, imageLabel, dir]() {
+        QString srcPath = QFileDialog::getOpenFileName(nullptr, "Seleziona Immagine", "", "Immagini (*.png *.jpg *.jpeg)");
+        if (!srcPath.isEmpty()) {
+            QString extension = QFileInfo(srcPath).suffix();
+            QString uniqueName = "img_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + "." + extension;
+            QString destPath = dir.filePath(uniqueName);
+
+            if (QFile::copy(srcPath, destPath)) {
+                QImageReader reader(destPath);
+                reader.setAutoTransform(true);
+                QSize maxReadSize(2000, 2000);
+                reader.setScaledSize(maxReadSize);
+                QImage img = reader.read();
+                if (!img.isNull()) {
+                    imageLabel->setPixmap(QPixmap::fromImage(img).scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                    imageEdit->setText(uniqueName);
+                    if (saveButton) saveButton->setEnabled(true);
+                } else {
+                    imageLabel->setText("Errore nel caricamento");
+                }
             } else {
                 QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");
             }
