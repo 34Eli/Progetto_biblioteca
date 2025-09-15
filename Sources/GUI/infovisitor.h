@@ -24,7 +24,6 @@ class InfoVisitor : public QObject, public Visitor
 
 public:
     explicit InfoVisitor(QObject* parent = nullptr);
-    QFormLayout* commonSetUp(Product& p);
     QWidget* createImageWidget(Product& p);
     QWidget* createButtonWidget();
     void enableEdit();
@@ -42,8 +41,6 @@ public:
 
     void resetWidget();
     static void deleteLayoutRecursively(QLayout* layout);
-    QFormLayout* setUpDigital(DigitalProduct& d, QFormLayout* layout);
-    QFormLayout* setUpPhysical(PhysicalProduct& p, QFormLayout* layout);
 
 signals:
     void modifiedSignal();
@@ -68,6 +65,10 @@ private:
 
     QLineEdit* imageEdit;
     QModelIndex productIndex;
+
+    QFormLayout* commonSetUp(Product& p);
+    QFormLayout* setUpDigital(DigitalProduct& d, QFormLayout* layout);
+    QFormLayout* setUpPhysical(PhysicalProduct& p, QFormLayout* layout);
 };
 
 #endif // INFOVISITOR_H
