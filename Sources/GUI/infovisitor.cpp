@@ -96,7 +96,6 @@ QFormLayout* InfoVisitor::setUpDigital(DigitalProduct& d, QFormLayout* layout) {
     return layout;
 }
 
-// Supporto per prodotti fisici
 QFormLayout* InfoVisitor::setUpPhysical(PhysicalProduct& p, QFormLayout* layout) {
     QLineEdit* authorEdit = new QLineEdit(QString::fromStdString(p.getAuthor()));
     authorEdit->setReadOnly(true);
@@ -274,84 +273,12 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
 }
 
 QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con l'immagine del prodotto
-    /*QWidget* container = new QWidget;
-    QVBoxLayout* layout = new QVBoxLayout(container);
-    QLabel* imageLabel = new QLabel();
 
-    imageLabel->setAlignment(Qt::AlignCenter);
-
-    QString basePath;
-#ifdef Q_OS_WINDOWS
-    basePath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
-#else
-    basePath = QCoreApplication::applicationDirPath() + "/Sources/IMG";
-#endif
-
-    QString image = QString::fromStdString(p.getImage());
-    QString fullPath = QDir(basePath).filePath(image);
-
-    QPixmap pix(fullPath);
-    if (!pix.isNull()) {
-        imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    } else {
-        imageLabel->setText("Nessuna immagine");
-        imageLabel->setAlignment(Qt::AlignCenter);
-    }
-
-    QPushButton* changeImageButton = new QPushButton("Change image");
-
-    changeImageButton->setStyleSheet(R"(
-    QPushButton {
-        background-color: #27ae60;
-        color: white;
-        font-weight: bold;
-        border-radius: 6px;
-        padding: 6px 12px;
-    }
-    QPushButton:hover {
-        background-color: #2ecc71;
-    }
-    QPushButton:pressed {
-        background-color: #1e8449;
-    }
-    )");
-
-    imageEdit = new QLineEdit(image);
-    imageEdit->setReadOnly(true);
-    editableMap["image"] = imageEdit;
-
-    connect(changeImageButton, &QPushButton::clicked, this, [this, imageLabel]() {
-        QString srcPath = QFileDialog::getOpenFileName(nullptr, "Seleziona Immagine", "", "Immagini (*.png *.jpg *.jpeg)");
-        if (!srcPath.isEmpty()) {
-            QString extension = QFileInfo(srcPath).suffix();
-            QString uniqueName = "img_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + "." + extension;
-            QString destDir = QCoreApplication::applicationDirPath() + "/../../../Sources/IMG/";
-            QString destPath = QDir(destDir).filePath(uniqueName);
-
-            if (QFile::copy(srcPath, destPath)) {
-                QPixmap newPix(destPath);
-                imageLabel->setPixmap(newPix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                imageEdit->setText(uniqueName);
-                if (saveButton) {
-                    saveButton->setEnabled(true);
-                }
-            } else {
-                QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");
-            }
-        }
-    });
-
-    layout->addWidget(imageLabel);
-    layout->addWidget(imageEdit);
-    layout->addWidget(changeImageButton);
-
-    return container;*/
     QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
     QLabel* imageLabel = new QLabel();
     imageLabel->setAlignment(Qt::AlignCenter);
 
-    // Percorso base dell'immagine
     QString baseDir;
 #ifdef Q_OS_WINDOWS
     baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
@@ -359,7 +286,6 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     baseDir = QCoreApplication::applicationDirPath() + "/Sources/IMG";
 #endif
 
-    // Assicuriamoci che la cartella esista
     QDir dir(baseDir);
     if (!dir.exists()) {
         if (!dir.mkpath(".")) {
@@ -373,14 +299,23 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
     QString image = QString::fromStdString(p.getImage());
     QString fullPath = dir.filePath(image);
 
-    QPixmap pix(fullPath);
+    /*QPixmap pix(fullPath);
     if (!pix.isNull()) {
         imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     } else {
         imageLabel->setText("Nessuna immagine");
+    }*/
+    QPixmap pix;
+    if (!pix.load(fullPath)) {
+        imageLabel->setText("Nessuna immagine");
+    } else {
+        QSize maxSize(2000, 2000);
+        if (pix.size().width() > maxSize.width() || pix.size().height() > maxSize.height()) {
+            pix = pix.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        }
+        imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 
-    // Pulsante per cambiare immagine
     QPushButton* changeImageButton = new QPushButton("Change image");
     changeImageButton->setStyleSheet(R"(
         QPushButton {
