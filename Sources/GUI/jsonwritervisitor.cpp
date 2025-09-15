@@ -42,7 +42,7 @@ void JsonWriterVisitor::visitBook(Book& b){
 void JsonWriterVisitor::visitMusic(Music& m){
     obj["type"] = "Music";
     productFields(m);
-    digitalFields(m);        //sistema su json
+    digitalFields(m);
     obj["minutes"] = m.getMinutes();
     obj["singer"] = QString::fromStdString(m.getSinger());
     obj["album"] = QString::fromStdString(m.getAlbum());
