@@ -274,7 +274,7 @@ void InfoVisitor::visitPhotograph(Photograph& p) {
 }
 
 QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con l'immagine del prodotto
-    QWidget* container = new QWidget;
+    /*QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
     QLabel* imageLabel = new QLabel();
 
@@ -335,6 +335,85 @@ QWidget* InfoVisitor::createImageWidget(Product& p) {       //crea il widget con
                 if (saveButton) {
                     saveButton->setEnabled(true);
                 }
+            } else {
+                QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");
+            }
+        }
+    });
+
+    layout->addWidget(imageLabel);
+    layout->addWidget(imageEdit);
+    layout->addWidget(changeImageButton);
+
+    return container;*/
+    QWidget* container = new QWidget;
+    QVBoxLayout* layout = new QVBoxLayout(container);
+    QLabel* imageLabel = new QLabel();
+    imageLabel->setAlignment(Qt::AlignCenter);
+
+    // Percorso base dell'immagine
+    QString baseDir;
+#ifdef Q_OS_WINDOWS
+    baseDir = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/../../../Sources/IMG";
+#else
+    baseDir = QCoreApplication::applicationDirPath() + "/Sources/IMG";
+#endif
+
+    // Assicuriamoci che la cartella esista
+    QDir dir(baseDir);
+    if (!dir.exists()) {
+        if (!dir.mkpath(".")) {
+            QMessageBox::warning(nullptr, "Errore", "Impossibile creare la cartella immagini:\n" + dir.absolutePath());
+            imageLabel->setText("Cartella immagini mancante");
+            layout->addWidget(imageLabel);
+            return container;
+        }
+    }
+
+    QString image = QString::fromStdString(p.getImage());
+    QString fullPath = dir.filePath(image);
+
+    QPixmap pix(fullPath);
+    if (!pix.isNull()) {
+        imageLabel->setPixmap(pix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    } else {
+        imageLabel->setText("Nessuna immagine");
+    }
+
+    // Pulsante per cambiare immagine
+    QPushButton* changeImageButton = new QPushButton("Change image");
+    changeImageButton->setStyleSheet(R"(
+        QPushButton {
+            background-color: #27ae60;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            padding: 6px 12px;
+        }
+        QPushButton:hover {
+            background-color: #2ecc71;
+        }
+        QPushButton:pressed {
+            background-color: #1e8449;
+        }
+    )");
+
+    imageEdit = new QLineEdit(image);
+    imageEdit->setReadOnly(true);
+    editableMap["image"] = imageEdit;
+
+    connect(changeImageButton, &QPushButton::clicked, this, [this, imageLabel, dir]() {
+        QString srcPath = QFileDialog::getOpenFileName(nullptr, "Seleziona Immagine", "", "Immagini (*.png *.jpg *.jpeg)");
+        if (!srcPath.isEmpty()) {
+            QString extension = QFileInfo(srcPath).suffix();
+            QString uniqueName = "img_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + "." + extension;
+            QString destPath = dir.filePath(uniqueName);
+
+            if (QFile::copy(srcPath, destPath)) {
+                QPixmap newPix(destPath);
+                imageLabel->setPixmap(newPix.scaled(200, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                imageEdit->setText(uniqueName);
+                if (saveButton) saveButton->setEnabled(true);
             } else {
                 QMessageBox::warning(nullptr, "Errore", "Errore durante la copia dell'immagine.");
             }
